@@ -11,8 +11,8 @@ int main(){
 	std::vector<std::string> InFile_ReaderSame ;
 	std::vector<std::string> InFile_ReaderMix ;
 
-	InFile_ReaderSame.push_back("25122005_0.root.picoLambdaAnaMaker.root");
-	InFile_ReaderMix.push_back("25122005_0.root.picoLambdaAnaMaker.root");
+	InFile_ReaderSame.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/LittleTree/OutPutLittleTree_2012_OutPut_1_0.root");
+	InFile_ReaderMix.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/LittleTree/OutPutLittleTree_2012_OutPut_1_0.root");
 
 
 
@@ -27,7 +27,7 @@ int main(){
 
 	std::vector<std::string> OutFile_MixTree;
 
-	OutFile_MixTree.push_back("MixTree.root");
+	OutFile_MixTree.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/LittleTree_MixTree/OutPutLittleTree_MixTree_2012_OutPut_1_0.root");
 
 	ntp_Lambda_MixTree * myLambdaMixTree = new ntp_Lambda_MixTree(OutFile_MixTree,myReaderSame,myReaderMix,myEventSelecter,myLambdaSelecter);
 

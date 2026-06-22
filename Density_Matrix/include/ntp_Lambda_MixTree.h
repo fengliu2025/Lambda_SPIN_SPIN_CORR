@@ -194,6 +194,7 @@ void ntp_Lambda_MixTree::GenerateMixTree(){
 
 		//------------------------------------Enter the Event Loop------------------------------------
 		for(Long64_t iEvent=0; iEvent< NEvents;iEvent++){
+			if(iEvent%1000==0) std::cout<<"iEvent="<<iEvent<<std::endl;
 			reader_Same->fChain->GetEntry(iEvent);
 			// Event selection
 			if( ! mEventSelecter->IsGoodEvent() ) continue;// this is not a good event
