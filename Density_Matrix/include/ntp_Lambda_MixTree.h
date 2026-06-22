@@ -105,7 +105,7 @@ int ntp_Lambda_MixTree::FindCounterPart(int lambda_index){
 		End_Index[lambda_index]   = CounterPart_Number;
 		return 0;
 	} 
-
+	//if(goodness == true) std::cout<<"good lambda"<<std::endl;
 	// if the goodness is true
 	//loop over the reader_mix
 	Start_Index[lambda_index] = CounterPart_Number; 
@@ -125,6 +125,7 @@ int ntp_Lambda_MixTree::FindCounterPart(int lambda_index){
 		Long64_t NEventsMix = reader_Mix->fChain->GetEntries();
 		//------------------------------Enter the loop of event ----------------------------------------
 		for(int iEventMix =0 ; iEventMix < NEventsMix; iEventMix++){
+			reader_Mix->fChain->GetEntry(iEventMix);
 			if(reader_Mix->NLambda!=1) continue; // only select the one-lambda event 
 
 
@@ -150,7 +151,7 @@ int ntp_Lambda_MixTree::FindCounterPart(int lambda_index){
 			CounterPart_FileIndex[CounterPart_Number] = iFileMix  ;
 			CounterPart_EventIndex[CounterPart_Number]= iEventMix ; 
 			CounterPart_Number ++;
-
+			//std::cout<<"good counter part"<<std::endl;
 
 		}
 		//------------------------------Enter the loop of event ----------------------------------------
@@ -194,7 +195,7 @@ void ntp_Lambda_MixTree::GenerateMixTree(){
 
 		//------------------------------------Enter the Event Loop------------------------------------
 		for(Long64_t iEvent=0; iEvent< NEvents;iEvent++){
-			if(iEvent%1000==0) std::cout<<"iEvent="<<iEvent<<std::endl;
+			if(iEvent%100==0) std::cout<<"iEvent="<<iEvent<<std::endl;
 			reader_Same->fChain->GetEntry(iEvent);
 			// Event selection
 			if( ! mEventSelecter->IsGoodEvent() ) continue;// this is not a good event

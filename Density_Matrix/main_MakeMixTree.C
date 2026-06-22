@@ -11,9 +11,10 @@ int main(){
 	std::vector<std::string> InFile_ReaderSame ;
 	std::vector<std::string> InFile_ReaderMix ;
 
-	InFile_ReaderSame.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/LittleTree/OutPutLittleTree_2012_OutPut_1_0.root");
-	InFile_ReaderMix.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/LittleTree/OutPutLittleTree_2012_OutPut_1_0.root");
-
+	//InFile_ReaderSame.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/LittleTree/OutPutLittleTree_2012_OutPut_1_0.root");
+	//InFile_ReaderMix.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/LittleTree/OutPutLittleTree_2012_OutPut_1_0.root");
+	InFile_ReaderSame.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/BigTree/Output_1.root");
+	InFile_ReaderMix.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/BigTree/Output_1.root");
 
 
 	ntp_Lambda_Reader *myReaderSame = new ntp_Lambda_Reader(InFile_ReaderSame);
