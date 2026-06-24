@@ -20,12 +20,12 @@ int main(){
 
 	std::vector<std::string> s1_tmp; 
 	s1_tmp.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree/OutPutLittleTree_2012_OutPut_1_0.root");
-	//s1_tmp.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree/OutPutLittleTree_2012_OutPut_1_1.root");
-	//s1_tmp.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree/OutPutLittleTree_2012_OutPut_1_2.root");
+	s1_tmp.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree/OutPutLittleTree_2012_OutPut_1_1.root");
+	s1_tmp.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree/OutPutLittleTree_2012_OutPut_1_2.root");
 	std::vector<std::string> s2_tmp; 
 	s2_tmp.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree_MixTree/OutPutLittleTree_2012_OutPut_1_0/OutPutLittleTree_2012_OutPut_1_0.root");
-	//s2_tmp.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree_MixTree/OutPutLittleTree_2012_OutPut_1_0/OutPutLittleTree_2012_OutPut_1_1.root");
-	//s2_tmp.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree_MixTree/OutPutLittleTree_2012_OutPut_1_0/OutPutLittleTree_2012_OutPut_1_2.root");
+	s2_tmp.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree_MixTree/OutPutLittleTree_2012_OutPut_1_0/OutPutLittleTree_2012_OutPut_1_1.root");
+	s2_tmp.push_back("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree_MixTree/OutPutLittleTree_2012_OutPut_1_0/OutPutLittleTree_2012_OutPut_1_2.root");
 
 	InputFile_MixEvent.push_back(s1_tmp);
 	InputFile_MixTree.push_back(s2_tmp);
@@ -49,8 +49,8 @@ int main(){
 
 
 	ntp_Lambda_Analyzer *myAnalyzer = new ntp_Lambda_Analyzer(mySameEventReader,myMixEventReader,myCalculator,myHistogram,myMixTreeReader,mEventSelecter,myLambdaSelecter);
-	myAnalyzer->Analysis_SameEvent();
-	//myAnalyzer->Analysis_MixEvent();
+	//myAnalyzer->Analysis_SameEvent();
+	myAnalyzer->Analysis_MixEvent();
 	myHistogram->WriteAll();
 	return 0;
 }
