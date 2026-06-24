@@ -453,7 +453,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 		Long64_t N_Events=SameEvent_Reader->fChain->GetEntries();
 		//---------------------------Ener i_event loop----------------------------
 		for(Long64_t i_event=0;i_event< N_Events;i_event++){
-			if(i_event%10000==0)std::cout<<"i_event"<<i_event<<std::endl;
+			if(i_event%1000==0)std::cout<<"i_event"<<i_event<<std::endl;
 			SameEvent_Reader->fChain->GetEntry(i_event);
 
 			//------------------------Make some selections on the events-----------------------------

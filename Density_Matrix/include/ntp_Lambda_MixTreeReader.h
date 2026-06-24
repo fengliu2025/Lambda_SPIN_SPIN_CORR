@@ -19,10 +19,10 @@ public :
    // Declaration of leaf types
    Int_t           Lambda_Number;
    Int_t           CounterPart_Number;
-   Int_t           Start_Index[6];   //[Lambda_Number]
-   Int_t           End_Index[6];   //[Lambda_Number]
-   Int_t           CounterPart_FileIndex[39];   //[CounterPart_Number]
-   Int_t           CounterPart_EventIndex[39];   //[CounterPart_Number]
+   Int_t           Start_Index[50];   //[Lambda_Number]
+   Int_t           End_Index[50];   //[Lambda_Number]
+   Int_t           CounterPart_FileIndex[10000];   //[CounterPart_Number]
+   Int_t           CounterPart_EventIndex[10000];   //[CounterPart_Number]
 
    // List of branches
    TBranch        *b_Lambda_Number;   //!
