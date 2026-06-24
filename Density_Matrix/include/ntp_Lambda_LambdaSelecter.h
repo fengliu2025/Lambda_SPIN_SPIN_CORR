@@ -52,10 +52,10 @@ ntp_Lambda_LambdaSelecter::ntp_Lambda_LambdaSelecter()
 
 	trackPtMin  = 0.15;   //GeV/c
 	trackPtMax  = 10000.; //GeV/c
-	trackEtaMax = 1.0;
+	trackEtaMax = 1.5;
 	LambdaPtMin = 0.5;  //GeV/c
 	LambdaPtMax = 5.0;  //GeV/c
-	LambdaRapidityMax = 1.0;
+	LambdaRapidityMax = 1.5;
 	LambdaMassMin = 1.10;  //GeV/c62
 	LambdaMassMax = 1.13;  //GeV/c^2
 	LambdaCosThetaMin = 0.996;

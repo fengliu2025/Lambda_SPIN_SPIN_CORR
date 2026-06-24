@@ -26,11 +26,11 @@ public :
 	Int_t CounterPart_Number;
 
 
-	Int_t Start_Index[10000]; 
-	Int_t End_Index[10000]; 
-	Int_t CounterPart_FileIndex[10000];
-	Int_t CounterPart_EventIndex[10000]; 
-	//Int_t CounterPart_LambdaIndex[10000];
+	Int_t Start_Index[1000]; 
+	Int_t End_Index[1000]; 
+	Int_t CounterPart_FileIndex[1000];
+	Int_t CounterPart_EventIndex[1000]; 
+	//Int_t CounterPart_LambdaIndex[1000];
 
 
 
@@ -226,7 +226,7 @@ int ntp_Lambda_MixTree::FindCounterPart(int lambda_index){
 			CounterPart_EventIndex[CounterPart_Number]= MixLambdaPool_EventIndex[iPool] ; 
 			CounterPart_Number ++;
 
-			if(CounterPart_Number > 9000) std::cout<<"CounterPart_Number > 900"<<std::endl;
+
 	}
 
 	End_Index[lambda_index] = CounterPart_Number ; 
