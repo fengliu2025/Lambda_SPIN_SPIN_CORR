@@ -186,7 +186,7 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 	int MB_TriggerFlag = 0;
 	int HM_TriggerFlag = 0; 
 
-
+	/*
 	for(unsigned int i =0 ; i < Reader->mNTrigs;i++){
 		if( Reader->mTrigId[i] == 		910001 ){h1D_Trigger->Fill(1);h1D_MB_Trigger->Fill(1);MB_TriggerFlag=1;   }
 		else if( Reader->mTrigId[i] ==  910003 ){h1D_Trigger->Fill(2);h1D_MB_Trigger->Fill(2);MB_TriggerFlag=1;   }
@@ -199,7 +199,7 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 	if(MB_TriggerFlag == 1 && HM_TriggerFlag == 1 ) h1D_MB_HM_Trigger->Fill(3);
 	if(MB_TriggerFlag == 1 && HM_TriggerFlag == 0 ) h1D_MB_HM_Trigger->Fill(1);
 	if(MB_TriggerFlag == 0 && HM_TriggerFlag == 1 ) h1D_MB_HM_Trigger->Fill(2);
-
+	*/
 }
 
 
