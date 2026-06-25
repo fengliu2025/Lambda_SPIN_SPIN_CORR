@@ -5,6 +5,7 @@
 #include "include/ntp_Lambda_EventSelecter.h"
 #include "include/ntp_Lambda_LambdaSelecter.h"
 #include "include/ntp_Lambda_MixTreeReader.h"
+#include <fstream>
 #include <numeric>
 int main(int argc, char*argv[]){
 
@@ -34,7 +35,7 @@ int main(int argc, char*argv[]){
 	}
 
 	
-	InputFile_SameEvent.push_back(FileList[file_index]);
+
 	std::vector<std::string> s1_tmp; 
 	std::vector<std::string> s2_tmp; 
 	s1_tmp.push_back(FileList[file_Index]);
@@ -52,7 +53,7 @@ int main(int argc, char*argv[]){
 	}
 
 	
-	s2_tmp.push_back(OutPutDirectory+s1+"/"+s2);
+	s2_tmp.push_back(MixTreeDir+s1+"/"+s2);
 
 
 
@@ -60,7 +61,7 @@ int main(int argc, char*argv[]){
 	std::vector<std::vector<std::string> > InputFile_MixEvent;
 	std::vector<std::vector<std::string> > InputFile_MixTree;
 
-
+	InputFile_SameEvent.push_back(FileList[file_Index]);
 	InputFile_MixEvent.push_back(s1_tmp);
 	InputFile_MixTree.push_back(s2_tmp);
 
