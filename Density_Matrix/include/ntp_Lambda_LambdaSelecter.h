@@ -88,7 +88,7 @@ bool ntp_Lambda_LambdaSelecter::IsGoodLambda(double pion_Pt,double proton_Pt, do
 	if(Lambda_Mass < LambdaMassMin || Lambda_Mass > LambdaMassMax  ) goodness = false;
 	if(Lambda_DecayL < LambdaDecayLMin || Lambda_DecayL > LambdaDecayLMax ) goodness = false;
 	if(TMath::Cos(Lambda_Theta) < LambdaCosThetaMin ) goodness = false;
-	if(Lambda_DauDCA > LambdaDCAMax ) goodness = false;
+	if(Lambda_DauDCA > LambdaDauDCAMax ) goodness = false;
 
 	return goodness;
 
