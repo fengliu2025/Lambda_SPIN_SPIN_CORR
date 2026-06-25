@@ -202,7 +202,7 @@ void ntp_Lambda_Analyzer::Fill_MixPool(int i_File){
 			IsGoodLambda_tmp.push_back(true);
 			pair_pt_tmp.push_back(MixEvent_Reader->pair_pt[0]);
 			pair_y_tmp.push_back(v.Rapidity());
-			pair_eta_tmp.push_back(v.Rapidity());
+			pair_eta_tmp.push_back(MixEvent_Reader->pair_eta[0]);
 			pair_phi_tmp.push_back(MixEvent_Reader->pair_phi[0]);
 			pair_mass_tmp.push_back(MixEvent_Reader->pair_mass[0]);
 			pair_charge_tmp.push_back(MixEvent_Reader->pair_charge[0]);
@@ -212,7 +212,7 @@ void ntp_Lambda_Analyzer::Fill_MixPool(int i_File){
 			p1_ch_tmp.push_back(MixEvent_Reader->p1_ch[0]);
 			p2_pt_tmp.push_back(MixEvent_Reader->p2_pt[0]);
 			p2_eta_tmp.push_back(MixEvent_Reader->p2_eta[0]);
-			p2_phi_tmp.push_back(MixEvent_Reader->p1_phi[0]);
+			p2_phi_tmp.push_back(MixEvent_Reader->p2_phi[0]);
 
 
 			
@@ -296,7 +296,7 @@ int ntp_Lambda_Analyzer::Range_Type_Classifier(TLorentzVector *v1, TLorentzVecto
 
 int ntp_Lambda_Analyzer::Analyze_SEPair(int i_lambda,int j_lambda){
 		if( SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p1_InEventID[j_lambda] || 
-	   		SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] || 
+	   		SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[i_lambda] || 
 	   		SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] || 
 	   		SameEvent_Reader->p1_InEventID[j_lambda] == SameEvent_Reader->p2_InEventID[i_lambda] || 
 	   		SameEvent_Reader->p1_InEventID[j_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] ||
@@ -509,6 +509,8 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda,int i_event,in
 
 			
 
+
+
 		//---------------------------Event Type Classification-------------------------------
 		int Pair_Type = 0 ; 
 		int id_Lambda1= i_lambda ; 
@@ -516,7 +518,7 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda,int i_event,in
 
 		
 
-		Pair_Type = Pair_Type_Classifier(0,1);
+		Pair_Type = Pair_Type_Classifier(i_lambda,j_lambda);
 
 		if(Pair_Type == 1){
 			id_Lambda1 = i_lambda;id_Lambda2 = j_lambda;

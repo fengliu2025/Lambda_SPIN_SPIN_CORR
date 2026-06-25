@@ -45,7 +45,7 @@ int main(int argc, char*argv[]){
 	std::string MixTreeDir = "/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree_MixTree/";
 	std::string s1 = FileName[file_Index];
 
-	for(int i=0;i<FileList.size();i++){
+	/*for(int i=0;i<FileList.size();i++){
 		s1_tmp.push_back(FileList[i]);
 
 
@@ -61,6 +61,24 @@ int main(int argc, char*argv[]){
 		s2_tmp.push_back(MixTreeDir+s1+"/"+s2);
 
 	}
+	*/
+
+	
+	s1_tmp.push_back(FileList[file_Index]);
+
+
+	std::string s2 = FileName[file_Index];
+
+	std::size_t pos = s1.rfind(".root");
+
+	if (pos != std::string::npos) {
+    	s1.erase(pos);
+	}
+
+	
+	s2_tmp.push_back(MixTreeDir+s1+"/"+s2);
+
+	
 	
 
 
