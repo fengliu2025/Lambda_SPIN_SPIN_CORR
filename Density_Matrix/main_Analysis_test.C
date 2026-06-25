@@ -72,8 +72,8 @@ int main(int argc, char*argv[]){
 	InputFile_MixTree.push_back(s2_tmp);
 
 
-	//std::string OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012Result/MixEvent/") + Form("MixEvent_%d.root",file_Index) ;
-	std::string OutPutFile = "SameEvent.root";
+	std::string OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012Result/MixEvent/") + Form("MixEvent_%d.root",file_Index) ;
+	//std::string OutPutFile = "SameEvent.root";
 
 	ntp_Lambda_Reader *mySameEventReader = new ntp_Lambda_Reader(InputFile_SameEvent);
 	ntp_Lambda_Reader *myMixEventReader  = new ntp_Lambda_Reader(InputFile_MixEvent);
@@ -91,8 +91,8 @@ int main(int argc, char*argv[]){
 
 
 	ntp_Lambda_Analyzer *myAnalyzer = new ntp_Lambda_Analyzer(mySameEventReader,myMixEventReader,myCalculator,myHistogram,myMixTreeReader,mEventSelecter,myLambdaSelecter);
-	myAnalyzer->Analysis_SameEvent();
-	//myAnalyzer->Analysis_MixEvent();
+	//myAnalyzer->Analysis_SameEvent();
+	myAnalyzer->Analysis_MixEvent();
 	myHistogram->WriteAll();
 	return 0;
 }
