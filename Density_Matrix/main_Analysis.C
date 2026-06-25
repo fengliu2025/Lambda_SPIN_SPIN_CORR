@@ -16,7 +16,7 @@ int main(int argc, char* argv[]){
 	std::vector<std::string> MixEventInputFiles;
 	std::vector<std::string> SameEventInputFiles;
 	std::string OutputFile=Form("/star/u/fliu5/LL_Spin_Correlation/result/Density_Matrix_ME_%d.root",i_file);
-	
+	//std::string OutputFile=Form("
 	std::ifstream filelist("Inputfilelist.txt");
 	if (!filelist.is_open()) {
 		std::cerr <<"can't open the file" <<std::endl;
