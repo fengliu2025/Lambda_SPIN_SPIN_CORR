@@ -103,6 +103,8 @@ ntp_Lambda_Histogram::ntp_Lambda_Histogram(ntp_Lambda_Reader *reader, ntp_Lambda
 }
 
 void ntp_Lambda_Histogram::InitHitogram(){
+	TH1::SetDefaultSumw2(kTRUE);
+
 	h1D_p1_Pt      = new TH1D("h1D_p1_Pt","h1D_p1_Pt",100,0,10);
 	h1D_p1_Eta     = new TH1D("h1D_p1_Eta","h1D_p1_Eta",100,-3,3); 
 	h1D_p1_Phi     = new TH1D("h1D_p1_Phi","h1D_p1_Phi",100,-2*TMath::Pi(),2*TMath::Pi() ); 
