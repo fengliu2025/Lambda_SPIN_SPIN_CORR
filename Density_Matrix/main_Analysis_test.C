@@ -87,12 +87,12 @@ int main(int argc, char*argv[]){
 	std::vector<std::vector<std::string> > InputFile_MixEvent;
 	std::vector<std::vector<std::string> > InputFile_MixTree;
 
-	//InputFile_SameEvent.push_back(FileList[file_Index]);
+	InputFile_SameEvent.push_back(FileList[file_Index]);
 	
 
-	for(int i=0; i <FileList.size();i++){
-		InputFile_SameEvent.push_back(FileList[i]);
-	}
+	//for(int i=0; i <FileList.size();i++){
+	//	InputFile_SameEvent.push_back(FileList[i]);
+	//}
 	
 	InputFile_MixEvent.push_back(s1_tmp);
 	InputFile_MixTree.push_back(s2_tmp);
