@@ -11,8 +11,8 @@ const float Track_Eta_Cut   = 1.5;
 const float Lambda_Rapidity_Cut = 1.0;
 const float Lambda_Pt_lowCut    = 0.5; //GeV/c
 const float Lambda_Pt_highCut   = 5.0; //GeV/c
-const float Lambda_mass_lowCut  = 1.112250;//GeV/c^2
-const float Lambda_mass_highCut = 1.119833;//GeV/c^2
+const float Lambda_mass_lowCut  = 1.110;//GeV/c^2
+const float Lambda_mass_highCut = 1.122;//GeV/c^2
 
 
 //MixEvent Limitation 
