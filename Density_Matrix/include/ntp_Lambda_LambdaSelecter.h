@@ -96,7 +96,7 @@ ntp_Lambda_LambdaSelecter::~ntp_Lambda_LambdaSelecter(){
 
 bool ntp_Lambda_LambdaSelecter::IsGoodLambdaMass(double Pt, double Mass){
 	double mean = 1;
-	double signa = 100;
+	double sigma = 100;
 
 
 	if(Pt < 1.5){
@@ -114,11 +114,6 @@ bool ntp_Lambda_LambdaSelecter::IsGoodLambdaMass(double Pt, double Mass){
 	}
 
 	else return false;
-
-
-
-
-
 
 }
 
