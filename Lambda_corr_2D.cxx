@@ -354,7 +354,7 @@ bool DoAnalysis(TChain *L_tree, const int ReadMode, const int cut_type = 0, cons
   TFile *InvMassFile; //output file to store invariant mass histograms
 
 
-  if(cut_type == 0) InvMassFile = new TFile(Form("./output/invariant_mass/%i/InvMass_Lambda_ana_cuts_work.root", year), "recreate"); //create file to store wrong and good sign M_inv distributions and daughter pT
+  if(cut_type == 0) InvMassFile = new TFile(Form("./InvMass_Lambda_ana_cuts_work.root", year), "recreate"); //create file to store wrong and good sign M_inv distributions and daughter pT
   else if(cut_type == 1) InvMassFile = new TFile(Form("./output/invariant_mass/%i/InvMass_Lambda_tight_topo_cuts_work.root", year), "recreate"); //create file to store wrong and good sign M_inv distributions and daughter pT
   else if(cut_type == 2) InvMassFile = new TFile(Form("./output/invariant_mass/%i/InvMass_Lambda_tight_pT_cut_work.root", year), "recreate"); //create file to store wrong and good sign M_inv distributions and daughter pT
   else if(cut_type == 3) InvMassFile = new TFile(Form("./output/invariant_mass/%i/InvMass_Lambda_tight_DCA_cuts_work.root", year), "recreate"); //create file to store wrong and good sign M_inv distributions and daughter pT
@@ -1114,7 +1114,7 @@ bool DoAnalysis(TChain *L_tree, const int ReadMode, const int cut_type = 0, cons
     L_tree->GetEntry(i);
 
      //if(ReadMode != 0) break;
-    if(i%1000000 == 0)
+    if(i%1 == 0)
     //if(i%100000 == 0)
     {
       cout<<i<<endl;
@@ -1405,7 +1405,7 @@ bool DoAnalysis(TChain *L_tree, const int ReadMode, const int cut_type = 0, cons
 
             if( L_mass > L_mass_PDG-2*L_mass_width_estimate && L_mass < L_mass_PDG+2*L_mass_width_estimate)
             {
-              Lbar_p_US->Fill(L_Lorentz_vector.P());
+              //Lbar_p_US->Fill(L_Lorentz_vector.P());
             }
 
 
@@ -2900,19 +2900,19 @@ bool DoAnalysis(TChain *L_tree, const int ReadMode, const int cut_type = 0, cons
           std::cout<<"Pt1_bin="<<mi1<<" ; "<<"Pt2_bin=" <<mi2<<std::endl;
           std::cout<<std::endl;
           std::cout<<"Lambda-LambdaBar:"<<std::endl;
-          std::cout<<"M(Lambda)     = " << L_peak_mean_fit[mi1][mi2] <<"+/-" <<  L_peak_sigma_fit[mi1][mi2] <<std::endl;
-          std::cout<<"M(Lambda_bar) = " << Lbar_peak_mean_fit[mi1][mi2] <<"+/-" << Lbar_peak_sigma_fit[mi1][mi2] << std::endl;
+          std::cout<<"M(Lambda)     = "<< std::fixed<< std::setprecision(6) << L_peak_mean_fit[mi1][mi2] <<"+/-" << std::setprecision(6)<<  L_peak_sigma_fit[mi1][mi2] <<std::endl;
+          std::cout<<"M(Lambda_bar) = " << std::setprecision(6)<< Lbar_peak_mean_fit[mi1][mi2] <<"+/-" << std::setprecision(6)<< Lbar_peak_sigma_fit[mi1][mi2] << std::endl;
           std::cout<<std::endl;
 
           std::cout<<"Lambda-Lambda"<<std::endl;
-          std::cout<<"M(Lambda1)   =" << L1_peak_mean_fit[mi1][mi2] << "+/-" << L1_peak_sigma_fit[mi1][mi2] << std::endl;
-          std::cout<<"M(Lambda2)   =" << L2_peak_mean_fit[mi1][mi2] << "+/-" << L2_peak_sigma_fit[mi1][mi2] << std::endl;
+          std::cout<<"M(Lambda1)   =" << std::setprecision(6)<< L1_peak_mean_fit[mi1][mi2] << "+/-" << std::setprecision(6)<< L1_peak_sigma_fit[mi1][mi2] << std::endl;
+          std::cout<<"M(Lambda2)   =" << std::setprecision(6)<< L2_peak_mean_fit[mi1][mi2] << "+/-" << std::setprecision(6)<< L2_peak_sigma_fit[mi1][mi2] << std::endl;
           std::cout<<std::endl;
 
 
           std::cout<<"LambdaBar-LambdaBar"<<std::endl;
-          std::cout<<"M(LambdaBar1) =" << Lbar1_peak_mean_fit[mi1][mi2]<< "+/-" << Lbar1_peak_sigma_fit[mi1][mi2] << std::endl;
-          std::cout<<"M(LambdaBar2) =" << Lbar2_peak_mean_fit[mi1][mi2]<< "+/-" << Lbar2_peak_sigma_fit[mi1][mi2] << std::endl;
+          std::cout<<"M(LambdaBar1) =" << std::setprecision(6)<< Lbar1_peak_mean_fit[mi1][mi2]<< "+/-" << std::setprecision(6)<< Lbar1_peak_sigma_fit[mi1][mi2] << std::endl;
+          std::cout<<"M(LambdaBar2) =" << std::setprecision(6)<< Lbar2_peak_mean_fit[mi1][mi2]<< "+/-" << std::setprecision(6)<< Lbar2_peak_sigma_fit[mi1][mi2] << std::endl;
           std::cout<<"---------------------------------------------------------------------"<<std::endl;
 
         }
@@ -6527,6 +6527,7 @@ void Lambda_corr_2D(const int ReadMode = 0, const int cut_type = 0, const int en
     myChain->Add(fileFromList.c_str());
 
     //for event stat. histogram
+    /*
     TFile *inFile = new TFile(fileFromList.c_str(), "read");
 
     TList *histoList = (TList*)inFile->Get("picoLambdaAnaMaker");
@@ -6541,13 +6542,13 @@ void Lambda_corr_2D(const int ReadMode = 0, const int cut_type = 0, const int en
     {
       hEventStat1->Add(hEventStat1_work);
     }
-
+    */
     iteration++;
 
   }
   //____________________________________________________________________
 
-  cout<<"nEvents from hist = "<<hEventStat1->GetBinContent(6)<<endl;
+  //cout<<"nEvents from hist = "<<hEventStat1->GetBinContent(6)<<endl;
 
 
   TCanvas *testCan = new TCanvas("testCan", "testCan", 1200, 1000);
@@ -6556,10 +6557,10 @@ void Lambda_corr_2D(const int ReadMode = 0, const int cut_type = 0, const int en
   gStyle->SetOptTitle(0);
 
   testCan->cd();
-  hEventStat1->GetXaxis()->SetRange(1,6);
-  hEventStat1->GetYaxis()->SetMaxDigits(3);
-  hEventStat1->SetMinimum(0);
-  hEventStat1->Draw();
+  //hEventStat1->GetXaxis()->SetRange(1,6);
+  //hEventStat1->GetYaxis()->SetMaxDigits(3);
+  //hEventStat1->SetMinimum(0);
+  //hEventStat1->Draw();
 
   //testCan->SaveAs("./plots/Lambda/EventStat_test.png");
 
@@ -6576,7 +6577,7 @@ void Lambda_corr_2D(const int ReadMode = 0, const int cut_type = 0, const int en
 
 
   cout<<endl;
-  cout<<"Nubmer of accepted events: "<<hEventStat1->GetBinContent(6)<<endl;
+  //cout<<"Nubmer of accepted events: "<<hEventStat1->GetBinContent(6)<<endl;
 
 
   return;
