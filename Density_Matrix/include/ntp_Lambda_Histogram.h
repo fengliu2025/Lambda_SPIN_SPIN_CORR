@@ -38,6 +38,15 @@ public :
 	TH1D *h1D_pair_Phi;
 	TH1D *h1D_pair_Mass;
 
+	//cut distribution
+	TH1D *h1D_p1_dca;
+	TH1D *h1D_p2_dca;
+	TH1D *h1D_pair_dca;
+	TH1D *h1D_lambda_dca;
+	TH1D *h1D_decayL;
+	TH1D *h1D_costheta;
+
+
 	//Histograms for Pair Plots
 	TH2D *h2D_L1Mass_L2Mass[Range_Bin][3];
 	TH2D *h2D_L1Pt_L2Pt[Range_Bin][3];
@@ -119,6 +128,16 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_pair_Mass  = new TH1D("h1D_pair_Mass","h1D_pair_Mass",120,1.07,1.20);
 
 
+	h1D_p1_dca     = new TH1D("h1D_p1_dca","h1D_p1_dca",100,-1,1);
+	h1D_p2_dca     = new TH1D("h1D_p2_dca","h1D_p2_dca",100,-1,1);
+	h1D_pair_dca   = new TH1D("h1D_pair_dca","h1D_pair_dca",100,-2,2);
+	h1D_lambda_dca = new TH1D("h1D_lambda_dca","h1D_lambda_dca",100,-2,2);
+	h1D_decayL     = new TH1D("h1D_decayL","h1D_decayL",100,-1,30);
+	h1D_costheta   = new TH1D("h1D_costheta","h1D_costheta",100,0.5,1.5);
+
+
+
+
 	for(int i_type = 0 ; i_type < 3 ;i_type++){
 		h2D_PairMass_deltaR[i_type]   = new TH2D(Form("h2D_PairMass_deltaR_%d",i_type),Form("h2D_PairMass_deltaR_%d",i_type),400,2,6,100,0,4);
 		h1D_L1L2_PtDifference[i_type] = new TH1D(Form("h1D_L1L2_PtDifference_%d",i_type),Form("h1D_L1L2_PtDifference_%d",i_type),100,-5,5   );
@@ -183,6 +202,17 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 		h1D_pair_Eta->Fill(Reader->pair_eta[i]);
 		h1D_pair_Phi->Fill(Reader->pair_phi[i]);
 		h1D_pair_Mass->Fill(Reader->pair_mass[i]);
+
+
+
+		h1D_p1_dca->Fill(Reader->p1_dca[i]); 
+		h1D_p2_dca->Fill(Reader->p2_dca[i]);
+		h1D_pair_dca->Fill(Reader->pair_DCAdaughters[i]);  
+		h1D_lambda_dca->Fill(Reader->pair_decayL[i] *TMath::Sin(Reader->pair_theta[i] )  );
+		h1D_decayL->Fill(Reader->pair_decayL[i]);     
+		h1D_costheta->Fill(TMath::Cos(pair_theta[i] ) );   
+
+
 	}
 
 	int MB_TriggerFlag = 0;
@@ -389,6 +419,14 @@ void ntp_Lambda_Histogram::WriteAll(){
 	h1D_pair_Eta->Write();
 	h1D_pair_Phi->Write();
 	h1D_pair_Mass->Write();
+
+	h1D_p1_dca ->Write();
+	h1D_p2_dca ->Write();
+	h1D_pair_dca->Write();
+	h1D_lambda_dca->Write();
+	h1D_decayL->Write();
+	h1D_costheta->Write();
+
 
 	
 

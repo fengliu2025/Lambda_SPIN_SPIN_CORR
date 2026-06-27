@@ -179,7 +179,8 @@ void ntp_Lambda_Analyzer::Fill_MixPool(int i_File){
 																MixEvent_Reader->pair_mass[0], MixEvent_Reader->pair_decayL[0],
 																MixEvent_Reader->pair_theta[0],MixEvent_Reader->pair_DCAdaughters[0])
 				 				&& LambdaSelecter->IsGoodLambdaCharge(MixEvent_Reader->pair_charge[0]) 
-				 				&& LambdaSelecter->IsGoodLambdaDCA(MixEvent_Reader->pair_decayL[0], MixEvent_Reader->pair_theta[0] )
+				 				&& LambdaSelecter->IsGoodLambdaDCA(MixEvent_Reader->pair_decayL[0], MixEvent_Reader->pair_theta[0])
+				 				&& LambdaSelecter->IdGoodDauDCA(MixEvent_Reader->p1_dca[0],MixEvent_Reader->p2_dca[0])
 				 			   );
 			if(!isGoodLambda){
 				IsGoodLambda_tmp.push_back(0);
@@ -405,6 +406,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 																SameEvent_Reader->pair_theta[i_lambda],SameEvent_Reader->pair_DCAdaughters[i_lambda])
 				 				&& LambdaSelecter->IsGoodLambdaCharge(SameEvent_Reader->pair_charge[i_lambda]) 
 				 				&& LambdaSelecter->IsGoodLambdaDCA(SameEvent_Reader->pair_decayL[i_lambda], SameEvent_Reader->pair_theta[i_lambda] )
+				 				&& LambdaSelecter->IsGoodDauDCA(SameEvent_Reader->p1_dca[i_lambda], SameEvent_Reader->p2_dca[i_lambda] )
 				 				   );
 				GoodLambdaFlag.push_back(isGoodLambda);
 			}
@@ -630,6 +632,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 																SameEvent_Reader->pair_theta[i_lambda],SameEvent_Reader->pair_DCAdaughters[i_lambda])
 				 				&& LambdaSelecter->IsGoodLambdaCharge(SameEvent_Reader->pair_charge[i_lambda]) 
 				 				&& LambdaSelecter->IsGoodLambdaDCA(SameEvent_Reader->pair_decayL[i_lambda], SameEvent_Reader->pair_theta[i_lambda] )
+				 				&& LambdaSelecter->IsGoodDauDCA(SameEvent_Reader->p1_dca[i_lambda],SameEvent_Reader->p2_dca[i_lambda])
 				 				   );
 				GoodLambdaFlag.push_back(isGoodLambda);
 			}

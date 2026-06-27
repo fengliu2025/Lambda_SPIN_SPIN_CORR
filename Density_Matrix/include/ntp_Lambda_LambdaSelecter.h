@@ -35,13 +35,16 @@ public:
 	double RapidityDiffMax;
 	double PhiDiffMax;
 
+	double proton_DCAMin;
+	double pion_DCAMin;
+
 
 
 	ntp_Lambda_LambdaSelecter();
 	~ntp_Lambda_LambdaSelecter();
 
 
-
+	bool IsGoodDauDCA(double proton_DCA, double pion_DCA);
 	bool IsGoodLambdaMass(double Pt, double Mass);
 	bool IsGoodLambda(double pion_Pt,double proton_Pt, double pion_Eta, double proton_Eta, double Lambda_Pt, double Lambda_Rapidity, double Lambda_Mass,double Lambda_DecayL, double Lambda_Theta,double Lambda_DauDCA);
 	bool IsGoodLambdaCharge(int Lambda_Charge);
@@ -80,6 +83,9 @@ ntp_Lambda_LambdaSelecter::ntp_Lambda_LambdaSelecter()
 	LambdaDCAMin = -1;  //cm
 	LambdaDCAMax = 1.0; //cm 
 
+	proton_DCAMin= 0.1 //cm;
+	pion_DCAMin = 0.3 //cm;
+
 
 	PtDiffMax = 0.1;
 	RapidityDiffMax = 0.1;
@@ -93,6 +99,14 @@ ntp_Lambda_LambdaSelecter::~ntp_Lambda_LambdaSelecter(){
 }
 
 
+
+bool ntp_Lambda_LambdaSelecter::IsGoodDauDCA(double proton_DCA,double pion_DCA){
+	bool goodness = true;
+	if(proton_DCA < proton_DCAMin) goodness= false;
+	if(pion_DCA < pion_DCAMin ) goodness = false;
+	return goodness;
+
+}
 
 bool ntp_Lambda_LambdaSelecter::IsGoodLambdaMass(double Pt, double Mass){
 	double mean = 1;
