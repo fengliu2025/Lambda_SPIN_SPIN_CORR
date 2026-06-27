@@ -199,7 +199,7 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 		h1D_p2_Phi  ->Fill(Reader->p2_phi[i]);
 	
 		h1D_pair_Pt ->Fill(Reader->pair_pt[i]);
-		h1D_pair_Eta->Fill(Reader->pair_eta[i]);
+		h1D_pair_Eta->Fill(Reader->pair_DCAdaughters[i]);
 		h1D_pair_Phi->Fill(Reader->pair_phi[i]);
 		h1D_pair_Mass->Fill(Reader->pair_mass[i]);
 
@@ -210,7 +210,7 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 		h1D_pair_dca->Fill(Reader->pair_DCAdaughters[i]);  
 		h1D_lambda_dca->Fill(Reader->pair_decayL[i] *TMath::Sin(Reader->pair_theta[i] )  );
 		h1D_decayL->Fill(Reader->pair_decayL[i]);     
-		h1D_costheta->Fill(TMath::Cos(pair_theta[i] ) );   
+		h1D_costheta->Fill(TMath::Cos(Reader->pair_theta[i] ) );   
 
 
 	}

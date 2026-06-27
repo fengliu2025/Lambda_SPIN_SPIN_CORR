@@ -83,8 +83,8 @@ ntp_Lambda_LambdaSelecter::ntp_Lambda_LambdaSelecter()
 	LambdaDCAMin = -1;  //cm
 	LambdaDCAMax = 1.0; //cm 
 
-	proton_DCAMin= 0.1 //cm;
-	pion_DCAMin = 0.3 //cm;
+	proton_DCAMin= 0.1; //cm;
+	pion_DCAMin = 0.3; //cm;
 
 
 	PtDiffMax = 0.1;
