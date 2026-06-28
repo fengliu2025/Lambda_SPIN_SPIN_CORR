@@ -494,8 +494,8 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda){
 		   SameEvent_Reader->p2_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] ) return 0;
 
 			
-		if(!LambdaSelecter->IsGoodLambdaMass(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_mas[i_lambda] ) ) return 0;
-		if(!LambdaSelecter->IsGoodLambdaMass(SameEvent_Reader->pair_pt[j_lambda],SameEvent_Reader->pair_mas[j_lambda] ) ) return 0;
+		if(!LambdaSelecter->IsGoodLambdaMass(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_mass[i_lambda] ) ) return 0;
+		if(!LambdaSelecter->IsGoodLambdaMass(SameEvent_Reader->pair_pt[j_lambda],SameEvent_Reader->pair_mass[j_lambda] ) ) return 0;
 
 		//---------------------------Event Type Classification-------------------------------
 		int Pair_Type = 0 ; 

@@ -46,7 +46,7 @@ int main(int argc, char*argv[]){
 		InputFile_MixEvent.push_back(FileList[i]);
 	}
 	
-	std::vector<std::vector<string>> InputFile_MixTree;
+	std::vector<std::vector<std::string>> InputFile_MixTree;
 
 
 	//std::string OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012Result/MixEvent/") + Form("MixEvent_%d.root",file_Index) ;
