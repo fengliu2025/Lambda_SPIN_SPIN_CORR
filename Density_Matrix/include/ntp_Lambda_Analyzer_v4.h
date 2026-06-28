@@ -75,7 +75,7 @@ public:
 	std::vector<float> Lbar_p2_phi;
 
 
-	int MixEventPoolSize = 100000;
+	int MixEventPoolSize = 10000;
 	int LLbar_USED= 0;
 
 
