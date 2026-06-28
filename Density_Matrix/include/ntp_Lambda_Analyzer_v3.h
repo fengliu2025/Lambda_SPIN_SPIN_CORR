@@ -113,6 +113,7 @@ void ntp_Lambda_Analyzer::Fill_MixPool(int i_File){
 	p2_phi.clear();
 	//--------------------------------------------ENTER i_mixfile LOOP-----------------------------------------------
 	for(int i_mixfile=0;i_mixfile<MixEvent_Reader->InputFiles_MixEvent[i_File].size();i_mixfile++){
+		std::cout<<"MixEvent_Reader->InputFiles_MixEvent[i_File].size():"<<MixEvent_Reader->InputFiles_MixEvent[i_File].size()<<std::endl;
 		TFile *f_mixevent = TFile::Open(MixEvent_Reader->InputFiles_MixEvent[i_File][i_mixfile].c_str(),"READ");
 		if(!f_mixevent){
 			std::cout<<"Can not open the mixevent file:"<<MixEvent_Reader->InputFiles[i_mixfile] <<", Skip this." <<std::endl;
@@ -125,9 +126,10 @@ void ntp_Lambda_Analyzer::Fill_MixPool(int i_File){
 			continue;
 		}
 
+
 		MixEvent_Reader->Init(tmp_MixEvent);
 		Long64_t N_Events=MixEvent_Reader->fChain->GetEntries();
-
+		std::cout<<"MixEvent_Reader->fChain->GetEntries():"<<N_Events<<std::endl;
 		std::vector<bool> IsGoodLambda_tmp;
 		std::vector<float> pair_pt_tmp;
 		std::vector<float> pair_y_tmp;
@@ -467,8 +469,27 @@ void ntp_Lambda_Analyzer::FindCounterparts(std::vector<TLorentzVector> *Lambda_c
 		for(int iLamCon = MixTreeReader->Start_Index[I_LAMBDA]; iLamCon < MixTreeReader->End_Index[I_LAMBDA]; iLamCon ++){
 
 			int tmp_EventIndex = MixTreeReader->CounterPart_EventIndex[iLamCon];
+		
 
 
+//if (tmp_EventIndex < 0 || tmp_EventIndex >= (int)IsGoodLambda[i_mixfile].size()) {
+//    std::cout << "ERROR: tmp_EventIndex out of range: "
+//              << tmp_EventIndex << " / " << IsGoodLambda[i_mixfile].size()
+//              << ", i_mixfile = " << i_mixfile
+//              << ", I_EVENT = " << I_EVENT
+//              << ", I_LAMBDA = " << I_LAMBDA
+//              << std::endl;
+//    continue;
+//}
+
+			//std::cout<<"pair_pt[i_mixfile].size():"<<pair_pt[i_mixfile].size()<<std::endl;
+
+			if(tmp_EventIndex >= pair_pt[i_mixfile].size()) 
+			{	
+				std::cout<<"tmp_EventIndex:"<<tmp_EventIndex<<std::endl;
+				std::cout<<"pair_pt[i_mixfile].size():"<<pair_pt[i_mixfile].size()<<std::endl;
+				std::cout<<"error with tmp_Event!"<<std::endl;
+			}
 			if(!IsGoodLambda[i_mixfile][tmp_EventIndex]) continue;
 
 			int isGoodCounterPart = LambdaSelecter->IsGoodLambdaCounterpart(pair_pt[i_mixfile][tmp_EventIndex], SameEvent_Reader->pair_pt[I_LAMBDA],
