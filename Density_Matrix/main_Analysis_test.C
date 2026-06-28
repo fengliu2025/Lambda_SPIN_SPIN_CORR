@@ -66,7 +66,7 @@ int main(int argc, char*argv[]){
 	
 	//s1_tmp.push_back(FileList[file_Index]);
 	s1_tmp.push_back(FileList[0]);
-
+	s1_tmp.push_back(FileList[1]);
 	//std::string s2 = FileName[file_Index];
 	std::string s2 = FileName[0];
 	std::size_t pos = s1.rfind(".root");
@@ -77,7 +77,7 @@ int main(int argc, char*argv[]){
 
 	
 	s2_tmp.push_back(MixTreeDir+s1+"/"+s2);
-
+	s2_tmp.push_back(MixTreeDir+s1+"/"+FileName[1]);
 	
 	
 

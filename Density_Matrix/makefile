@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS =  -O2 -std=c++11 -pedantic -W -Wall -Wshadow -fPIC
+CXXFLAGS = -g  -O2 -std=c++11 -pedantic -W -Wall -Wshadow -fPIC
 
 
 
