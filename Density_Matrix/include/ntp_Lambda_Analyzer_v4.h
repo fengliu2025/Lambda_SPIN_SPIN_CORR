@@ -152,7 +152,7 @@ void ntp_Lambda_Analyzer::Fill_MixPool(){
 		Long64_t N_Events=MixEvent_Reader->fChain->GetEntries();
 		//------------------------------ENTER iEvent LOOP-------------------------------------
 		for(int iEvent=0;iEvent<N_Events;iEvent++){
-			MixEvent_Reader->GetEntry(iEvent);
+			MixEvent_Reader->fChain->GetEntry(iEvent);
 			std::vector<int> GoodLambdaFlag;
 			for(int i_lambda = 0; i_lambda<MixEvent_Reader->NLambda;i_lambda++){				
 				TLorentzVector v;
@@ -180,7 +180,7 @@ void ntp_Lambda_Analyzer::Fill_MixPool(){
 					TLorentzVector v;
 					v.SetPtEtaPhiM(MixEvent_Reader->pair_pt[i_lambda],MixEvent_Reader->pair_eta[i_lambda],MixEvent_Reader->pair_phi[i_lambda],MixEvent_Reader->pair_mass[i_lambda]);
 					L_pair_pt.push_back( MixEvent_Reader->pair_pt[i_lambda]  );
-					L_pair_y.push_back(  v  );	
+					L_pair_y.push_back(  v.Rapidity()  );	
 					L_pair_eta.push_back( MixEvent_Reader->pair_eta[i_lambda]  );
 					L_pair_phi.push_back( MixEvent_Reader->pair_phi[i_lambda]  ) ;
 					L_pair_mass.push_back( MixEvent_Reader->pair_mass[i_lambda]  );
@@ -202,7 +202,7 @@ void ntp_Lambda_Analyzer::Fill_MixPool(){
 					TLorentzVector v;
 					v.SetPtEtaPhiM(MixEvent_Reader->pair_pt[i_lambda],MixEvent_Reader->pair_eta[i_lambda],MixEvent_Reader->pair_phi[i_lambda],MixEvent_Reader->pair_mass[i_lambda]);
 					Lbar_pair_pt.push_back( MixEvent_Reader->pair_pt[i_lambda]  );
-					Lbar_pair_y.push_back(  v  );	
+					Lbar_pair_y.push_back(  v.Rapidity()  );	
 					Lbar_pair_eta.push_back( MixEvent_Reader->pair_eta[i_lambda]  );
 					Lbar_pair_phi.push_back( MixEvent_Reader->pair_phi[i_lambda]  ) ;
 					Lbar_pair_mass.push_back( MixEvent_Reader->pair_mass[i_lambda]  );
@@ -439,7 +439,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 void ntp_Lambda_Analyzer::FindCounterparts(std::vector<TLorentzVector> *Lambda_counterpart,std::vector<TLorentzVector> *proton_counterpart,std::vector<TLorentzVector> *pion_counterpart,double rapidity,int I_LAMBDA){
 	if(SameEvent_Reader->p1_ch[I_LAMBDA] == +1){
 			for(int i_lambda =0 ; i_lambda < L_pair_pt.size();i_lambda++){
-				if(!ntp_Lambda_LambdaSelecter->IsGoodLambdaMass(L_pair_pt[i_lambda],L_pair_mass[i_lambda] )) continue;
+				if(!LambdaSelecter->IsGoodLambdaMass(L_pair_pt[i_lambda],L_pair_mass[i_lambda] )) continue;
 				int isGoodCounterPart = LambdaSelecter->IsGoodLambdaCounterpart(L_pair_pt[i_lambda], SameEvent_Reader->pair_pt[I_LAMBDA],
 																	  L_pair_y[i_lambda],rapidity,
 																	  L_pair_phi[i_lambda], SameEvent_Reader->pair_phi[I_LAMBDA],
@@ -459,7 +459,7 @@ void ntp_Lambda_Analyzer::FindCounterparts(std::vector<TLorentzVector> *Lambda_c
 	}
 	else{
 		for(int i_lambda =0 ; i_lambda < Lbar_pair_pt.size();i_lambda++){
-				if(!ntp_Lambda_LambdaSelecter->IsGoodLambdaMass(Lbar_pair_pt[i_lambda],Lbar_pair_mass[i_lambda] )) continue;
+				if(!LambdaSelecter->IsGoodLambdaMass(Lbar_pair_pt[i_lambda],Lbar_pair_mass[i_lambda] )) continue;
 				int isGoodCounterPart = LambdaSelecter->IsGoodLambdaCounterpart(Lbar_pair_pt[i_lambda], SameEvent_Reader->pair_pt[I_LAMBDA],
 																	  Lbar_pair_y[i_lambda],rapidity,
 																	  Lbar_pair_phi[i_lambda], SameEvent_Reader->pair_phi[I_LAMBDA],
@@ -494,8 +494,8 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda){
 		   SameEvent_Reader->p2_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] ) return 0;
 
 			
-		if(!ntp_Lambda_LambdaSelecter->IsGoodLambdaMass(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_mas[i_lambda] ) ) return 0;
-		if(!ntp_Lambda_LambdaSelecter->IsGoodLambdaMass(SameEvent_Reader->pair_pt[j_lambda],SameEvent_Reader->pair_mas[j_lambda] ) ) return 0;
+		if(!LambdaSelecter->IsGoodLambdaMass(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_mas[i_lambda] ) ) return 0;
+		if(!LambdaSelecter->IsGoodLambdaMass(SameEvent_Reader->pair_pt[j_lambda],SameEvent_Reader->pair_mas[j_lambda] ) ) return 0;
 
 		//---------------------------Event Type Classification-------------------------------
 		int Pair_Type = 0 ; 
@@ -575,6 +575,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 	//Start looping over all inputfiles of Same_Event_Reader 
 	unsigned long N_Inputfiles_SE = SameEvent_Reader->InputFiles.size();
 	LLbar_USED = 0;
+	Fill_MixPool();
 	//-------------------------------Enter i_file loop---------------------------------
 	for(unsigned i_file = 0 ;i_file < N_Inputfiles_SE ;i_file++){
 		//if(i_file%1==0) std::cout<<"i_file="<<i_file<<std::endl;
@@ -592,7 +593,6 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 		SameEvent_Reader->Init(tmp_tree);
 		//Get the number of entries in current tree
 		Long64_t N_Events=SameEvent_Reader->fChain->GetEntries();
-		Fill_MixPool(i_file);
 		//---------------------------Ener i_event loop----------------------------
 		for(Long64_t i_event=0;i_event< N_Events;i_event++){
 			if(i_event%1000==0)std::cout<<"i_event"<<i_event<<std::endl;

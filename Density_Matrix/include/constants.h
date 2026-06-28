@@ -12,7 +12,7 @@ const float Lambda_Rapidity_Cut = 1.0;
 const float Lambda_Pt_lowCut    = 0.5; //GeV/c
 const float Lambda_Pt_highCut   = 5.0; //GeV/c
 const float Lambda_mass_lowCut  = 1.105;//1.1130060;//1.112250;//1.1135;//GeV/c^2
-const float Lambda_mass_highCut = 1,13;//1.1183980;//1.119833;//1.1180;//GeV/c^2
+const float Lambda_mass_highCut = 1.13;//1.1183980;//1.119833;//1.1180;//GeV/c^2
 
 
 //MixEvent Limitation 

@@ -26,6 +26,7 @@ int main(int argc, char*argv[]){
 	if (!filelist.is_open()) {
 		std::cerr <<"can't open the file" <<std::endl;
 	}
+	std::string directory="/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree/";
 	std::string line;
 	
 	while (std::getline(filelist,line)){
@@ -45,7 +46,7 @@ int main(int argc, char*argv[]){
 		InputFile_MixEvent.push_back(FileList[i]);
 	}
 	
-
+	std::vector<std::vector<string>> InputFile_MixTree;
 
 
 	//std::string OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012Result/MixEvent/") + Form("MixEvent_%d.root",file_Index) ;
