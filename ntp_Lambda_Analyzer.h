@@ -227,7 +227,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 				//cut on the track
 				if( SameEvent_Reader->p1_pt[i_lambda] < Track_Pt_LowCut || SameEvent_Reader->p2_pt[i_lambda] < Track_Pt_LowCut ) {isGoodLambda=0;}
 				if( TMath::Abs(SameEvent_Reader->p1_eta[i_lambda]) > Track_Eta_Cut || TMath::Abs(SameEvent_Reader->p2_eta[i_lambda]) > Track_Eta_Cut  ) {isGoodLambda=0;}
-				
+				if( TMath::Sin(SameEvent_Reader->pair_theta[i_lambda]) * SameEvent_Reader->pair_decayL[i_lambda] > 1.0 ) continue;
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
 				//cut on the lambda_Candidates 
@@ -298,7 +298,7 @@ void ntp_Lambda_Analyzer::FindCounterparts(std::vector<TLorentzVector> *Lambda_c
 
 			if( TMath::Abs(MixEvent_Reader->pair_pt[0] - pt  ) > ptDiffLim ) continue;
 			if( TMath::ACos(TMath::Cos(MixEvent_Reader->pair_phi[0]-phi) ) > phiDiffLim ) continue;
-
+			if( TMath::Sin(MixEvent_Reader->pair_theta[i_lambda]) * MixEvent_Reader->pair_decayL[i_lambda] > 1.0 ) continue;
 			//cut on the tracks 
 			if( TMath::Abs(MixEvent_Reader->p1_eta[0]) > Track_Eta_Cut || TMath::Abs(MixEvent_Reader->p2_eta[0]) > Track_Eta_Cut ) continue;
 			if( MixEvent_Reader->p1_pt[0] < Track_Pt_LowCut || MixEvent_Reader->p2_pt[0] < Track_Pt_LowCut ) continue;
@@ -451,7 +451,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 				if( SameEvent_Reader->pair_charge[i_lambda] == 1 ){ isGoodLambda =0; }
 				if( SameEvent_Reader->p1_pt[i_lambda] < Track_Pt_LowCut || SameEvent_Reader->p2_pt[i_lambda] < Track_Pt_LowCut ) {isGoodLambda=0;}
 				if( TMath::Abs(SameEvent_Reader->p1_eta[i_lambda]) > Track_Eta_Cut || TMath::Abs(SameEvent_Reader->p2_eta[i_lambda]) > Track_Eta_Cut  ) {isGoodLambda=0;}
-				
+				if( TMath::Sin(SameEvent_Reader->pair_theta[i_lambda]) * SameEvent_Reader->pair_decayL[i_lambda] > 1.0 ) continue;
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
 				//cut on the lambda_Candidates 
@@ -459,6 +459,10 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 				if( v.M()  < Lambda_mass_lowCut || v.M() > Lambda_mass_highCut ) {isGoodLambda=0;}
 				GoodLambdaFlag.push_back(isGoodLambda);
 			}
+
+
+
+
 			
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
 			if(NGoodLambda < 2) continue;
