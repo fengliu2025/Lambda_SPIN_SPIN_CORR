@@ -113,7 +113,7 @@ int ntp_Lambda_Analyzer::Range_Type_Classifier(TLorentzVector *v1, TLorentzVecto
 
 int ntp_Lambda_Analyzer::Analyze_SEPair(int i_lambda,int j_lambda){
 		if( SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p1_InEventID[j_lambda] || 
-	   		SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] || 
+	   		SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[i_lambda] || 
 	   		SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] || 
 	   		SameEvent_Reader->p1_InEventID[j_lambda] == SameEvent_Reader->p2_InEventID[i_lambda] || 
 	   		SameEvent_Reader->p1_InEventID[j_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] ||
@@ -306,6 +306,7 @@ void ntp_Lambda_Analyzer::FindCounterparts(std::vector<TLorentzVector> *Lambda_c
 			TLorentzVector v;
 			v.SetPtEtaPhiM(MixEvent_Reader->pair_pt[0],MixEvent_Reader->pair_eta[0],MixEvent_Reader->pair_phi[0],MixEvent_Reader->pair_mass[0]);
 			if( v.Pt() < Lambda_Pt_lowCut || v.Pt() > Lambda_Pt_highCut ) continue;
+			if( v.M()  < Lambda_mass_lowCut || v.M() > Lambda_mass_highCut ) {isGoodLambda=0;}
 			if( TMath::Abs( v.Rapidity() ) > Lambda_Rapidity_Cut ) continue;
 
 			if( TMath::Abs(v.Rapidity() - rapidity ) > rapidityDiffLim   ) continue;
