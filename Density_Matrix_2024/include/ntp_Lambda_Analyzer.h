@@ -7,28 +7,34 @@
 #include <TTree.h>
 #include <TMath.h>
 #include <TLorentzVector.h>
- 
+
 #include <vector>
 #include <string>
 #include <iostream>
-
+#include <numeric>
 
 #include "constants.h"
 #include "ntp_Lambda_Calculator.h"
 #include "ntp_Lambda_Histogram.h"
 #include "ntp_Lambda_Reader.h"
+#include "ntp_Lambda_EventSelecter.h"
+#include "ntp_Lambda_LambdaSelecter.h"
 
 class ntp_Lambda_Analyzer{
 public:
 	ntp_Lambda_Reader *SameEvent_Reader;
 	ntp_Lambda_Reader *MixEvent_Reader;
+
+	ntp_Lambda_EventSelecter *EventSelecter;
+	ntp_Lambda_LambdaSelecter *LambdaSelecter;
+
 	ntp_Lambda_Calculator *Calculator;
 	ntp_Lambda_Histogram  *Histogramer; 
 
 
 	ntp_Lambda_Analyzer();
-	ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Reader *reader2, ntp_Lambda_Calculator *calculator, ntp_Lambda_Histogram *hisogram );
-	ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Calculator *calculator, ntp_Lambda_Histogram *hisogram);
+	ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Reader *reader2, ntp_Lambda_EventSelecter *eventselecter, ntp_Lambda_LambdaSelecter *lambdaselecter,ntp_Lambda_Calculator *calculator, ntp_Lambda_Histogram *hisogram );
+	ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_EventSelecter *eventselecter, ntp_Lambda_LambdaSelecter *lambdaselecter, ntp_Lambda_Calculator *calculator, ntp_Lambda_Histogram *hisogram);
 
 	~ntp_Lambda_Analyzer();
 	
@@ -38,7 +44,7 @@ public:
 	int isGoodTrigger();
 	int Analyze_SEPair(int i_lambda,int j_lambda);
 	void Analysis_SameEvent();
-	void FindCounterparts(std::vector<TLorentzVector> *Lambda_counterpart,std::vector<TLorentzVector> *proton_counterpart,std::vector<TLorentzVector> *pion_counterpart,double pt, double rapidity, double phi, int p1Charge,int I_FILE);
+	void FindCounterparts(std::vector<TLorentzVector> *Lambda_counterpart,std::vector<TLorentzVector> *proton_counterpart,std::vector<TLorentzVector> *pion_counterpart,double pt, double rapidity, double phi, int pairCharge,int p1Charge,int I_FILE);
 	int Analyze_MEPair(int i_lambda,int j_lambda,int i_file);
 	void Analysis_MixEvent();
 
@@ -49,15 +55,15 @@ ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(){
 
 }
 
-ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Reader *reader2, ntp_Lambda_Calculator *calculator, ntp_Lambda_Histogram *hisogram )
-: SameEvent_Reader(reader1),MixEvent_Reader(reader2),Calculator(calculator),Histogramer(hisogram)
+ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Reader *reader2, ntp_Lambda_EventSelecter *eventselecter, ntp_Lambda_LambdaSelecter *lambdaselecter, ntp_Lambda_Calculator *calculator, ntp_Lambda_Histogram *hisogram )
+: SameEvent_Reader(reader1),MixEvent_Reader(reader2),EventSelecter(eventselecter), LambdaSelecter(lambdaselecter) ,Calculator(calculator),Histogramer(hisogram)
 {
 
 }
 
 
-ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Calculator *calculator, ntp_Lambda_Histogram *hisogram )
-: SameEvent_Reader(reader1),MixEvent_Reader(0),Calculator(calculator),Histogramer(hisogram)
+ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_EventSelecter *eventselecter, ntp_Lambda_LambdaSelecter *lambdaselecter ,ntp_Lambda_Calculator *calculator, ntp_Lambda_Histogram *hisogram )
+: SameEvent_Reader(reader1),MixEvent_Reader(0),EventSelecter(eventselecter), LambdaSelecter(lambdaselecter), Calculator(calculator),Histogramer(hisogram)
 {
 
 }
@@ -113,7 +119,7 @@ int ntp_Lambda_Analyzer::Range_Type_Classifier(TLorentzVector *v1, TLorentzVecto
 
 int ntp_Lambda_Analyzer::Analyze_SEPair(int i_lambda,int j_lambda){
 		if( SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p1_InEventID[j_lambda] || 
-	   		SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] || 
+	   		SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[i_lambda] || 
 	   		SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] || 
 	   		SameEvent_Reader->p1_InEventID[j_lambda] == SameEvent_Reader->p2_InEventID[i_lambda] || 
 	   		SameEvent_Reader->p1_InEventID[j_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] ||
@@ -178,7 +184,6 @@ int ntp_Lambda_Analyzer::isGoodTrigger(){
 	for(int i=0;i < SameEvent_Reader->mNTrigs;i++){
 		if(SameEvent_Reader->mTrigId[i] == 910802 || SameEvent_Reader->mTrigId[i] == 910804 ) GoodTriggerFlag = 1; 
 		//if(SameEvent_Reader->mTrigId[i] == 910001 || SameEvent_Reader->mTrigId[i] == 910003 || SameEvent_Reader->mTrigId[i] == 910013) GoodTriggerFlag = 1; 
-
 	}
 	return GoodTriggerFlag;
 }
@@ -212,27 +217,24 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 		//---------------------------Enter i_event loop----------------------------
 		for(Long64_t i_event=0; i_event < N_Events ; i_event++ ){
 			SameEvent_Reader->fChain->GetEntry(i_event);
-
-			
 			
 			//------------------------Make some selections on the events-----------------------------
-			//if(isGoodTrigger() == 1 ) continue; //select on the triggers ,only events that has MB trigger
-			//if(SameEvent_Reader->NLambda<3) continue; // current we only select on multi-Lambdas Events 
+			if( isGoodTrigger() != 1 ) continue; //select on the triggers ,only events that has MB trigger
+			if(! EventSelecter->IsGoodEvent() ) continue;
+			if(SameEvent_Reader->NLambda!=2) continue; // current we only select on multi-Lambdas Events 
 			std::vector<int> GoodLambdaFlag;
-			//if(SameEvent_Reader->pair_charge[0] ==1 || SameEvent_Reader->pair_charge[1] ==1 ) continue;
-			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
-				int isGoodLambda = 1; //1 is good lambda, 0 is not good lambad 
-				//To judge if this lambda is US.
-				if( SameEvent_Reader->pair_charge[i_lambda]==1 ){isGoodLambda = 0;}//
-				//cut on the track
-				if( SameEvent_Reader->p1_pt[i_lambda] < Track_Pt_LowCut || SameEvent_Reader->p2_pt[i_lambda] < Track_Pt_LowCut ) {isGoodLambda=0;}
-				if( TMath::Abs(SameEvent_Reader->p1_eta[i_lambda]) > Track_Eta_Cut || TMath::Abs(SameEvent_Reader->p2_eta[i_lambda]) > Track_Eta_Cut  ) {isGoodLambda=0;}
-				
+			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){				
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
-				//cut on the lambda_Candidates 
-				if( v.Pt() < Lambda_Pt_lowCut || v.Pt() > Lambda_Pt_highCut || TMath::Abs( v.Rapidity() )  > Lambda_Rapidity_Cut ){isGoodLambda=0;}
-				if( v.M()  < Lambda_mass_lowCut || v.M() > Lambda_mass_highCut ) {isGoodLambda=0;}
+				
+				int isGoodLambda =  LambdaSelecter->IsGoodLambda( SameEvent_Reader->p2_pt[i_lambda]      ,  SameEvent_Reader->p1_pt[i_lambda], 
+											  SameEvent_Reader->p2_eta[i_lambda]     ,  SameEvent_Reader->p1_eta[i_lambda],
+											  SameEvent_Reader->pair_pt[i_lambda]    ,  v.Rapidity(), 
+											  SameEvent_Reader->pair_mass[i_lambda]  ,  SameEvent_Reader->pair_decayL[i_lambda],
+											  SameEvent_Reader->pair_theta[i_lambda] ,  SameEvent_Reader->pair_DCAdaughters[i_lambda]) && 
+									LambdaSelecter->IsGoodLambdaCharge(SameEvent_Reader->pair_charge[i_lambda]) && 
+									LambdaSelecter->IsGoodLambdaDCA(SameEvent_Reader->pair_decayL[i_lambda], SameEvent_Reader->pair_theta[i_lambda] );
+
 
 				GoodLambdaFlag.push_back(isGoodLambda);
 			}
@@ -252,8 +254,6 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 				}
 			}
 
-
-
 		}
 		//---------------------------End i_event loop----------------------------
 		fin->Close();
@@ -267,7 +267,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 
 
 
-void ntp_Lambda_Analyzer::FindCounterparts(std::vector<TLorentzVector> *Lambda_counterpart,std::vector<TLorentzVector> *proton_counterpart,std::vector<TLorentzVector> *pion_counterpart,double pt, double rapidity, double phi, int p1Charge,int I_FILE){
+void ntp_Lambda_Analyzer::FindCounterparts(std::vector<TLorentzVector> *Lambda_counterpart,std::vector<TLorentzVector> *proton_counterpart,std::vector<TLorentzVector> *pion_counterpart,double pt, double rapidity, double phi, int pairCharge ,int p1Charge,int I_FILE){
 	//Start looping over all inputfiles of Mix_Event_Reader
 	unsigned long N_Inputfiles_ME = MixEvent_Reader->InputFiles.size();
 	//--------------------------------Enter i_file loop------------------------------
@@ -289,27 +289,31 @@ void ntp_Lambda_Analyzer::FindCounterparts(std::vector<TLorentzVector> *Lambda_c
 
 		//-------------------------------Enter i_event loop----------------------------
 		for(Long64_t i_event=0;i_event<N_Events;i_event++){
-			//if(i_event%10000==0)std::cout<<"i_event"<<i_event<<std::endl;
 			MixEvent_Reader->fChain->GetEntry(i_event);
 			//------------------------Make some selections on the events-----------------------------
+			if( !EventSelecter->IsGoodEvent() ) continue;
 			if(MixEvent_Reader->NLambda!=1) continue;
-			if(MixEvent_Reader->pair_charge[0]==1) continue; //must be the lambda/lambda_bar candidates
-			if(MixEvent_Reader->p1_ch[0]!=p1Charge) continue;
 
-			if( TMath::Abs(MixEvent_Reader->pair_pt[0] - pt  ) > ptDiffLim ) continue;
-			if( TMath::ACos(TMath::Cos(MixEvent_Reader->pair_phi[0]-phi) ) > phiDiffLim ) continue;
-
-			//cut on the tracks 
-			if( TMath::Abs(MixEvent_Reader->p1_eta[0]) > Track_Eta_Cut || TMath::Abs(MixEvent_Reader->p2_eta[0]) > Track_Eta_Cut ) continue;
-			if( MixEvent_Reader->p1_pt[0] < Track_Pt_LowCut || MixEvent_Reader->p2_pt[0] < Track_Pt_LowCut ) continue;
-			//cut on the lambda candadates 
 			TLorentzVector v;
 			v.SetPtEtaPhiM(MixEvent_Reader->pair_pt[0],MixEvent_Reader->pair_eta[0],MixEvent_Reader->pair_phi[0],MixEvent_Reader->pair_mass[0]);
-			if( v.Pt() < Lambda_Pt_lowCut || v.Pt() > Lambda_Pt_highCut ) continue;
-			if( TMath::Abs( v.Rapidity() ) > Lambda_Rapidity_Cut ) continue;
+				
+			bool isGoodLambda =  LambdaSelecter->IsGoodLambda( MixEvent_Reader->p2_pt[0]     ,  MixEvent_Reader->p1_pt[0], 
+											  				  MixEvent_Reader->p2_eta[0]     ,  MixEvent_Reader->p1_eta[0],
+											  				  MixEvent_Reader->pair_pt[0]    ,  v.Rapidity(), 
+											  				  MixEvent_Reader->pair_mass[0]  ,  MixEvent_Reader->pair_decayL[0],
+											  				  MixEvent_Reader->pair_theta[0] ,  MixEvent_Reader->pair_DCAdaughters[0]) && 
+								LambdaSelecter->IsGoodLambdaCharge(MixEvent_Reader->pair_charge[0]) && 
+								LambdaSelecter->IsGoodLambdaDCA(MixEvent_Reader->pair_decayL[0], MixEvent_Reader->pair_theta[0] );
+			if(!isGoodLambda) continue;
 
-			if( TMath::Abs(v.Rapidity() - rapidity ) > rapidityDiffLim   ) continue;
-			//
+
+			bool isGoodCounterpart = LambdaSelecter->IsGoodLambdaCounterpart( MixEvent_Reader->pair_pt[0]     , pt, 
+																			  v.Rapidity()                    , rapidity,
+																			  MixEvent_Reader->pair_phi[0]    , phi,
+																			  MixEvent_Reader->pair_charge[0] , pairCharge,
+																			  MixEvent_Reader->p1_ch[0]		  , p1Charge);
+
+			
 			TLorentzVector lambda; lambda.SetPtEtaPhiM( MixEvent_Reader->pair_pt[0] , MixEvent_Reader->pair_eta[0] , MixEvent_Reader->pair_phi[0] , MixEvent_Reader->pair_mass[0] );
 			TLorentzVector proton; proton.SetPtEtaPhiM( MixEvent_Reader->p1_pt[0]   , MixEvent_Reader->p1_eta[0]   , MixEvent_Reader->p1_phi[0]   , MASS_PROTON                   );
 			TLorentzVector pion;   pion.SetPtEtaPhiM(   MixEvent_Reader->p2_pt[0]   , MixEvent_Reader->p2_eta[0]   , MixEvent_Reader->p2_phi[0]   , MASS_PION                     );
@@ -338,8 +342,6 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda,int i_file){
 		   SameEvent_Reader->p1_InEventID[j_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] ||
 		   SameEvent_Reader->p2_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] ) return 0;
 
-			
-
 		//---------------------------Event Type Classification-------------------------------
 		int Pair_Type = 0 ; 
 		int id_Lambda1= i_lambda ; 
@@ -347,7 +349,7 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda,int i_file){
 
 		
 
-		Pair_Type = Pair_Type_Classifier(i_Lambda,j_Lambda);
+		Pair_Type = Pair_Type_Classifier(i_lambda,j_lambda);
 
 		if(Pair_Type == 1){
 			id_Lambda1 = i_lambda;id_Lambda2 = j_lambda;
@@ -364,8 +366,8 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda,int i_file){
 			id_Lambda1 = i_lambda;id_Lambda2 = j_lambda;
 		}
 		else{
-			return 0;
 			std::cout<<"Something went wrong with the pair type classifier"<<std::endl;
+			return 0;
 		}
 			
 		//---------------------------Create Same-Event Pairs-------------------------------
@@ -386,8 +388,8 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda,int i_file){
 		std::vector<TLorentzVector> Lambda2_counterpart;
 		std::vector<TLorentzVector> proton2_counterpart;
 		std::vector<TLorentzVector> pion2_counterpart;
-		FindCounterparts(&Lambda2_counterpart,&proton2_counterpart,&pion2_counterpart,Lambda2.Pt(),Lambda2.Rapidity(),Lambda2.Phi(),SameEvent_Reader->p1_ch[id_Lambda2],i_file );
-		FindCounterparts(&Lambda1_counterpart,&proton1_counterpart,&pion1_counterpart,Lambda1.Pt(),Lambda1.Rapidity(),Lambda1.Phi(),SameEvent_Reader->p1_ch[id_Lambda1],i_file );
+		FindCounterparts(&Lambda2_counterpart,&proton2_counterpart,&pion2_counterpart,Lambda2.Pt(),Lambda2.Rapidity(),Lambda2.Phi(),SameEvent_Reader->pair_charge[id_Lambda2],SameEvent_Reader->p1_ch[id_Lambda2],i_file );
+		FindCounterparts(&Lambda1_counterpart,&proton1_counterpart,&pion1_counterpart,Lambda1.Pt(),Lambda1.Rapidity(),Lambda1.Phi(),SameEvent_Reader->pair_charge[id_Lambda1],SameEvent_Reader->p1_ch[id_Lambda1],i_file );
 
 		for(int k_lambda = 0; k_lambda < Lambda2_counterpart.size();k_lambda++){
 			//Fill the pair plots 
@@ -437,27 +439,31 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 			if(i_event%10000==0)std::cout<<"i_event"<<i_event<<std::endl;
 			SameEvent_Reader->fChain->GetEntry(i_event);
 
-
-
 			//------------------------Make some selections on the events-----------------------------
-			//if(isGoodTrigger() == 1 ) continue; //select on the triggers 
-			//if(SameEvent_Reader->NLambda < 3) continue;// current we only select on multi-Lambdas Events
+			if(isGoodTrigger() != 1 ) continue; //select on the triggers 
+			if(!EventSelecter->IsGoodEvent() ) continue;
+			if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
 			
 			std::vector<int> GoodLambdaFlag;
 
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
-				int isGoodLambda = 1; //1 is good lambda, 0 is not good lambad 
-				if( SameEvent_Reader->pair_charge[i_lambda] == 1 ){ isGoodLambda =0; }
-				if( SameEvent_Reader->p1_pt[i_lambda] < Track_Pt_LowCut || SameEvent_Reader->p2_pt[i_lambda] < Track_Pt_LowCut ) {isGoodLambda=0;}
-				if( TMath::Abs(SameEvent_Reader->p1_eta[i_lambda]) > Track_Eta_Cut || TMath::Abs(SameEvent_Reader->p2_eta[i_lambda]) > Track_Eta_Cut  ) {isGoodLambda=0;}
-				
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
-				//cut on the lambda_Candidates 
-				if( v.Pt() < Lambda_Pt_lowCut || v.Pt() > Lambda_Pt_highCut || TMath::Abs( v.Rapidity() )  > Lambda_Rapidity_Cut ){isGoodLambda=0;}
-				if( v.M()  < Lambda_mass_lowCut || v.M() > Lambda_mass_highCut ) {isGoodLambda=0;}
+				
+				int isGoodLambda =  LambdaSelecter->IsGoodLambda( SameEvent_Reader->p2_pt[i_lambda]      ,  SameEvent_Reader->p1_pt[i_lambda], 
+											  SameEvent_Reader->p2_eta[i_lambda]     ,  SameEvent_Reader->p1_eta[i_lambda],
+											  SameEvent_Reader->pair_pt[i_lambda]    ,  v.Rapidity(), 
+											  SameEvent_Reader->pair_mass[i_lambda]  ,  SameEvent_Reader->pair_decayL[i_lambda],
+											  SameEvent_Reader->pair_theta[i_lambda] ,  SameEvent_Reader->pair_DCAdaughters[i_lambda]) && 
+									LambdaSelecter->IsGoodLambdaCharge(SameEvent_Reader->pair_charge[i_lambda]) && 
+									LambdaSelecter->IsGoodLambdaDCA(SameEvent_Reader->pair_decayL[i_lambda], SameEvent_Reader->pair_theta[i_lambda] );
+			
 				GoodLambdaFlag.push_back(isGoodLambda);
 			}
+
+
+
+
 			
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
 			if(NGoodLambda < 2) continue;
