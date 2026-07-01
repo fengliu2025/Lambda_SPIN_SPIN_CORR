@@ -216,8 +216,8 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 			
 			
 			//------------------------Make some selections on the events-----------------------------
-			if(isGoodTrigger() == 1 ) continue; //select on the triggers ,only events that has MB trigger
-			//if(SameEvent_Reader->NLambda<3) continue; // current we only select on multi-Lambdas Events 
+			if(isGoodTrigger() != 1 ) continue; //select on the triggers ,only events that has MB trigger
+			if(SameEvent_Reader->NLambda!=2) continue; // current we only select on multi-Lambdas Events 
 			std::vector<int> GoodLambdaFlag;
 			//if(SameEvent_Reader->pair_charge[0] ==1 || SameEvent_Reader->pair_charge[1] ==1 ) continue;
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
@@ -298,7 +298,7 @@ void ntp_Lambda_Analyzer::FindCounterparts(std::vector<TLorentzVector> *Lambda_c
 
 			if( TMath::Abs(MixEvent_Reader->pair_pt[0] - pt  ) > ptDiffLim ) continue;
 			if( TMath::ACos(TMath::Cos(MixEvent_Reader->pair_phi[0]-phi) ) > phiDiffLim ) continue;
-			if( TMath::Sin(MixEvent_Reader->pair_theta[i_lambda]) * MixEvent_Reader->pair_decayL[i_lambda] > 1.0 ) continue;
+			if( TMath::Sin(MixEvent_Reader->pair_theta[0]) * MixEvent_Reader->pair_decayL[0] > 1.0 ) continue;
 			//cut on the tracks 
 			if( TMath::Abs(MixEvent_Reader->p1_eta[0]) > Track_Eta_Cut || TMath::Abs(MixEvent_Reader->p2_eta[0]) > Track_Eta_Cut ) continue;
 			if( MixEvent_Reader->p1_pt[0] < Track_Pt_LowCut || MixEvent_Reader->p2_pt[0] < Track_Pt_LowCut ) continue;
@@ -306,7 +306,7 @@ void ntp_Lambda_Analyzer::FindCounterparts(std::vector<TLorentzVector> *Lambda_c
 			TLorentzVector v;
 			v.SetPtEtaPhiM(MixEvent_Reader->pair_pt[0],MixEvent_Reader->pair_eta[0],MixEvent_Reader->pair_phi[0],MixEvent_Reader->pair_mass[0]);
 			if( v.Pt() < Lambda_Pt_lowCut || v.Pt() > Lambda_Pt_highCut ) continue;
-			if( v.M()  < Lambda_mass_lowCut || v.M() > Lambda_mass_highCut ) {isGoodLambda=0;}
+			if( v.M()  < Lambda_mass_lowCut || v.M() > Lambda_mass_highCut ) continue;
 			if( TMath::Abs( v.Rapidity() ) > Lambda_Rapidity_Cut ) continue;
 
 			if( TMath::Abs(v.Rapidity() - rapidity ) > rapidityDiffLim   ) continue;
@@ -441,8 +441,8 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 
 
 			//------------------------Make some selections on the events-----------------------------
-			if(isGoodTrigger() == 1 ) continue; //select on the triggers 
-			//if(SameEvent_Reader->NLambda < 3) continue;// current we only select on multi-Lambdas Events
+			if(isGoodTrigger() != 1 ) continue; //select on the triggers 
+			if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
 			
 			std::vector<int> GoodLambdaFlag;
 
