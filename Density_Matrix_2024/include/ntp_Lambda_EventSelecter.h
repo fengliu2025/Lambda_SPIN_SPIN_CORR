@@ -5,6 +5,7 @@ class ntp_Lambda_EventSelecter{
 public:
 	//member variables 
 	std::vector<int> AllowedTriggerId;
+	std::vector<int> NotAllowedTriggerId;
 	Float_t VzMax;
 	//memeber functions
 
@@ -39,6 +40,13 @@ ntp_Lambda_EventSelecter::~ntp_Lambda_EventSelecter(){
  			if( EventTrigId[i] == AllowedTriggerId[j] ) goodness = true;
  		}
  	}
+
+ 	for(int i=0, i < EventTrigId.size();i++){
+ 		for(int j=0; j < NotAllowedTriggerId.size();j++){
+ 			if(EventTrigId[i] == AllowedTriggerId[j] ) goodness = false;
+ 		}
+ 	}
+
 
 
  	if(Vz > VzMax || Vz < (-VzMax) ) goodness = false;

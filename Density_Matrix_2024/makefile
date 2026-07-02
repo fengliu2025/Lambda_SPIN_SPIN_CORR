@@ -9,16 +9,16 @@ ROOT_LIBS = $(shell root-config --libs)
 CXXFLAGS += $(ROOT_INC) $(PYTHIA8_INC)
 LIBS = $(ROOT_LIBS)
 
-TARGET = main_Analysis_test
+TARGET = main_Analysis
 
 all: $(TARGET)
 
 
-$(TARGET): main_Analysis_test.o
-	$(CXX) -o $(TARGET) main_Analysis_test.o $(LIBS)
+$(TARGET): main_Analysis.o
+	$(CXX) -o $(TARGET) main_Analysis.o $(LIBS)
 
-main_Analysis_test.o: main_Analysis_test.C
-	$(CXX) $(CXXFLAGS) -c main_Analysis_test.C -o main_Analysis_test.o
+main_Analysis.o: main_Analysis.C
+	$(CXX) $(CXXFLAGS) -c main_Analysis.C -o main_Analysis.o
 
 clean:
 	rm -f $(TARGET) *.o

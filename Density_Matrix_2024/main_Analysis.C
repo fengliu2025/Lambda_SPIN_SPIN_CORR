@@ -1,10 +1,12 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "ntp_Lambda_Analyzer.h"
-#include "ntp_Lambda_Calculator.h"
-#include "ntp_Lambda_Histogram.h"
-#include "ntp_Lambda_Reader.h"
+#include "include/ntp_Lambda_Analyzer.h"
+#include "include/ntp_Lambda_Calculator.h"
+#include "include/ntp_Lambda_Histogram.h"
+#include "include/ntp_Lambda_Reader.h"
+#include "include/ntp_Lambda_EventSelecter.h"
+#include "include/ntp_Lambda_LambdaSelecter.h"
 //void main_Analysis(){
 int main(int argc, char* argv[]){
 	if (argc != 2) {
@@ -33,6 +35,11 @@ int main(int argc, char* argv[]){
 
 	ntp_Lambda_Reader *mySameEventReader  = new ntp_Lambda_Reader(SameEventInputFiles);
 	ntp_Lambda_Reader *myMixEventReader   = new ntp_Lambda_Reader(MixEventInputFiles);
+
+	ntp_Lambda_EventSelecter *myEventSelecter    = new ntp_Lambda_EventSelecter();
+	ntp_Lambda_LambdaSelecter *myLambdaSelecter  = new ntp_Lambda_LambdaSelecter();
+
+
 
 	ntp_Lambda_Calculator *myCalculator   = new ntp_Lambda_Calculator();
 	ntp_Lambda_Histogram *myHistogram     = new ntp_Lambda_Histogram(mySameEventReader,myCalculator,OutputFile);
