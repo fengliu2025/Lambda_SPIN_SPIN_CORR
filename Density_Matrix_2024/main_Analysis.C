@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
 
 	myHistogram->InitHitogram();
 
-    ntp_Lambda_Analyzer *myAnalyzer       = new ntp_Lambda_Analyzer(mySameEventReader, myMixEventReader, myCalculator, myHistogram );
+    ntp_Lambda_Analyzer *myAnalyzer       = new ntp_Lambda_Analyzer(mySameEventReader, myMixEventReader,myEventSelecter,myLambdaSelecter ,myCalculator, myHistogram );
 
     //myAnalyzer->Analysis_SameEvent();
     myAnalyzer->Analysis_MixEvent();

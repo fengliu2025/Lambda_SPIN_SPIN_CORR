@@ -41,7 +41,7 @@ ntp_Lambda_EventSelecter::~ntp_Lambda_EventSelecter(){
  		}
  	}
 
- 	for(int i=0, i < EventTrigId.size();i++){
+ 	for(int i=0; i < EventTrigId.size();i++){
  		for(int j=0; j < NotAllowedTriggerId.size();j++){
  			if(EventTrigId[i] == AllowedTriggerId[j] ) goodness = false;
  		}
