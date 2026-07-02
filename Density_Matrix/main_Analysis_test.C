@@ -41,7 +41,7 @@ int main(int argc, char*argv[]){
 
 	//*****
 	//s1_tmp.push_back(FileList[file_Index]);
-	s1_tmp.push_back(FileList[0]);
+	s1_tmp.push_back(FileList[24]);
 	//*****
 
 	std::string MixTreeDir = "/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree_MixTree/";
@@ -68,7 +68,7 @@ int main(int argc, char*argv[]){
 	
 	//*****
 	//std::string s2 = FileName[file_Index];
-	std::string s2 = FileName[0];
+	std::string s2 = FileName[24];
 	std::size_t pos = s1.rfind(".root");
 	//*****
 
