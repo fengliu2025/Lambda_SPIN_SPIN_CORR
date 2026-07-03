@@ -25,11 +25,11 @@ int main(int argc, char* argv[]){
 	std::vector<std::string> FileList;
 	std::vector<std::string> FileName;
 
-	std::ifstream filelist("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree/filelist.txt");
+	std::ifstream filelist("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree/filelist.txt");
 	if (!filelist.is_open()) {
 		std::cerr <<"can't open the file" <<std::endl;
 	}
-	std::string directory="/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree/";
+	std::string directory="/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree/";
 	std::string line;
 	
 	while (std::getline(filelist,line)){
@@ -49,7 +49,7 @@ int main(int argc, char* argv[]){
 
 
 	//-----------------------generate the output directory------------
-	std::string OutPutDirectory = "/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree_MixTree/";
+	std::string OutPutDirectory = "/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree_MixTree/";
 	std::string s1 = FileName[mainIndex];
 	std::string s2 = FileName[mixIndex];
 
