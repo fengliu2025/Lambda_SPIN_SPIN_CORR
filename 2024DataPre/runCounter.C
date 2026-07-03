@@ -22,7 +22,7 @@ int main(){
 		InputFile.push_back(line);
 	}
 
-	std::vector<std::vector<string>> RunList;
+	std::vector<std::vector<std::string>> RunList;
 	std::vector<int> RunID;
 
 
@@ -51,6 +51,5 @@ int main(){
 	std::cout<<"Number of Run: "<<RunID.size()<<std::endl;
 
 
-
-
+	return 0;
 }
