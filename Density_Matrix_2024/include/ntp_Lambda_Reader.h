@@ -11,6 +11,7 @@
 class ntp_Lambda_Reader {
 public :
    std::vector<std::string> InputFiles;
+   std::vector<std::vector<std::string> > InputFiles_MixEvent;
 
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
@@ -92,6 +93,7 @@ public :
    TBranch        *b_pair_mass;   //!
 
    ntp_Lambda_Reader(std::vector<std::string> Infiles);
+   ntp_Lambda_Reader(std::vector<std::vector<std::string>> Infiles);
    virtual ~ntp_Lambda_Reader();
    virtual void     Init(TTree *tree);
 };
@@ -103,6 +105,13 @@ ntp_Lambda_Reader::ntp_Lambda_Reader(std::vector<std::string> Infiles)
 {
 
 }
+
+ntp_Lambda_Reader::ntp_Lambda_Reader(std::vector<std::vector<std::string>> Infiles) 
+   : fChain(0), InputFiles_MixEvent(Infiles)
+{
+
+}
+
 
 ntp_Lambda_Reader::~ntp_Lambda_Reader()
 {
