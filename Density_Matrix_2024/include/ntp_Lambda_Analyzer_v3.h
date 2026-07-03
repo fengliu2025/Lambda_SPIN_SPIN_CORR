@@ -151,6 +151,13 @@ void ntp_Lambda_Analyzer::Fill_MixPool(int i_File){
 		//--------------------------------------------ENTER i_mixevent Loop-----------------------------------------------
 		for(int i_mixevent=0; i_mixevent<N_Events;i_mixevent++){
 			MixEvent_Reader->fChain->GetEntry(i_mixevent);
+			//LEAVE TEST FOR FUTURE
+			//std::vector<int> TriggerIDList;TriggerIDList.clear();
+			//for(int iTrig = 0; iTrig < MixEvent_Reader->mNTrigs;iTrig++){
+			//	TriggerIDList.push_back( MixEvent_Reader->mTrigId[iTrig]);
+			//}
+			//if(MixEvent_Reader->NLambda!=1 || !EventSelecter->IsGoodEvent(TriggerIDList,MixEvent_Reader->Vz)  ){}
+
 			if(MixEvent_Reader->NLambda!=1){
 				IsGoodLambda_tmp.push_back(0);
 				pair_pt_tmp.push_back(0);
@@ -169,7 +176,7 @@ void ntp_Lambda_Analyzer::Fill_MixPool(int i_File){
 				continue;
 			}
 
-
+			
 			TLorentzVector v;
 			v.SetPtEtaPhiM(MixEvent_Reader->pair_pt[0],MixEvent_Reader->pair_eta[0],MixEvent_Reader->pair_phi[0],MixEvent_Reader->pair_mass[0]);
 
@@ -391,12 +398,19 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 		for(Long64_t i_event=0; i_event < N_Events ; i_event++ ){
 			SameEvent_Reader->fChain->GetEntry(i_event);
 
+			std::vector<int> TriggerIDList;TriggerIDList.clear();
+			for(int iTrig = 0; iTrig < SameEvent_Reader->mNTrigs;iTrig++){
+				TriggerIDList.push_back( SameEvent_Reader->mTrigId[iTrig]);
+			}
+
+
 			//------------------------Make some selections on the events-----------------------------
-			if( !EventSelecter->IsGoodEvent() ) continue;
+			if( !EventSelecter->IsGoodEvent(TriggerIDList, SameEvent_Reader->Vz) ) continue;
 			//if(SameEvent_Reader->NLambda<3) continue; // current we only select on multi-Lambdas Events 
+			
 			std::vector<int> GoodLambdaFlag;
+			
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
-				
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
 
@@ -634,14 +648,19 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 			if(i_event%1000==0)std::cout<<"i_event"<<i_event<<std::endl;
 			SameEvent_Reader->fChain->GetEntry(i_event);
 
+			std::vector<int> TriggerIDList;TriggerIDList.clear();
+			for(int iTrig = 0; iTrig < SameEvent_Reader->mNTrigs;iTrig++){
+				TriggerIDList.push_back( SameEvent_Reader->mTrigId[iTrig]);
+			}
+
+
 			//------------------------Make some selections on the events-----------------------------
-			if( !EventSelecter->IsGoodEvent() ) continue;
+			if( !EventSelecter->IsGoodEvent(TriggerIDList,SameEvent_Reader->Vz ) ) continue;
 			//if(SameEvent_Reader->NLambda < 3) continue;// current we only select on multi-Lambdas Events
 			
-
 			std::vector<int> GoodLambdaFlag;
+
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
-				
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
 
