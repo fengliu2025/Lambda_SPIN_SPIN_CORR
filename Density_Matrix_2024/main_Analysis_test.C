@@ -94,7 +94,7 @@ int main(int argc, char*argv[]){
 
 	ntp_Lambda_EventSelecter *myEventSelecter = new ntp_Lambda_EventSelecter();
 	myEventSelecter->AllowedTriggerId.push_back(910001);
-	myEventSelecter->AllowedTriggerId.push_back(910002);
+	myEventSelecter->AllowedTriggerId.push_back(910003);
 	myEventSelecter->AllowedTriggerId.push_back(910013);
 	myEventSelecter->NotAllowedTriggerId.push_back(910802);
 	myEventSelecter->NotAllowedTriggerId.push_back(910804);
