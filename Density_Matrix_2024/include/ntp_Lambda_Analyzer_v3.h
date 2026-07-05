@@ -406,7 +406,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList, SameEvent_Reader->Vz) ) continue;
-			if(SameEvent_Reader->NLambda < 3 ) continue; // current we only select on multi-Lambdas Events 
+			if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
 			
 			std::vector<int> GoodLambdaFlag;
 			
@@ -428,7 +428,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 			}
 
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
-			if(NGoodLambda != 2) continue;
+			//if(NGoodLambda != 2) continue;
 
 
 			//Fill Histograms of QA plot;
