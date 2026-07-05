@@ -152,10 +152,10 @@ void ntp_Lambda_Analyzer::Fill_MixPool(int i_File){
 		for(int i_mixevent=0; i_mixevent<N_Events;i_mixevent++){
 			MixEvent_Reader->fChain->GetEntry(i_mixevent);
 			//LEAVE TEST FOR FUTURE
-			//std::vector<int> TriggerIDList;TriggerIDList.clear();
-			//for(int iTrig = 0; iTrig < MixEvent_Reader->mNTrigs;iTrig++){
-			//	TriggerIDList.push_back( MixEvent_Reader->mTrigId[iTrig]);
-			//}
+			std::vector<int> TriggerIDList;TriggerIDList.clear();
+			for(int iTrig = 0; iTrig < MixEvent_Reader->mNTrigs;iTrig++){
+				TriggerIDList.push_back( MixEvent_Reader->mTrigId[iTrig]);
+			}
 			if(MixEvent_Reader->NLambda!=1 || !EventSelecter->IsGoodEvent(TriggerIDList,MixEvent_Reader->Vz)  ){
 			//if(MixEvent_Reader->NLambda!=1){
 				IsGoodLambda_tmp.push_back(0);
