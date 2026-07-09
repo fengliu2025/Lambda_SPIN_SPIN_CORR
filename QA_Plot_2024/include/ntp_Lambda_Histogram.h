@@ -151,7 +151,7 @@ void ntp_Lambda_Histogram::Fill_QAplots(){
 		
 
 		
-		h2D_NLambda_Ntrks->Fill(NLambda,mNTrks);
+		h2D_NLambda_Ntrks->Fill(Reader->NLambda,Reader->mNTrks);
 
 		for(int i =0 ; i < Reader->mNTrks;i++){
 			h1D_high_Pt   ->Fill(Reader->high_pt[i]  );
@@ -207,7 +207,7 @@ void ntp_Lambda_Histogram::Reset(){
 	
 	h1D_Vz         		->Reset("ICES");
 	h1D_NLambda    		->Reset("ICES");
-	h1D_TrigID     		->Reset("ICES")
+	h1D_TrigID     		->Reset("ICES");
 
 	h2D_NLambda_Ntrks   ->Reset("ICES");
 

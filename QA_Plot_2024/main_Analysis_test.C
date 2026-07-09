@@ -44,7 +44,8 @@ int main(int argc, char*argv[]){
 
 	ntp_Lambda_Reader *mySameEventReader = new ntp_Lambda_Reader(InputFile_SameEvent);
 	
-	
+	std::string OutPutFile = "QA_plot_HM.root"; 
+
 	ntp_Lambda_Histogram *myHistogram = new ntp_Lambda_Histogram(mySameEventReader,OutPutFile);
 	myHistogram->InitHitogram();
 
@@ -64,7 +65,7 @@ int main(int argc, char*argv[]){
 	
 	ntp_Lambda_Analyzer *myAnalyzer = new ntp_Lambda_Analyzer(mySameEventReader,myHistogram,myEventSelecter,myLambdaSelecter);
 	//---------------
-	myAnalyzer->Analysis_SameEvent();
+	myAnalyzer->Analysis_QAPlot();
 	//---------------	
 
 	myHistogram->WriteAll();
