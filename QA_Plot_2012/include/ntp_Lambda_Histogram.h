@@ -14,7 +14,7 @@
 
 
 #include "ntp_Lambda_Reader.h"
-#include "ntp_Lambda_Calculator.h"
+
 
 #include "constants.h"
 class ntp_Lambda_Histogram {
@@ -67,8 +67,8 @@ public :
 ntp_Lambda_Histogram::ntp_Lambda_Histogram()
 {}
 
-ntp_Lambda_Histogram::ntp_Lambda_Histogram(ntp_Lambda_Reader *reader, ntp_Lambda_Calculator *calculator,std::string outPutFile)
-:Reader(reader),Calculator(calculator),OutPutFile(outPutFile)
+ntp_Lambda_Histogram::ntp_Lambda_Histogram(ntp_Lambda_Reader *reader,std::string outPutFile)
+:Reader(reader),OutPutFile(outPutFile)
 {
 
 }
@@ -118,7 +118,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 
 void ntp_Lambda_Histogram::Fill_QAplots(){
 		h1D_Vz     			->Fill(Reader->Vz);
-		h1D_NLambda     	->Fill(Reader->NLambda);
+		h1D_NLambda     		->Fill(Reader->NLambda);
 		for(int i =0 ; i < Reader->NLambda;i++){
 			h1D_pair_Pt     	->Fill(Reader->pair_pt[i]);
 			h1D_pair_Eta    	->Fill(Reader->pair_eta[i]);
@@ -157,7 +157,7 @@ void ntp_Lambda_Histogram::Fill_QAplots(){
 
 
 
-}
+
 
 
 
