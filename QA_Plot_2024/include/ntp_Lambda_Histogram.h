@@ -134,7 +134,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 
 
 	
-	TH2D *h2D_NLambda_NGoodLambda = new TH2D("h2D_NLambda_NGoodLambda","h2D_NLambda_NGoodLambda",10,0.5,10.5,11,-0.5,10.5); 
+	h2D_NLambda_NGoodLambda = new TH2D("h2D_NLambda_NGoodLambda","h2D_NLambda_NGoodLambda",10,0.5,10.5,11,-0.5,10.5); 
 	
 	for(int i =0 ; i < 3 ; i ++){
 		h2D_NLambda_PtDiff[i]        = new TH2D(Form("h2D_NLambda_PtDiff_%d",i),Form("h2D_NLambda_PtDiff_%d",i),10,0.5,10.5,100,-10,10 );
@@ -387,7 +387,7 @@ void ntp_Lambda_Histogram::WriteAll(){
 	h1D_p2_Phi    		->Write();
 	h1D_p2_Dca    		->Write();
 
-
+	
 
 	h2D_NLambda_NGoodLambda->Write(); 
 	for(int i =0 ; i <3 ; i++){
@@ -402,7 +402,7 @@ void ntp_Lambda_Histogram::WriteAll(){
 	fout->Close();
 	delete fout;
 	
-
+	
 	
 	
 
