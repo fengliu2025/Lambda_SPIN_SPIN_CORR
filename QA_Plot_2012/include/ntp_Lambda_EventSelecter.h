@@ -31,7 +31,7 @@ ntp_Lambda_EventSelecter::~ntp_Lambda_EventSelecter(){
 }
 
 
- bool ntp_Lambda_EventSelecter::IsGoodEvent(std::vector<int> EventTrigId, float Vz){
+ bool ntp_Lambda_EventSelecter::IsGoodEvent(std::vector<int> EventTrigId){
  	bool goodness = false;
  	
  	for(int i=0 ; i < EventTrigId.size();i++){
@@ -40,8 +40,12 @@ ntp_Lambda_EventSelecter::~ntp_Lambda_EventSelecter(){
  		}
  	}
 
-
- 	if(Vz > VzMax || Vz < (-VzMax) ) goodness = false;
+ 	for(int i=0; i < EventTrigId.size();i++){
+ 		for(int j=0; j < NotAllowedTriggerId.size();j++){
+ 			if(EventTrigId[i] == NotAllowedTriggerId[j] ) goodness = false;
+ 		}
+ 	}
+ 	
 
  	return goodness;
 

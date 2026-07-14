@@ -34,7 +34,8 @@ int main(int argc, char*argv[]){
 	}
 	
 	
-	std::string OutPutFile = "QA_Plot.root";
+	//std::string OutPutFile = "PreQA_Plot_MB.root";
+	std::string OutPutFile = "AfterQA_Plot_MB.root";
 
 	ntp_Lambda_Reader *mySameEventReader = new ntp_Lambda_Reader(InputFile_SameEvent);
 

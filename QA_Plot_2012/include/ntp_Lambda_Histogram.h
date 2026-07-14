@@ -66,7 +66,9 @@ public :
 	ntp_Lambda_Histogram(ntp_Lambda_Reader *reader,std::string outPutFile);
 	void InitHitogram();
 	void Fill_QAplots();
-
+	void Fill_QAplots(std::vector<int> GoodLambdaFlag);
+	void Fill_PairPlots(TLorentzVector *v1,TLorentzVector *v2, int pair_type);
+	void Fill_NLambda_NGoodLambda(int NGoodLambda);
 	void Reset();
 
 	void WriteAll();
@@ -113,7 +115,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_p2_Dca     = new TH1D("h1D_p2_Dca","h1D_p2_Dca",100,-1,1);
 
 
-	TH2D *h2D_NLambda_NGoodLambda = new TH2D("h2D_NLambda_NGoodLambda","h2D_NLambda_NGoodLambda",10,0.5,10.5,11,-0.5,10.5); 
+	h2D_NLambda_NGoodLambda = new TH2D("h2D_NLambda_NGoodLambda","h2D_NLambda_NGoodLambda",10,0.5,10.5,11,-0.5,10.5); 
 	
 	for(int i =0 ; i < 3 ; i ++){
 		h2D_NLambda_PtDiff[i]        = new TH2D(Form("h2D_NLambda_PtDiff_%d",i),Form("h2D_NLambda_PtDiff_%d",i),10,0.5,10.5,100,-10,10 );
@@ -168,12 +170,60 @@ void ntp_Lambda_Histogram::Fill_QAplots(){
 
 
 
+void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
+		h1D_Vz     			->Fill(Reader->Vz);
+		h1D_NLambda     		->Fill(Reader->NLambda);
+		for(int i =0 ; i < Reader->NLambda;i++){
+			if( GoodLambdaFlag[i] == 0 ) continue;
+			h1D_pair_Pt     	->Fill(Reader->pair_pt[i]);
+			h1D_pair_Eta    	->Fill(Reader->pair_eta[i]);
+			h1D_pair_Phi  		->Fill(Reader->pair_phi[i]);
+			h1D_pair_Mass   	->Fill(Reader->pair_mass[i]);
+			h1D_pair_Charge 	->Fill(Reader->pair_charge[i]);
+			h1D_pair_DauDCA 	->Fill(Reader->pair_DCAdaughters[i]);
+			h1D_pair_CosTheta	->Fill(TMath::Cos(Reader->pair_theta[i] ) );
+			h1D_pair_DecayL 	->Fill(Reader->pair_decayL[i]);
+			h1D_pair_DCA   		->Fill(Reader->pair_decayL[i] * TMath::Sin(Reader->pair_theta[i]) );
 
 
 
 
+			h1D_p1_Pt   		->Fill(Reader->p1_pt[i]);  
+			h1D_p1_Eta    		->Fill(Reader->p1_eta[i]);
+			h1D_p1_Phi    		->Fill(Reader->p1_phi[i]);
+			h1D_p1_Dca    		->Fill(Reader->p1_dca[i]);
 
 
+			h1D_p2_Pt       	->Fill(Reader->p2_pt[i]);
+			h1D_p2_Eta   		->Fill(Reader->p2_eta[i]);
+			h1D_p2_Phi     		->Fill(Reader->p2_phi[i]);
+			h1D_p2_Dca    		->Fill(Reader->p2_dca[i]);
+		}
+
+	
+}
+
+
+void ntp_Lambda_Histogram::Fill_PairPlots(TLorentzVector *v1,TLorentzVector *v2, int pair_type){
+	double delta_Rapidity = TMath::Abs( v1->Rapidity() - v2->Rapidity() );
+	double delta_Phi = TMath::ACos( TMath::Cos( v1->Phi() - v2->Phi() ) );
+	double delta_Pt  = TMath::Abs(v1->Pt() - v2->Pt() );
+	double deltaR = TMath::Sqrt( delta_Phi * delta_Phi + delta_Rapidity * delta_Rapidity  );
+
+
+	h2D_NLambda_PtDiff[pair_type]->Fill(Reader->NLambda,delta_Pt);
+	h2D_NLambda_RapidityDiff[pair_type]->Fill(Reader->NLambda,delta_Rapidity);
+	h2D_NLambda_PhiDiff[pair_type]->Fill(Reader->NLambda,delta_Phi);
+	h2D_NLambda_DeltaR[pair_type]->Fill(Reader->NLambda,deltaR);
+
+
+}
+
+
+
+void ntp_Lambda_Histogram::Fill_NLambda_NGoodLambda(int NGoodLambda){
+	h2D_NLambda_NGoodLambda->Fill(Reader->NLambda,NGoodLambda);
+}
 
 
 
