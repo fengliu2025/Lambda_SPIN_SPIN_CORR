@@ -61,7 +61,7 @@ public :
 
 
 	TH2D *h2D_NLambda_NGoodLambda; 
-	TH1D *h2D_NLambda_PtDiff[3];
+	TH2D *h2D_NLambda_PtDiff[3];
 	TH2D *h2D_NLambda_RapidityDiff[3];
 	TH2D *h2D_NLambda_PhiDiff[3];
 	TH2D *h2D_NLambda_DeltaR[3];
@@ -265,16 +265,16 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 
 
 void ntp_Lambda_Histogram::Fill_PairPlots(TLorentzVector *v1,TLorentzVector *v2, int pair_type){
-	double delta_Rapidity = v1->Rapidity() - v2->Rapidity();
+	double delta_Rapidity = TMath::Abs( v1->Rapidity() - v2->Rapidity() );
 	double delta_Phi = TMath::ACos( TMath::Cos( v1->Phi() - v2->Phi() ) );
-	double delta_Pt  = v1->Pt() - v2->Pt();
-	double deltaR = TMath::Sqrt( delta_Phi * delta_Phi + delta_y * delta_y  );
+	double delta_Pt  = TMath::Abs(v1->Pt() - v2->Pt() );
+	double deltaR = TMath::Sqrt( delta_Phi * delta_Phi + delta_Rapidity * delta_Rapidity  );
 
 
-	TH1D *h2D_NLambda_PtDiff[pair_type]->Fill(Reader->NLambda,delta_Pt);
-	TH2D *h2D_NLambda_RapidityDiff[pair_type]->Fill(Reader->NLambda,delta_Rapidity);
-	TH2D *h2D_NLambda_PhiDiff[pair_type]->Fill(Reader->NLambda,delta_Phi);
-	TH2D *h2D_NLambda_DeltaR[pair_type]->Fill(Reader->NLambda,deltaR);
+	h2D_NLambda_PtDiff[pair_type]->Fill(Reader->NLambda,delta_Pt);
+	h2D_NLambda_RapidityDiff[pair_type]->Fill(Reader->NLambda,delta_Rapidity);
+	h2D_NLambda_PhiDiff[pair_type]->Fill(Reader->NLambda,delta_Phi);
+	h2D_NLambda_DeltaR[pair_type]->Fill(Reader->NLambda,deltaR);
 
 
 }

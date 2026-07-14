@@ -135,7 +135,7 @@ void ntp_Lambda_Analyzer::Analysis_Pair(int i_lambda,int j_lambda){
 	   		SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] || 
 	   		SameEvent_Reader->p1_InEventID[j_lambda] == SameEvent_Reader->p2_InEventID[i_lambda] || 
 	   		SameEvent_Reader->p1_InEventID[j_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] ||
-	   		SameEvent_Reader->p2_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] ) return 0;
+	   		SameEvent_Reader->p2_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] ) return ;
 				
 			
 
@@ -164,7 +164,7 @@ void ntp_Lambda_Analyzer::Analysis_Pair(int i_lambda,int j_lambda){
 		else{
 			
 			std::cout<<"Something went wrong with the pair type classifier"<<std::endl;
-			return 0;
+			return ;
 		}
 		TLorentzVector Lambda1; Lambda1.SetPtEtaPhiM( SameEvent_Reader->pair_pt[id_Lambda1], SameEvent_Reader->pair_eta[id_Lambda1], SameEvent_Reader->pair_phi[id_Lambda1], SameEvent_Reader->pair_mass[id_Lambda1]  );
 		TLorentzVector Lambda2; Lambda2.SetPtEtaPhiM( SameEvent_Reader->pair_pt[id_Lambda2], SameEvent_Reader->pair_eta[id_Lambda2], SameEvent_Reader->pair_phi[id_Lambda2], SameEvent_Reader->pair_mass[id_Lambda2]  );
