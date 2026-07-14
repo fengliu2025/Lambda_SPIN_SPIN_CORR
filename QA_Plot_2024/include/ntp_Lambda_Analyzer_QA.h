@@ -30,7 +30,7 @@ public:
 	ntp_Lambda_LambdaSelecter *LambdaSelecter;
 
 
-	ntp_Lambda_Histogram  *PreSelectionHistogramer;
+	
 	ntp_Lambda_Histogram  *Histogramer; 
 
 
@@ -40,7 +40,6 @@ public:
 
 	ntp_Lambda_Analyzer();
 	ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *histogram, ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *lambdaSelecter  );
-	ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *pre_histogram,ntp_Lambda_Histogram *after_histogram, ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *lambdaSelecter  );
 
 	~ntp_Lambda_Analyzer();
 	
@@ -59,17 +58,13 @@ ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(){
 }
 
 ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *histogram, ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *lambdaSelecter )
-: SameEvent_Reader(reader1),PreSelectionHistogramer(0),Histogramer(histogram), EventSelecter(eventSelecter), LambdaSelecter(lambdaSelecter)
+: SameEvent_Reader(reader1),Histogramer(histogram), EventSelecter(eventSelecter), LambdaSelecter(lambdaSelecter)
 {
 
 }
 
 
-ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *pre_histogram, ntp_Lambda_Histogram *after_histogram,ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *lambdaSelecter )
-: SameEvent_Reader(reader1), PreSelectionHistogramer(pre_histogram), Histogramer(after_histogram), EventSelecter(eventSelecter), LambdaSelecter(lambdaSelecter)
-{
 
-}
 
 ntp_Lambda_Analyzer::~ntp_Lambda_Analyzer(){
 
@@ -214,11 +209,10 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 
 			//Fill Histograms of QA plot (without any cut);
-			if(PreSelectionHistogramer) PreSelectionHistogramer->Fill_QAplots();
+			Histogramer->Fill_QAplots();
 
 			//------------------------Make some selections on the events-----------------------------
-			
-			if( !EventSelecter->IsGoodEvent() ) continue;
+			/*
 			std::vector<int> GoodLambdaFlag;
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
 				
@@ -249,7 +243,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 				}
 			}
 
-			
+			*/
 			
 		}
 		//---------------------------End i_event loop----------------------------
