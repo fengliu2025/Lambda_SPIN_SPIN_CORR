@@ -336,8 +336,9 @@ int ntp_Lambda_Analyzer::Analyze_SEPair(int i_lambda,int j_lambda){
 			id_Lambda1 = i_lambda;id_Lambda2 = j_lambda;
 		}
 		else{
-			return 0;
+			
 			std::cout<<"Something went wrong with the pair type classifier"<<std::endl;
+			return 0;
 		}
 			
 		//---------------------------Create Same-Event Pairs-------------------------------

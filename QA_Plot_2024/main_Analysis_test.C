@@ -44,10 +44,16 @@ int main(int argc, char*argv[]){
 
 	ntp_Lambda_Reader *mySameEventReader = new ntp_Lambda_Reader(InputFile_SameEvent);
 	
-	std::string OutPutFile = "QA_plot_HM.root"; 
+	std::string PreOutPutFile = "PreSelectionQA_plot_HM.root"; 
+	ntp_Lambda_Histogram *myPreHistogram = new ntp_Lambda_Histogram(mySameEventReader,PreOutPutFile);
+	myPreHistogram->InitHitogram();
 
-	ntp_Lambda_Histogram *myHistogram = new ntp_Lambda_Histogram(mySameEventReader,OutPutFile);
-	myHistogram->InitHitogram();
+	std::string AfterOutPutFile = "AfterSelectionQA_plot_HM.root"; 
+	ntp_Lambda_Histogram *myAfterHistogram = new ntp_Lambda_Histogram(mySameEventReader,AfterOutPutFile);
+	myAfterHistogram->InitHitogram();
+
+
+
 
 	ntp_Lambda_EventSelecter *myEventSelecter = new ntp_Lambda_EventSelecter();
 	
@@ -63,11 +69,12 @@ int main(int argc, char*argv[]){
  	
 
 	
-	ntp_Lambda_Analyzer *myAnalyzer = new ntp_Lambda_Analyzer(mySameEventReader,myHistogram,myEventSelecter,myLambdaSelecter);
+	ntp_Lambda_Analyzer *myAnalyzer = new ntp_Lambda_Analyzer(mySameEventReader,myPreHistogram,myAfterHistogram,,myEventSelecter,myLambdaSelecter);
 	//---------------
 	myAnalyzer->Analysis_QAPlot();
 	//---------------	
 
-	myHistogram->WriteAll();
+	myPreHistogram->WriteAll();
+	myAfterHistogram->WriteAll();
 	return 0;
 }

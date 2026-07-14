@@ -52,6 +52,15 @@ public :
 	
 
 
+	TH2D *h2D_NLambda_NGoodLambda; 
+	TH1D *h2D_NLambda_PtDiff[3];
+	TH2D *h2D_NLambda_RapidityDiff[3];
+	TH2D *h2D_NLambda_PhiDiff[3];
+	TH2D *h2D_NLambda_DeltaR[3];
+
+	
+	
+
 
 	ntp_Lambda_Histogram();
 	ntp_Lambda_Histogram(ntp_Lambda_Reader *reader,std::string outPutFile);
@@ -104,6 +113,15 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_p2_Dca     = new TH1D("h1D_p2_Dca","h1D_p2_Dca",100,-1,1);
 
 
+	TH2D *h2D_NLambda_NGoodLambda = new TH2D("h2D_NLambda_NGoodLambda","h2D_NLambda_NGoodLambda",10,0.5,10.5,11,-0.5,10.5); 
+	
+	for(int i =0 ; i < 3 ; i ++){
+		h2D_NLambda_PtDiff[i]        = new TH2D(Form("h2D_NLambda_PtDiff_%d",i),Form("h2D_NLambda_PtDiff_%d",i),10,0.5,10.5,100,-10,10 );
+		h2D_NLambda_RapidityDiff[i]  = new TH2D(Form("h2D_NLambda_RapidityDiff_%d",i),Form("h2D_NLambda_RapidityDiff_%d",i),10,0.5,10.5,100,-5,5);
+		h2D_NLambda_PhiDiff[i]       = new TH2D(Form("h2D_NLambda_PhiDiff_%d",i),Form("h2D_NLambda_PhiDiff_%d",i),10,0.5,10.5,200,-2*TMath::Pi(),2*TMath::Pi());
+		h2D_NLambda_DeltaR[i]        = new TH2D(Form("h2D_NLambda_DeltaR_%d",i),Form("h2D_NLambda_DeltaR_%d",i),10,0.5,10.5,100,0,4 );
+
+	}
 
 	
 
@@ -192,7 +210,14 @@ void ntp_Lambda_Histogram::Reset(){
 	h1D_p2_Phi    		->Reset("ICES");
 	h1D_p2_Dca    		->Reset("ICES");
 
-
+	h2D_NLambda_NGoodLambda ->Reset("ICES");
+	for(int i =0 ; i <3 ; i++){
+		h2D_NLambda_PtDiff[i]->Reset("ICES");
+		h2D_NLambda_RapidityDiff[i]->Reset("ICES");
+		h2D_NLambda_PhiDiff[i]->Reset("ICES");
+		h2D_NLambda_DeltaR[i]->Reset("ICES");
+	}
+	
 
 
 	
@@ -231,7 +256,14 @@ void ntp_Lambda_Histogram::WriteAll(){
 	h1D_p2_Phi    		->Write();
 	h1D_p2_Dca    		->Write();
 
-
+	h2D_NLambda_NGoodLambda->Write(); 
+	for(int i =0 ; i <3 ; i++){
+		h2D_NLambda_PtDiff[i]->Write();
+		h2D_NLambda_RapidityDiff[i]->Write();
+		h2D_NLambda_PhiDiff[i]->Write();
+		h2D_NLambda_DeltaR[i]->Write();
+	}
+	
 	
 
 	fout->Close();

@@ -29,6 +29,8 @@ public:
 	ntp_Lambda_EventSelecter *EventSelecter;
 	ntp_Lambda_LambdaSelecter *LambdaSelecter;
 
+
+	ntp_Lambda_Histogram  *PreSelectionHistogramer;
 	ntp_Lambda_Histogram  *Histogramer; 
 
 
@@ -37,13 +39,16 @@ public:
 
 
 	ntp_Lambda_Analyzer();
-	ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *hisogram, ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *lambdaSelecter  );
+	ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *histogram, ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *lambdaSelecter  );
+	ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *pre_histogram,ntp_Lambda_Histogram *after_histogram, ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *lambdaSelecter  );
 
 	~ntp_Lambda_Analyzer();
 	
 	int Pair_Type_Classifier(int idx1, int idx2);
 	int Range_Type_Classifier(TLorentzVector *v1, TLorentzVector *v2);
+	void Analysis_Pair(int i_lambda,int j_lambda);
 	void Analysis_QAPlot();
+
 	
 
 
@@ -53,8 +58,15 @@ ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(){
 
 }
 
-ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *hisogram, ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *lambdaSelecter )
-: SameEvent_Reader(reader1), Histogramer(hisogram), EventSelecter(eventSelecter), LambdaSelecter(lambdaSelecter)
+ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *histogram, ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *lambdaSelecter )
+: SameEvent_Reader(reader1),PreSelectionHistogramer(0),Histogramer(histogram), EventSelecter(eventSelecter), LambdaSelecter(lambdaSelecter)
+{
+
+}
+
+
+ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *pre_histogram, ntp_Lambda_Histogram *after_histogram,ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *lambdaSelecter )
+: SameEvent_Reader(reader1), PreSelectionHistogramer(pre_histogram), Histogramer(after_histogram), EventSelecter(eventSelecter), LambdaSelecter(lambdaSelecter)
 {
 
 }
@@ -117,7 +129,53 @@ int ntp_Lambda_Analyzer::Range_Type_Classifier(TLorentzVector *v1, TLorentzVecto
 
 
 
+void ntp_Lambda_Analyzer::Analysis_Pair(int i_lambda,int j_lambda){
+	if( SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p1_InEventID[j_lambda] || 
+	   		SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[i_lambda] || 
+	   		SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] || 
+	   		SameEvent_Reader->p1_InEventID[j_lambda] == SameEvent_Reader->p2_InEventID[i_lambda] || 
+	   		SameEvent_Reader->p1_InEventID[j_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] ||
+	   		SameEvent_Reader->p2_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] ) return 0;
+				
+			
 
+		//---------------------------Pair Type Classification-------------------------------
+		int Pair_Type = 0 ; 
+		int id_Lambda1= i_lambda ; 
+		int id_Lambda2= j_lambda ;
+
+
+		Pair_Type = Pair_Type_Classifier(i_lambda,j_lambda);
+
+		if(Pair_Type == 1){
+			id_Lambda1 = i_lambda;id_Lambda2 = j_lambda;
+		}
+
+		else if(Pair_Type == -1){
+			id_Lambda1 = j_lambda;id_Lambda2 = i_lambda;
+		}
+
+		else if(Pair_Type == 2){
+			id_Lambda1 = i_lambda;id_Lambda2 = j_lambda;
+		}
+		else if(Pair_Type == 3){
+			id_Lambda1 = i_lambda;id_Lambda2 = j_lambda;
+		}
+		else{
+			
+			std::cout<<"Something went wrong with the pair type classifier"<<std::endl;
+			return 0;
+		}
+		TLorentzVector Lambda1; Lambda1.SetPtEtaPhiM( SameEvent_Reader->pair_pt[id_Lambda1], SameEvent_Reader->pair_eta[id_Lambda1], SameEvent_Reader->pair_phi[id_Lambda1], SameEvent_Reader->pair_mass[id_Lambda1]  );
+		TLorentzVector Lambda2; Lambda2.SetPtEtaPhiM( SameEvent_Reader->pair_pt[id_Lambda2], SameEvent_Reader->pair_eta[id_Lambda2], SameEvent_Reader->pair_phi[id_Lambda2], SameEvent_Reader->pair_mass[id_Lambda2]  );
+
+
+		Histogramer->Fill_PairPlots(&Lambda1,&Lambda2,TMath::Abs(Pair_Type)-1);
+
+
+
+
+};
 
 
 
@@ -155,13 +213,12 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			if( !EventSelecter->IsGoodEvent(TriggerIDList) ) continue;
 
 
-			//Fill Histograms of QA plot;
-			Histogramer->Fill_QAplots();
+			//Fill Histograms of QA plot (without any cut);
+			if(PreSelectionHistogramer) PreSelectionHistogramer->Fill_QAplots();
 
 			//------------------------Make some selections on the events-----------------------------
-			/*
+			
 			if( !EventSelecter->IsGoodEvent() ) continue;
-			//if(SameEvent_Reader->NLambda<3) continue; // current we only select on multi-Lambdas Events 
 			std::vector<int> GoodLambdaFlag;
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
 				
@@ -180,10 +237,20 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 				 				   );
 				GoodLambdaFlag.push_back(isGoodLambda);
 			}
-
+			//if(NGoodLambda < 2) continue;
+			Histogramer->Fill_QAplots(GoodLambdaFlag);
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
-			if(NGoodLambda < 2) continue;
-			*/
+			Histogramer->Fill_NLambda_NGoodLambda(NGoodLambda);
+			for(int i_lambda = 0 ; i_lambda < SameEvent_Reader->NLambda;i_lambda++){
+				if(GoodLambdaFlag[i_lambda]==0) continue;
+				for(int j_lambda = i_lambda+1; j_lambda < SameEvent_Reader->NLambda;j_lambda++){
+					if(GoodLambdaFlag[j_lambda]==0) continue;
+					Analysis_Pair(i_lambda,j_lambda);
+				}
+			}
+
+			
+			
 		}
 		//---------------------------End i_event loop----------------------------
 		fin->Close();
