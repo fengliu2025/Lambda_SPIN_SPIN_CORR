@@ -53,7 +53,7 @@ public :
 
 
 	TH2D *h2D_NLambda_NGoodLambda; 
-	TH1D *h2D_NLambda_PtDiff[3];
+	TH2D *h2D_NLambda_PtDiff[3];
 	TH2D *h2D_NLambda_RapidityDiff[3];
 	TH2D *h2D_NLambda_PhiDiff[3];
 	TH2D *h2D_NLambda_DeltaR[3];

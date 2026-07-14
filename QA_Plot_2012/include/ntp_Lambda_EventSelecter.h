@@ -5,6 +5,7 @@ class ntp_Lambda_EventSelecter{
 public:
 	//member variables 
 	std::vector<int> AllowedTriggerId;
+	std::vector<int> NotAllowedTriggerId;
 	Float_t VzMax;
 	//memeber functions
 
@@ -12,7 +13,7 @@ public:
 	virtual ~ntp_Lambda_EventSelecter();
 
 
-	bool IsGoodEvent(std::vector<int> EventTrigId,float Vz );
+	bool IsGoodEvent(std::vector<int> EventTrigId);
 	bool IsGoodEvent(float Vz);
 	bool IsGoodEvent();
 
