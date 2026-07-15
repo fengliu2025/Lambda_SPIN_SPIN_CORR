@@ -58,6 +58,11 @@ public :
 	TH2D *h2D_NLambda_PhiDiff[3];
 	TH2D *h2D_NLambda_DeltaR[3];
 
+	TH2D *h2D_NLambda_pairMass[2];
+	TH2D *h2D_pairPt_pairMass[2];
+	TH2D *h2D_pairEta_pairMass[2];
+	TH2D *h2D_pairPhi_pairMass[2];
+
 	
 	
 
@@ -126,7 +131,14 @@ void ntp_Lambda_Histogram::InitHitogram(){
 
 	}
 
-	
+	for(int i=0 ;i <2 ;i++){
+		h2D_NLambda_pairMass[i] = new TH2D(Form("h2D_NLambda_pairMass_%d",i), Form("h2D_NLambda_pairMass_%d",i),10,0.5,10.5,240,1.09,1.15);
+		h2D_pairPt_pairMass[i]  = new TH2D(Form("h2D_pairPt_pairMass_%d",i),  Form("h2D_pairPt_pairMass_%d",i),100,0,5,240,1.09,1.15);
+		h2D_pairEta_pairMass[i] = new TH2D(Form("h2D_pairEta_pairMass_%d",i), Form("h2D_pairEta_pairMass_%d",i),200,-2,2,240,1.09,1.15);
+		h2D_pairPhi_pairMass[i] = new TH2D(Form("h2D_pairPhi_PairMass_%d",i), Form("h2D_pairPhi_pair_Mass_%d",i),100,-3.2,3.2,240,1.09,1.15);
+
+
+	}
 
 	
 	
@@ -199,6 +211,22 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 			h1D_p2_Eta   		->Fill(Reader->p2_eta[i]);
 			h1D_p2_Phi     		->Fill(Reader->p2_phi[i]);
 			h1D_p2_Dca    		->Fill(Reader->p2_dca[i]);
+			if(Reader->p1_ch[i] == 1) {
+				h2D_NLambda_pairMass[0]->Fill( Reader->NLambda,Reader->pair_mass[i] );
+				h2D_pairPt_pairMass[0] ->Fill( Reader->pair_pt[i],Reader->pair_mass[i]);
+				h2D_pairEta_pairMass[0]->Fill( Reader->pair_eta[i],Reader->pair_mass[i]);
+				h2D_pairPhi_pairMass[0]->Fill( Reader->pair_phi[i],Reader->pair_mass[i]);
+
+
+			}
+				
+			
+			if(Reader->p1_ch[i] == -1) {
+				h2D_NLambda_pairMass[1]->Fill( Reader->NLambda,Reader->pair_mass[i] );
+				h2D_pairPt_pairMass[1] ->Fill( Reader->pair_pt[i],Reader->pair_mass[i]);
+				h2D_pairEta_pairMass[1]->Fill( Reader->pair_eta[i],Reader->pair_mass[i]);
+				h2D_pairPhi_pairMass[1]->Fill( Reader->pair_phi[i],Reader->pair_mass[i]);
+			}
 		}
 
 	
@@ -268,6 +296,14 @@ void ntp_Lambda_Histogram::Reset(){
 		h2D_NLambda_PhiDiff[i]->Reset("ICES");
 		h2D_NLambda_DeltaR[i]->Reset("ICES");
 	}
+
+	for(int i=0 ;i <2 ;i++){
+		h2D_NLambda_pairMass[i]->Reset("ICES");
+		h2D_pairPt_pairMass[i]  ->Reset("ICES");
+		h2D_pairEta_pairMass[i] ->Reset("ICES");
+		h2D_pairPhi_pairMass[i] ->Reset("ICES");
+
+	}
 	
 
 
@@ -313,6 +349,13 @@ void ntp_Lambda_Histogram::WriteAll(){
 		h2D_NLambda_RapidityDiff[i]->Write();
 		h2D_NLambda_PhiDiff[i]->Write();
 		h2D_NLambda_DeltaR[i]->Write();
+	}
+
+	for(int i=0 ;i <2 ;i++){
+		h2D_NLambda_pairMass[i]->Write();
+		h2D_pairPt_pairMass[i] ->Write();
+		h2D_pairEta_pairMass[i]->Write();
+		h2D_pairPhi_pairMass[i]->Write();
 	}
 	
 	
