@@ -45,7 +45,8 @@ int main(int argc, char*argv[]){
 	ntp_Lambda_Reader *mySameEventReader = new ntp_Lambda_Reader(InputFile_SameEvent);
 	
 	//std::string OutPutFile = "PreSelectionQA_plot_MB.root"; 
-	std::string OutPutFile = "AfterSelectionQA_plot_HM_eta1p0.root"; 
+	//std::string OutPutFile = "AfterSelectionQA_plot_HM_eta1p0.root"; 
+	std::string OutPutFile = "AfterSelectionMass_plot_MB_eta1p0.root"; 
 	ntp_Lambda_Histogram *myHistogram = new ntp_Lambda_Histogram(mySameEventReader,OutPutFile);
 	myHistogram->InitHitogram();
 
@@ -55,11 +56,11 @@ int main(int argc, char*argv[]){
 
 	ntp_Lambda_EventSelecter *myEventSelecter = new ntp_Lambda_EventSelecter();
 	
-	//myEventSelecter->AllowedTriggerId.push_back(910001);
-	//myEventSelecter->AllowedTriggerId.push_back(910003);
-	//myEventSelecter->AllowedTriggerId.push_back(910013);
-	myEventSelecter->AllowedTriggerId.push_back(910802);
-	myEventSelecter->AllowedTriggerId.push_back(910804);
+	myEventSelecter->AllowedTriggerId.push_back(910001);
+	myEventSelecter->AllowedTriggerId.push_back(910003);
+	myEventSelecter->AllowedTriggerId.push_back(910013);
+	myEventSelecter->NotAllowedTriggerId.push_back(910802);
+	myEventSelecter->NotAllowedTriggerId.push_back(910804);
 	
 	ntp_Lambda_LambdaSelecter *myLambdaSelecter = new ntp_Lambda_LambdaSelecter();
 

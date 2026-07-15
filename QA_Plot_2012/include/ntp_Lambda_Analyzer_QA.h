@@ -196,8 +196,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 		for(Long64_t i_event=0; i_event < N_Events ; i_event++ ){
 			SameEvent_Reader->fChain->GetEntry(i_event);
 			//Fill Histograms of QA plot (without any cut);
-			Histogramer->Fill_QAplots();
-			/*
+			//Histogramer->Fill_QAplots();
+			
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent() ) continue;
 			//if(SameEvent_Reader->NLambda<3) continue; // current we only select on multi-Lambdas Events 
@@ -229,7 +229,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 					Analysis_Pair(i_lambda,j_lambda);
 				}
 			}
-			*/
+			
 
 			
 		}

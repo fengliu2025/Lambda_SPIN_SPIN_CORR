@@ -34,9 +34,9 @@ int main(int argc, char*argv[]){
 	}
 	
 	
-	std::string OutPutFile = "PreQA_Plot_MB.root";
+	//std::string OutPutFile = "PreQA_Plot_MB.root";
 	//std::string OutPutFile = "AfterQA_Plot_MB.root";
-
+	std::string OutPutFile = "AfterMass_Plot_MB.root";
 	ntp_Lambda_Reader *mySameEventReader = new ntp_Lambda_Reader(InputFile_SameEvent);
 
 	ntp_Lambda_Histogram *myHistogram = new ntp_Lambda_Histogram(mySameEventReader,OutPutFile);
