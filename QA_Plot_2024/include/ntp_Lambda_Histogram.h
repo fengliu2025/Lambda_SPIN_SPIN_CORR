@@ -153,7 +153,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	for(int i=0 ;i <2 ;i++){
 		h2D_NLambda_pairMass[i] = new TH2D(Form("h2D_NLambda_pairMass_%d",i), Form("h2D_NLambda_pairMass_%d",i),10,0.5,10.5,240,1.09,1.15);
 		h2D_pairPt_pairMass[i]  = new TH2D(Form("h2D_pairPt_pairMass_%d",i),  Form("h2D_pairPt_pairMass_%d",i),100,0,5,240,1.09,1.15);
-		h2D_pairEta_pairMass[i] = new TH2D(Form("h2D_pairEta_pairMass_%d",i), Form("h2D_pairEta_pairMass_%d",i),200,-2,-2,240,1.09,1.15);
+		h2D_pairEta_pairMass[i] = new TH2D(Form("h2D_pairEta_pairMass_%d",i), Form("h2D_pairEta_pairMass_%d",i),200,-2,2,240,1.09,1.15);
 		h2D_pairPhi_pairMass[i] = new TH2D(Form("h2D_pairPhi_PairMass_%d",i), Form("h2D_pairPhi_pair_Mass_%d",i),100,-3.2,3.2,240,1.09,1.15);
 
 
@@ -270,9 +270,9 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 			h1D_p2_Phi     		->Fill(Reader->p2_phi[i]);
 			h1D_p2_Dca    		->Fill(Reader->p2_dca[i]);
 
-			h2D_pairPt_pairMass[i]  = new TH2D(Form("h2D_pairPt_pairMass_%d",i),  Form("h2D_pairPt_pairMass_%d",i),100,0,5,240,1.09,1.15);
-		h2D_pairEta_pairMass[i] = new TH2D(Form("h2D_pairEta_pairMass_%d",i), Form("h2D_pairEta_pairMass_%d",i),200,-2,-2,240,1.09,1.15);
-		h2D_pairPhi_pairMass[i] = new TH2D(Form("h2D_pairPhi_PairMass_%d",i), Form("h2D_pairPhi_pair_Mass_%d",i),100,-3.2,3.2,240,1.09,1.15);
+		
+	
+		
 
 
 
