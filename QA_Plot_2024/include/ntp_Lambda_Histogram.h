@@ -66,7 +66,7 @@ public :
 	TH2D *h2D_NLambda_PhiDiff[3];
 	TH2D *h2D_NLambda_DeltaR[3];
 
-	
+	TH2D *h2D_NLambda_pairMass[2];
 	
 
 
@@ -147,6 +147,9 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	
 	
 	
+	for(int i=0 ;i <2 ;i++){
+		h2D_NLambda_pairMass[i] = new TH2D(Form("h2D_NLambda_pairMass_%d",i),Form("h2D_NLambda_pairMass_%d",i),10,0.5,10.5,240,1.09,1.15);
+	}
 
 	
 	
@@ -258,6 +261,14 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 			h1D_p2_Eta   		->Fill(Reader->p2_eta[i]);
 			h1D_p2_Phi     		->Fill(Reader->p2_phi[i]);
 			h1D_p2_Dca    		->Fill(Reader->p2_dca[i]);
+
+
+
+			
+			if(Reader->p1_ch[i] == 1) h2D_NLambda_pairMass[0]->Fill( Reader->NLambda,Reader->pair_mass[i] );
+			if(Reader->p1_ch[i] == -1) h2D_NLambda_pairMass[1]->Fill( Reader->NLambda,Reader->pair_mass[i] );
+	
+
 		}
 
 	
@@ -342,6 +353,9 @@ void ntp_Lambda_Histogram::Reset(){
 		h2D_NLambda_DeltaR[i]->Reset("ICES");
 	}
 	
+	for(int i=0 ;i <2 ;i++){
+		h2D_NLambda_pairMass[i]->Reset("ICES");
+	}
 
 	
 
@@ -398,7 +412,10 @@ void ntp_Lambda_Histogram::WriteAll(){
 		h2D_NLambda_DeltaR[i]->Write();
 	}
 	
-	
+	for(int i=0 ;i <2 ;i++){
+		h2D_NLambda_pairMass[i]->Write();
+	}
+
 
 	fout->Close();
 	delete fout;
