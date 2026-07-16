@@ -70,8 +70,9 @@ public :
 	TH2D *h2D_pairPt_pairMass[2];
 	TH2D *h2D_pairEta_pairMass[2];
 	TH2D *h2D_pairPhi_pairMass[2];
-	
-
+	TH2D *h2D_pairDecayL_pairMass[2];
+	TH2D *h2D_p1Pt_pairMass[2];
+	TH2D *h2D_p2Pt_pairMass[2];
 
 
 	ntp_Lambda_Histogram();
@@ -151,12 +152,13 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	
 	
 	for(int i=0 ;i <2 ;i++){
-		h2D_NLambda_pairMass[i] = new TH2D(Form("h2D_NLambda_pairMass_%d",i), Form("h2D_NLambda_pairMass_%d",i),10,0.5,10.5,240,1.09,1.15);
-		h2D_pairPt_pairMass[i]  = new TH2D(Form("h2D_pairPt_pairMass_%d",i),  Form("h2D_pairPt_pairMass_%d",i),100,0,5,240,1.09,1.15);
-		h2D_pairEta_pairMass[i] = new TH2D(Form("h2D_pairEta_pairMass_%d",i), Form("h2D_pairEta_pairMass_%d",i),200,-2,2,240,1.09,1.15);
-		h2D_pairPhi_pairMass[i] = new TH2D(Form("h2D_pairPhi_PairMass_%d",i), Form("h2D_pairPhi_pair_Mass_%d",i),100,-3.2,3.2,240,1.09,1.15);
-
-
+		h2D_NLambda_pairMass[i] 	= new TH2D(Form("h2D_NLambda_pairMass_%d",i), Form("h2D_NLambda_pairMass_%d",i),10,0.5,10.5,240,1.09,1.15);
+		h2D_pairPt_pairMass[i]  	= new TH2D(Form("h2D_pairPt_pairMass_%d",i),  Form("h2D_pairPt_pairMass_%d",i),100,0,5,240,1.09,1.15);
+		h2D_pairEta_pairMass[i] 	= new TH2D(Form("h2D_pairEta_pairMass_%d",i), Form("h2D_pairEta_pairMass_%d",i),200,-2,2,240,1.09,1.15);
+		h2D_pairPhi_pairMass[i] 	= new TH2D(Form("h2D_pairPhi_PairMass_%d",i), Form("h2D_pairPhi_pair_Mass_%d",i),100,-3.2,3.2,240,1.09,1.15);
+		h2D_pairDecayL_pairMass[i]  = new TH2D(Form("h2D_pairDecayL_pairMass_%d",i),From("h2D_pairDecayL_pairMass_%d"),100,2,25,240,1.09,1.15 );
+		h2D_p1Pt_pairMass[i]		= new TH2D(Form("h2D_p1Pt_pairMass_%d",i)   , Form("h2D_p1Pt_pairMass_%d",i),100,0.15,5,240,1.09,1.15  );
+		h2D_p2Pt_pairMass[i]		= new TH2D(Form("h2D_p2Pt_pairMass_%d",i)   , Form("h2D_p2Pt_pairMass_%d",i),100,0.15,1.5,240,1.09,1.15);
 	}
 
 	
@@ -282,7 +284,9 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 				h2D_pairPt_pairMass[0] ->Fill( Reader->pair_pt[i],Reader->pair_mass[i]);
 				h2D_pairEta_pairMass[0]->Fill( Reader->pair_eta[i],Reader->pair_mass[i]);
 				h2D_pairPhi_pairMass[0]->Fill( Reader->pair_phi[i],Reader->pair_mass[i]);
-
+				h2D_pairDecayL_pairMass[0]->Fill( Reader->pair_decayL[i],Reader->pair_mass[i] );
+				h2D_p1Pt_pairMass[0]->Fill(Reader->p1_pt[i],Reader->pair_mass[i]);		
+				h2D_p2Pt_pairMass[0]->Fill(Reader->p2_pt[i],Reader->pair_mass[i]);		
 
 			}
 				
@@ -292,6 +296,9 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 				h2D_pairPt_pairMass[1] ->Fill( Reader->pair_pt[i],Reader->pair_mass[i]);
 				h2D_pairEta_pairMass[1]->Fill( Reader->pair_eta[i],Reader->pair_mass[i]);
 				h2D_pairPhi_pairMass[1]->Fill( Reader->pair_phi[i],Reader->pair_mass[i]);
+				h2D_pairDecayL_pairMass[1]->Fill( Reader->pair_decayL[i],Reader->pair_mass[i] );
+				h2D_p1Pt_pairMass[1]->Fill(Reader->p1_pt[i],Reader->pair_mass[i]);		
+				h2D_p2Pt_pairMass[1]->Fill(Reader->p2_pt[i],Reader->pair_mass[i]);		
 			}
 	
 
@@ -384,6 +391,9 @@ void ntp_Lambda_Histogram::Reset(){
 		h2D_pairPt_pairMass[i]  ->Reset("ICES");
 		h2D_pairEta_pairMass[i] ->Reset("ICES");
 		h2D_pairPhi_pairMass[i] ->Reset("ICES");
+		h2D_pairDecayL_pairMass[i]->Reset("ICES");
+		h2D_p1Pt_pairMass[i]->Reset("ICES");
+		h2D_p2Pt_pairMass[i]->Reset("ICES");	
 
 	}
 
@@ -447,6 +457,9 @@ void ntp_Lambda_Histogram::WriteAll(){
 		h2D_pairPt_pairMass[i] ->Write();
 		h2D_pairEta_pairMass[i]->Write();
 		h2D_pairPhi_pairMass[i]->Write();
+		h2D_pairDecayL_pairMass[i]->Write();
+		h2D_p1Pt_pairMass[i]->Write();
+		h2D_p2Pt_pairMass[i]->Write();
 	}
 
 
