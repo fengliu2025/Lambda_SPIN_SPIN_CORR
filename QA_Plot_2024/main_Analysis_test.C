@@ -26,10 +26,10 @@ int main(int argc, char*argv[]){
 	std::string line;
 	
 	while (std::getline(filelist,line)){
-		//FileList.push_back(directory+line);
-		//FileName.push_back(line);
+		FileList.push_back(directory+line);
+		FileName.push_back(line);
 	}
-	FileList.push_back(directory+"121picoDstLambda.root.picoLambdaAnaMaker.root");
+	//FileList.push_back(directory+"121picoDstLambda.root.picoLambdaAnaMaker.root");
 	
 
 	
@@ -51,8 +51,8 @@ int main(int argc, char*argv[]){
 	//std::string OutPutFile = "PreSelectionQA_plot_MB.root"; 
 	//std::string OutPutFile = "AfterSelectionQA_plot_HM_eta1p0.root"; 
 	//std::string OutPutFile = "AfterSelectionMass_plot_MB_eta1p0.root"; 
-	//std::string OutPutFile = "HelixAfterSelectionMass_plot_MB_eta1p0.root"; 
-	std::string OutPutFile = "SLAfterSelectionMass_plot_MB_eta1p0.root"; 
+	std::string OutPutFile = "HelixAfterSelectionMass_plot_MB_eta1p0.root"; 
+	//std::string OutPutFile = "SLAfterSelectionMass_plot_MB_eta1p0.root"; 
 	ntp_Lambda_Histogram *myHistogram = new ntp_Lambda_Histogram(mySameEventReader,OutPutFile);
 	myHistogram->InitHitogram();
 
