@@ -13,7 +13,7 @@
 #include <iostream>
 
 
-#include "ntp_Lambda_Reader.h"
+#include "ntp_Lambda_Reader_v2.h"
 
 
 #include "constants.h"
@@ -160,7 +160,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_p2_Phi     = new TH1D("h1D_p2_Phi","h1D_p2_Phi",100,-2*TMath::Pi(),2*TMath::Pi() ); 
 	h1D_p2_Dca     = new TH1D("h1D_p2_Dca","h1D_p2_Dca",100,-1,1);
 	h1D_p2_Dcaxy   = new TH1D("h1D_p2_Dcaxy","h1D_p2_Dcaxy",100,-1,1);
-	h1D_p2_nSigmaProton = new TH1D("h1D_p2_nSigmaPion","h1D_p2_nSigmaPion",100,-5,5);
+	h1D_p2_nSigmaPion = new TH1D("h1D_p2_nSigmaPion","h1D_p2_nSigmaPion",100,-5,5);
 
 
 

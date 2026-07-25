@@ -198,7 +198,7 @@ void ntp_Lambda_Reader::Init(TTree *tree)
    fChain->SetBranchAddress("p2_eta", p2_eta, &b_p2_eta);
    fChain->SetBranchAddress("p2_dca", p2_dca, &b_p2_dca);
    fChain->SetBranchAddress("p2_dcaxy", p2_dcaxy, &b_p2_dcaxy);
-   fChain->SetBranchAddress("p2_nSigmaPion", p1_nSigmaPion, &b_p1_nSigmaPion);
+   fChain->SetBranchAddress("p2_nSigmaPion", p2_nSigmaPion, &b_p2_nSigmaPion);
    fChain->SetBranchAddress("p2_ch", p2_ch, &b_p2_ch);
    fChain->SetBranchAddress("p2_hasTOFinfo", p2_hasTOFinfo, &b_p2_hasTOFinfo);
    fChain->SetBranchAddress("p2_dedx", p2_dedx, &b_p2_dedx);
