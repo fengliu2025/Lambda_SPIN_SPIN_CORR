@@ -52,11 +52,28 @@ public :
 	TH1D *h1D_p1_Eta;
 	TH1D *h1D_p1_Phi;
 	TH1D *h1D_p1_Dca;
+	TH1D *h1D_p1_Dcaxy;
+	TH1D *h1D_p1_nSigmaProton;
 
 	TH1D *h1D_p2_Pt;
 	TH1D *h1D_p2_Eta;
 	TH1D *h1D_p2_Phi;
 	TH1D *h1D_p2_Dca;
+	TH1D *h1D_p2_Dcaxy;
+	TH1D *h1D_p2_nSigmaPion;
+
+
+
+	TH1D *h1D_track_Number;
+	TH1D *h1D_track_pt;
+	TH1D *h1D_track_eta;
+	TH1D *h1D_track_phi;
+	TH1D *h1D_track_dca;
+	TH1D *h1D_track_dcaxy;
+	TH1D *h1D_track_nSigmaPion;
+	TH1D *h1D_track_nSigmaKaon;
+	TH1D *h1D_track_nSigmaProton;
+	TH1D *h1D_track_ch;
 
 
 
@@ -74,6 +91,11 @@ public :
 	TH2D *h2D_p1Pt_pairMass[2];
 	TH2D *h2D_p2Pt_pairMass[2];
 	TH2D *h2D_p1Pt_p2Pt[2];
+
+
+
+
+
 
 	ntp_Lambda_Histogram();
 	ntp_Lambda_Histogram(ntp_Lambda_Reader *reader,std::string outPutFile);
@@ -130,12 +152,34 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_p1_Eta     = new TH1D("h1D_p1_Eta","h1D_p1_Eta",100,-3,3); 
 	h1D_p1_Phi     = new TH1D("h1D_p1_Phi","h1D_p1_Phi",100,-2*TMath::Pi(),2*TMath::Pi() ); 
 	h1D_p1_Dca     = new TH1D("h1D_p1_Dca","h1D_p1_Dca",100,-1,1);
-
+	h1D_p1_Dcaxy   = new TH1D("h1D_p1_Dcaxy","h1D_p1_Dcaxy",100,-1,1);
+	h1D_p1_nSigmaProton = new TH1D("h1D_p1_nSigmaProton","h1D_p1_nSigmaProton",100,-5,5);
 
 	h1D_p2_Pt      = new TH1D("h1D_p2_Pt","h1D_p2_Pt",100,0,10);
 	h1D_p2_Eta     = new TH1D("h1D_p2_Eta","h1D_p2_Eta",100,-3,3);
 	h1D_p2_Phi     = new TH1D("h1D_p2_Phi","h1D_p2_Phi",100,-2*TMath::Pi(),2*TMath::Pi() ); 
 	h1D_p2_Dca     = new TH1D("h1D_p2_Dca","h1D_p2_Dca",100,-1,1);
+	h1D_p2_Dcaxy   = new TH1D("h1D_p2_Dcaxy","h1D_p2_Dcaxy",100,-1,1);
+	h1D_p2_nSigmaProton = new TH1D("h1D_p2_nSigmaPion","h1D_p2_nSigmaPion",100,-5,5);
+
+
+
+
+
+
+	h1D_track_Number = new TH1D("h1D_track_Number","h1D_track_Number",100,0.5,100.5);
+	h1D_track_pt     = new TH1D("h1D_track_pt","h1D_track_pt",200,0,5);
+	h1D_track_eta	 = new TH1D("h1D_track_eta","h1D_track_eta",200,-2,2);
+	h1D_track_phi	 = new TH1D("h1D_track_phi","h1D_track_phi",200,-2*TMath::Pi(),2*TMath::Pi());
+	h1D_track_dca    = new TH1D("h1D_track_dca","h1D_tracK_dca",200,-2,2);
+	h1D_track_dcaxy  = new TH1D("h1D_track_dcaxy","h1D_track_dcaxy",200,-2,2);
+	h1D_track_nSigmaPion = new TH1D("h1D_track_nSigmaPion","h1D_track_nSigmaPion",200,-5,5);
+	h1D_track_nSigmaKaon = new TH1D("h1D_tracK_nSigmaKaon","h1D_track_nSigmaKaon",200,-5,5);
+	h1D_track_nSigmaProton = new TH1D("h1D_track_nSigmaProton","h1D_track_nSigmaProton",200,-5,5);
+	h1D_track_ch   = new TH1D("h1D_track_ch","h1D_track_ch",5,-2.5,2.5);
+
+
+
 
 
 	
@@ -212,13 +256,31 @@ void ntp_Lambda_Histogram::Fill_QAplots(){
 			h1D_p1_Eta    		->Fill(Reader->p1_eta[i]);
 			h1D_p1_Phi    		->Fill(Reader->p1_phi[i]);
 			h1D_p1_Dca    		->Fill(Reader->p1_dca[i]);
-
+			h1D_p1_Dcaxy    	->Fill(Reader->p1_dcaxy[i]);
+			h1D_p1_nSigmaProton ->Fill(Reader->p1_nSigmaProton[i]);
 
 			h1D_p2_Pt       	->Fill(Reader->p2_pt[i]);
 			h1D_p2_Eta   		->Fill(Reader->p2_eta[i]);
 			h1D_p2_Phi     		->Fill(Reader->p2_phi[i]);
 			h1D_p2_Dca    		->Fill(Reader->p2_dca[i]);
+			h1D_p2_Dcaxy    	->Fill(Reader->p2_dcaxy[i]);
+			h1D_p2_nSigmaPion   ->Fill(Reader->p2_nSigmaPion[i]);
 		}
+
+		h1D_track_Number ->Fill(Reader->track_Number);
+
+		for(int i =0 ; i < Reader->track_Number;i++){
+			h1D_track_pt     ->Fill(Reader->track_pt[i]);
+			h1D_track_eta	 ->Fill(Reader->track_eta[i]);
+			h1D_track_phi	 ->Fill(Reader->track_phi[i]);
+			h1D_track_dca    ->Fill(Reader->track_dca[i]);
+			h1D_track_dcaxy  ->Fill(Reader->track_dcaxy[i]);
+			h1D_track_nSigmaPion  ->Fill(Reader->track_nSigmaPion[i]);
+			h1D_track_nSigmaKaon  ->Fill(Reader->track_nSigmaKaon[i]);
+			h1D_track_nSigmaProton ->Fill(Reader->track_nSigmaProton[i]);
+			h1D_track_ch ->Fill(Reader->track_ch[i]);
+		}
+
 
 	
 }
@@ -266,13 +328,15 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 			h1D_p1_Eta    		->Fill(Reader->p1_eta[i]);
 			h1D_p1_Phi    		->Fill(Reader->p1_phi[i]);
 			h1D_p1_Dca    		->Fill(Reader->p1_dca[i]);
-
+			h1D_p1_Dcaxy    	->Fill(Reader->p1_dcaxy[i]);
+			h1D_p1_nSigmaProton ->Fill(Reader->p1_nSigmaProton[i]);
 
 			h1D_p2_Pt       	->Fill(Reader->p2_pt[i]);
 			h1D_p2_Eta   		->Fill(Reader->p2_eta[i]);
 			h1D_p2_Phi     		->Fill(Reader->p2_phi[i]);
 			h1D_p2_Dca    		->Fill(Reader->p2_dca[i]);
-
+			h1D_p2_Dcaxy    	->Fill(Reader->p2_dcaxy[i]);
+			h1D_p2_nSigmaPion   ->Fill(Reader->p2_nSigmaPion[i]);
 		
 	
 		
@@ -304,6 +368,20 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 			}
 	
 
+		}
+
+		h1D_track_Number ->Fill(Reader->track_Number);
+
+		for(int i =0 ; i < Reader->track_Number;i++){
+			h1D_track_pt     ->Fill(Reader->track_pt[i]);
+			h1D_track_eta	 ->Fill(Reader->track_eta[i]);
+			h1D_track_phi	 ->Fill(Reader->track_phi[i]);
+			h1D_track_dca    ->Fill(Reader->track_dca[i]);
+			h1D_track_dcaxy  ->Fill(Reader->track_dcaxy[i]);
+			h1D_track_nSigmaPion  ->Fill(Reader->track_nSigmaPion[i]);
+			h1D_track_nSigmaKaon  ->Fill(Reader->track_nSigmaKaon[i]);
+			h1D_track_nSigmaProton ->Fill(Reader->track_nSigmaProton[i]);
+			h1D_track_ch ->Fill(Reader->track_ch[i]);
 		}
 
 	
@@ -372,12 +450,15 @@ void ntp_Lambda_Histogram::Reset(){
 	h1D_p1_Eta    		->Reset("ICES");
 	h1D_p1_Phi    		->Reset("ICES");
 	h1D_p1_Dca    		->Reset("ICES");
-
+	h1D_p1_Dcaxy    	->Reset("ICES");
+	h1D_p1_nSigmaProton ->Reset("ICES");
 
 	h1D_p2_Pt     		->Reset("ICES");
 	h1D_p2_Eta    		->Reset("ICES");
 	h1D_p2_Phi    		->Reset("ICES");
 	h1D_p2_Dca    		->Reset("ICES");
+	h1D_p2_Dcaxy    	->Reset("ICES");
+	h1D_p2_nSigmaPion ->Reset("ICES");
 
 
 	h2D_NLambda_NGoodLambda ->Reset("ICES");
@@ -399,6 +480,18 @@ void ntp_Lambda_Histogram::Reset(){
 
 
 	}
+
+
+	h1D_track_Number ->Reset("ICES");
+	h1D_track_pt     ->Reset("ICES");
+	h1D_track_eta	 ->Reset("ICES");
+	h1D_track_phi	 ->Reset("ICES");
+	h1D_track_dca    ->Reset("ICES");
+	h1D_track_dcaxy  ->Reset("ICES");
+	h1D_track_nSigmaPion  ->Reset("ICES");
+	h1D_track_nSigmaKaon  ->Reset("ICES");
+	h1D_track_nSigmaProton ->Reset("ICES");
+	h1D_track_ch ->Reset("ICES");
 
 	
 
@@ -438,12 +531,15 @@ void ntp_Lambda_Histogram::WriteAll(){
 	h1D_p1_Eta    		->Write();
 	h1D_p1_Phi    		->Write();
 	h1D_p1_Dca    		->Write();
-
+	h1D_p1_Dcaxy    	->Write();
+	h1D_p1_nSigmaProton ->Write();
 
 	h1D_p2_Pt     		->Write();
 	h1D_p2_Eta    		->Write();
 	h1D_p2_Phi    		->Write();
 	h1D_p2_Dca    		->Write();
+	h1D_p2_Dcaxy    	->Write();
+	h1D_p2_nSigmaPion ->Write();
 
 	
 
@@ -465,6 +561,19 @@ void ntp_Lambda_Histogram::WriteAll(){
 		h2D_p2Pt_pairMass[i]->Write();
 		h2D_p1Pt_p2Pt[i]    ->Write();
 	}
+
+
+	h1D_track_Number ->Write();
+	h1D_track_pt     ->Write();
+	h1D_track_eta	 ->Write();
+	h1D_track_phi	 ->Write();
+	h1D_track_dca    ->Write();
+	h1D_track_dcaxy  ->Write();
+	h1D_track_nSigmaPion  ->Write();
+	h1D_track_nSigmaKaon  ->Write();
+	h1D_track_nSigmaProton ->Write();
+	h1D_track_ch ->Write();
+
 
 
 	fout->Close();
