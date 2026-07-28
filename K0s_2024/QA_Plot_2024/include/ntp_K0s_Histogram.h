@@ -138,7 +138,7 @@ void ntp_K0s_Histogram::InitHitogram(){
 	h1D_pair_Eta   = new TH1D("h1D_pair_Eta","h1D_pair_Eta",100,-3,3);
 	h1D_pair_Phi   = new TH1D("h1D_pair_Phi","h1D_pair_Phi",100,-2*TMath::Pi(),2*TMath::Pi());
 	//h1D_pair_Mass  = new TH1D("h1D_pair_Mass","h1D_pair_Mass",120,1.07,1.20);
-	h1D_pair_Mass  = new TH1D("h1D_pair_Mass","h1D_pair_Mass",240,1.09,1.15);
+	h1D_pair_Mass  = new TH1D("h1D_pair_Mass","h1D_pair_Mass",240,0.45,0.55);
 	h1D_pair_Charge= new TH1D("h1D_pair_Charge","h1D_pair_Charge",4,-2,2);
 	h1D_pair_DauDCA= new TH1D("h1D_pair_DauDCA","h1D_pair_DauDCA",100,-5,5);
 	h1D_pair_CosTheta= new TH1D("h1D_pair_CosTheta","h1D_pair_CosTheta",100,0.5,1.5);
@@ -196,13 +196,13 @@ void ntp_K0s_Histogram::InitHitogram(){
 	
 	
 	for(int i=0 ;i <1 ;i++){
-		h2D_NK0s_pairMass[i] 	= new TH2D(Form("h2D_NK0s_pairMass_%d",i), Form("h2D_NK0s_pairMass_%d",i),10,0.5,10.5,240,1.09,1.15);
-		h2D_pairPt_pairMass[i]  	= new TH2D(Form("h2D_pairPt_pairMass_%d",i),  Form("h2D_pairPt_pairMass_%d",i),100,0,5,240,1.09,1.15);
-		h2D_pairEta_pairMass[i] 	= new TH2D(Form("h2D_pairEta_pairMass_%d",i), Form("h2D_pairEta_pairMass_%d",i),200,-2,2,240,1.09,1.15);
-		h2D_pairPhi_pairMass[i] 	= new TH2D(Form("h2D_pairPhi_PairMass_%d",i), Form("h2D_pairPhi_pair_Mass_%d",i),100,-3.2,3.2,240,1.09,1.15);
-		h2D_pairDecayL_pairMass[i]  = new TH2D(Form("h2D_pairDecayL_pairMass_%d",i),Form("h2D_pairDecayL_pairMass_%d"),100,2,25,240,1.09,1.15 );
-		h2D_p1Pt_pairMass[i]		= new TH2D(Form("h2D_p1Pt_pairMass_%d",i)   , Form("h2D_p1Pt_pairMass_%d",i),100,0.15,5,240,1.09,1.15  );
-		h2D_p2Pt_pairMass[i]		= new TH2D(Form("h2D_p2Pt_pairMass_%d",i)   , Form("h2D_p2Pt_pairMass_%d",i),100,0.15,1.5,240,1.09,1.15);
+		h2D_NK0s_pairMass[i] 	= new TH2D(Form("h2D_NK0s_pairMass_%d",i), Form("h2D_NK0s_pairMass_%d",i),10,0.5,10.5,240,0.45,0.55);
+		h2D_pairPt_pairMass[i]  	= new TH2D(Form("h2D_pairPt_pairMass_%d",i),  Form("h2D_pairPt_pairMass_%d",i),100,0,5,240,0.45,0.55);
+		h2D_pairEta_pairMass[i] 	= new TH2D(Form("h2D_pairEta_pairMass_%d",i), Form("h2D_pairEta_pairMass_%d",i),200,-2,2,240,0.45,0.55);
+		h2D_pairPhi_pairMass[i] 	= new TH2D(Form("h2D_pairPhi_PairMass_%d",i), Form("h2D_pairPhi_pair_Mass_%d",i),100,-3.2,3.2,240,0.45,0.55);
+		h2D_pairDecayL_pairMass[i]  = new TH2D(Form("h2D_pairDecayL_pairMass_%d",i),Form("h2D_pairDecayL_pairMass_%d"),100,2,25,240,0.45,0.55 );
+		h2D_p1Pt_pairMass[i]		= new TH2D(Form("h2D_p1Pt_pairMass_%d",i)   , Form("h2D_p1Pt_pairMass_%d",i),100,0.15,5,240,0.45,0.55  );
+		h2D_p2Pt_pairMass[i]		= new TH2D(Form("h2D_p2Pt_pairMass_%d",i)   , Form("h2D_p2Pt_pairMass_%d",i),100,0.15,1.5,240,0.45,0.55);
 		h2D_p1Pt_p2Pt[i] 			= new TH2D(Form("h2D_p1Pt_p2Pt_%d",i)       , Form("h2D_p1Pt_p2Pt_%d",i)    ,200,0,5,200,0,3);
 	}
 
