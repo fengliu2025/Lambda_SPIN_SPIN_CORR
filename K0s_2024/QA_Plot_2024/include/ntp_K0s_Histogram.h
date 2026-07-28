@@ -93,7 +93,8 @@ public :
 	TH2D *h2D_p1Pt_p2Pt[1];
 
 
-
+	TH1D *h1D_Pt_pion_plus;
+	TH1D *h1D_Pt_pion_minus;
 
 
 
@@ -179,6 +180,8 @@ void ntp_K0s_Histogram::InitHitogram(){
 	h1D_track_ch   = new TH1D("h1D_track_ch","h1D_track_ch",5,-2.5,2.5);
 
 
+	h1D_Pt_pion_plus  = new TH1D("h1D_Pt_pion_plus","h1D_Pt_pion_plus",100,0,10); 
+	h1D_Pt_pion_minus = new TH1D("h1D_Pt_pion_plus","h1D_Pt_pion_plus",100,0,10);
 
 
 
@@ -265,6 +268,23 @@ void ntp_K0s_Histogram::Fill_QAplots(){
 			h1D_p2_Dca    		->Fill(Reader->p2_dca[i]);
 			h1D_p2_Dcaxy    	->Fill(Reader->p2_dcaxy[i]);
 			h1D_p2_nSigmaPion   ->Fill(Reader->p2_nSigmaPion[i]);
+
+			if(Reader->p1_ch[i] > 0) {
+				h1D_Pt_pion_plus->Fill(Reader->p1_pt[i]);
+			}
+			if(Reader->p1_ch[i] < 0) {
+				h1D_Pt_pion_minus->Fill(Reader->p1_pt[i]);
+			}
+
+			if(Reader->p2_ch[i] > 0) {
+				h1D_Pt_pion_plus->Fill(Reader->p2_pt[i]);
+			}
+			if(Reader->p2_ch[i] < 0) {
+				h1D_Pt_pion_minus->Fill(Reader->p2_pt[i]);
+			}
+
+			h2D_p1Pt_p2Pt[0]->Fill(Reader->p1_pt[i],Reader->p2_pt[i]);
+
 		}
 
 		h1D_track_Number ->Fill(Reader->track_Number);
@@ -338,7 +358,19 @@ void ntp_K0s_Histogram::Fill_QAplots(std::vector<int> GoodK0sFlag){
 			h1D_p2_Dcaxy    	->Fill(Reader->p2_dcaxy[i]);
 			h1D_p2_nSigmaPion   ->Fill(Reader->p2_nSigmaPion[i]);
 		
-	
+			if(Reader->p1_ch[i] > 0) {
+				h1D_Pt_pion_plus->Fill(Reader->p1_pt[i]);
+			}
+			if(Reader->p1_ch[i] < 0) {
+				h1D_Pt_pion_minus->Fill(Reader->p1_pt[i]);
+			}
+
+			if(Reader->p2_ch[i] > 0) {
+				h1D_Pt_pion_plus->Fill(Reader->p2_pt[i]);
+			}
+			if(Reader->p2_ch[i] < 0) {
+				h1D_Pt_pion_minus->Fill(Reader->p2_pt[i]);
+			}
 		
 
 
@@ -460,6 +492,9 @@ void ntp_K0s_Histogram::Reset(){
 	h1D_p2_Dcaxy    	->Reset("ICES");
 	h1D_p2_nSigmaPion ->Reset("ICES");
 
+	h1D_Pt_pion_plus ->Reset("ICES");
+	h1D_Pt_pion_minus ->Reset("ICES");
+
 
 	h2D_NK0s_NGoodK0s ->Reset("ICES");
 	for(int i =0 ; i <1 ; i++){
@@ -573,7 +608,8 @@ void ntp_K0s_Histogram::WriteAll(){
 	h1D_track_nSigmaKaon  ->Write();
 	h1D_track_nSigmaProton ->Write();
 	h1D_track_ch ->Write();
-
+	h1D_Pt_pion_plus ->Write();
+	h1D_Pt_pion_minus ->Write();
 
 
 	fout->Close();
