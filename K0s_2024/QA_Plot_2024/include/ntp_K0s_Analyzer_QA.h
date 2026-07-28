@@ -16,7 +16,7 @@
 
 #include "constants.h"
 #include "ntp_K0s_Histogram.h"
-#include "ntp_K0s_Reader.h"
+#include "ntp_K0s_Reader_v2.h"
 #include "ntp_K0s_EventSelecter.h"
 #include "ntp_K0s_K0sSelecter.h"
 
