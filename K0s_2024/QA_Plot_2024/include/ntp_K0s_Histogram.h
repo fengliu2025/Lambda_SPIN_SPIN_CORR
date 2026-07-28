@@ -181,7 +181,7 @@ void ntp_K0s_Histogram::InitHitogram(){
 
 
 	h1D_Pt_pion_plus  = new TH1D("h1D_Pt_pion_plus","h1D_Pt_pion_plus",100,0,10); 
-	h1D_Pt_pion_minus = new TH1D("h1D_Pt_pion_plus","h1D_Pt_pion_plus",100,0,10);
+	h1D_Pt_pion_minus = new TH1D("h1D_Pt_pion_minus","h1D_Pt_pion_minus",100,0,10);
 
 
 
