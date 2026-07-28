@@ -180,8 +180,8 @@ void ntp_K0s_Histogram::InitHitogram(){
 	h1D_track_ch   = new TH1D("h1D_track_ch","h1D_track_ch",5,-2.5,2.5);
 
 
-	h1D_Pt_pion_plus  = new TH1D("h1D_Pt_pion_plus","h1D_Pt_pion_plus",100,0,10); 
-	h1D_Pt_pion_minus = new TH1D("h1D_Pt_pion_minus","h1D_Pt_pion_minus",100,0,10);
+	h1D_Pt_pion_plus  = new TH1D("h1D_Pt_pion_plus","h1D_Pt_pion_plus",110,-1,10); 
+	h1D_Pt_pion_minus = new TH1D("h1D_Pt_pion_minus","h1D_Pt_pion_minus",110,-1,10);
 
 
 
@@ -373,7 +373,7 @@ void ntp_K0s_Histogram::Fill_QAplots(std::vector<int> GoodK0sFlag){
 			}
 		
 
-			if(Reader->p1_ch[i] * Reader->p2_ch[i] > 0) std::cout<<"p1_ch = p2_ch!"<<std::endl;
+			
 
 			
 			
