@@ -373,7 +373,7 @@ void ntp_K0s_Histogram::Fill_QAplots(std::vector<int> GoodK0sFlag){
 			}
 		
 
-
+			if(Reader->p1_ch[i] * Reader->p2_ch[i] > 0) std::cout<<"p1_ch = p2_ch!"<<std::endl;
 
 			
 			
