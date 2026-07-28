@@ -376,28 +376,20 @@ void ntp_K0s_Histogram::Fill_QAplots(std::vector<int> GoodK0sFlag){
 
 
 			
-			if(Reader->p1_ch[i] == 1) {
-				h2D_NK0s_pairMass[0]->Fill( Reader->NK0s,Reader->pair_mass[i] );
-				h2D_pairPt_pairMass[0] ->Fill( Reader->pair_pt[i],Reader->pair_mass[i]);
-				h2D_pairEta_pairMass[0]->Fill( Reader->pair_eta[i],Reader->pair_mass[i]);
-				h2D_pairPhi_pairMass[0]->Fill( Reader->pair_phi[i],Reader->pair_mass[i]);
-				h2D_pairDecayL_pairMass[0]->Fill( Reader->pair_decayL[i],Reader->pair_mass[i] );
-				h2D_p1Pt_pairMass[0]->Fill(Reader->p1_pt[i],Reader->pair_mass[i]);		
-				h2D_p2Pt_pairMass[0]->Fill(Reader->p2_pt[i],Reader->pair_mass[i]);		
-				h2D_p1Pt_p2Pt[0]    ->Fill(Reader->p1_pt[i] ,Reader->p2_pt[i]); 
-			}
+			
+			h2D_NK0s_pairMass[0]->Fill( Reader->NK0s,Reader->pair_mass[i] );
+			h2D_pairPt_pairMass[0] ->Fill( Reader->pair_pt[i],Reader->pair_mass[i]);
+			h2D_pairEta_pairMass[0]->Fill( Reader->pair_eta[i],Reader->pair_mass[i]);
+			h2D_pairPhi_pairMass[0]->Fill( Reader->pair_phi[i],Reader->pair_mass[i]);
+			h2D_pairDecayL_pairMass[0]->Fill( Reader->pair_decayL[i],Reader->pair_mass[i] );
+			h2D_p1Pt_pairMass[0]->Fill(Reader->p1_pt[i],Reader->pair_mass[i]);		
+			h2D_p2Pt_pairMass[0]->Fill(Reader->p2_pt[i],Reader->pair_mass[i]);		
+			h2D_p1Pt_p2Pt[0]    ->Fill(Reader->p1_pt[i] ,Reader->p2_pt[i]); 
+			
 				
 			
-			if(Reader->p1_ch[i] == -1) {
-				h2D_NK0s_pairMass[1]->Fill( Reader->NK0s,Reader->pair_mass[i] );
-				h2D_pairPt_pairMass[1] ->Fill( Reader->pair_pt[i],Reader->pair_mass[i]);
-				h2D_pairEta_pairMass[1]->Fill( Reader->pair_eta[i],Reader->pair_mass[i]);
-				h2D_pairPhi_pairMass[1]->Fill( Reader->pair_phi[i],Reader->pair_mass[i]);
-				h2D_pairDecayL_pairMass[1]->Fill( Reader->pair_decayL[i],Reader->pair_mass[i] );
-				h2D_p1Pt_pairMass[1]->Fill(Reader->p1_pt[i],Reader->pair_mass[i]);		
-				h2D_p2Pt_pairMass[1]->Fill(Reader->p2_pt[i],Reader->pair_mass[i]);
-				h2D_p1Pt_p2Pt[1]    ->Fill(Reader->p1_pt[i] ,Reader->p2_pt[i]); 		
-			}
+				
+			
 	
 
 		}

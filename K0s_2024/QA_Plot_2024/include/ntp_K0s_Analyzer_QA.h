@@ -185,10 +185,10 @@ void ntp_K0s_Analyzer::Analysis_QAPlot(){
 
 
 			//Fill Histograms of QA plot (without any cut);
-			Histogramer->Fill_QAplots();
+			//Histogramer->Fill_QAplots();
 
 			//------------------------Make some selections on the events-----------------------------
-			/*	
+			
 			std::vector<int> GoodK0sFlag;
 			for(int i_K0s = 0; i_K0s<SameEvent_Reader->NK0s;i_K0s++){
 				
@@ -218,7 +218,7 @@ void ntp_K0s_Analyzer::Analysis_QAPlot(){
 					Analysis_Pair(i_K0s,j_K0s);
 				}
 			}
-			*/
+			
 			
 					
 		}

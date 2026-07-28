@@ -46,7 +46,7 @@ int main(int argc, char*argv[]){
 	ntp_K0s_Reader *mySameEventReader = new ntp_K0s_Reader(InputFile_SameEvent);
 	
 	
-	std::string OutPutFile = "K0s_P24iyHelixBeforeSelection_plot_eta1p5.root"; 
+	std::string OutPutFile = "K0s_P24iyHelixAfterSelection_plot_eta1p5.root"; 
 	ntp_K0s_Histogram *myHistogram = new ntp_K0s_Histogram(mySameEventReader,OutPutFile);
 	myHistogram->InitHitogram();
 
