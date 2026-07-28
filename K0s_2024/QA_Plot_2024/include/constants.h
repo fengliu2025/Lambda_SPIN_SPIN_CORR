@@ -11,8 +11,8 @@ const float Track_Eta_Cut   = 1.5;
 const float K0s_Rapidity_Cut = 1.0;
 const float K0s_Pt_lowCut    = 0.5; //GeV/c
 const float K0s_Pt_highCut   = 5.0; //GeV/c
-const float K0s_mass_lowCut  = 0.45;
-const float K0s_mass_highCut = 0.55;
+const float K0s_mass_lowCut  = 0.49;//0.45;
+const float K0s_mass_highCut = 0.506;//0.55;
 
 
 //MixEvent Limitation 
