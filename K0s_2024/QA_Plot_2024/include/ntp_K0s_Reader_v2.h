@@ -46,7 +46,7 @@ public :
    Float_t         p2_dca[50];   //[NK0s]
    Float_t         p2_dcaxy[50];   //[NK0s]
    Float_t         p2_nSigmaPion[50];
-   Float_t         p2_ch[50];   //[NK0s]
+   Int_t           p2_ch[50];   //[NK0s]
    Int_t           p2_hasTOFinfo[50];   //[NK0s]
    Float_t         p2_dedx[50];   //[NK0s]
    Float_t         p2_beta[50];   //[NK0s]
