@@ -75,7 +75,7 @@ ntp_K0s_K0sSelecter::ntp_K0s_K0sSelecter()
 	K0sMassMax = 0.506;//K0s_mass_highCut;//1.122;//1.13;  //GeV/c^2
 	K0sCosThetaMin = 0.996;
 	K0sCosThetaMax = 100.;
-	K0sDecayLMin = 0.5 ; //cm
+	K0sDecayLMin = 2;//cm
 	K0sDecayLMax = 25.; //cm
 	K0sDauDCAMin = -1.; //cm
 	K0sDauDCAMax = 1.0; //cm
