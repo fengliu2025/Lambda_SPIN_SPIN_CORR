@@ -83,7 +83,7 @@ ntp_K0s_K0sSelecter::ntp_K0s_K0sSelecter()
 	K0sDCAMax = 1.0; //cm 
 
 	
-	pion_DCAMin = 0.3; //cm;
+	pion_DCAMin = 0.5; //cm;
 
 
 	PtDiffMax = 0.1;
