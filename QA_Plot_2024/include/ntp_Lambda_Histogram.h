@@ -92,7 +92,10 @@ public :
 	TH2D *h2D_p2Pt_pairMass[2];
 	TH2D *h2D_p1Pt_p2Pt[2];
 
-
+	TH1D *h1D_p1_plus_pt;
+	TH1D *h1D_p1_minus_pt;
+	TH1D *h1D_p2_plus_pt;
+	TH1D *h1D_p2_minus_pt;
 
 
 
@@ -207,7 +210,11 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	}
 
 	
-	
+	h1D_p1_plus_pt  = new TH1D("h1D_p1_plus_pt","h1D_p1_plus_pt",100,0,10);
+	h1D_p1_minus_pt = new TH1D("h1D_p1_minus_pt","h1D_p1_minus_pt",100,0,10);
+	h1D_p2_plus_pt  = new TH1D("h1D_p2_plus_pt","h1D_p2_plus_pt",100,0,10);
+	h1D_p2_minus_pt = new TH1D("h1D_p2_minus_pt","h1D_p2_minus_pt",100,0,10);
+
 
 
 
@@ -265,6 +272,10 @@ void ntp_Lambda_Histogram::Fill_QAplots(){
 			h1D_p2_Dca    		->Fill(Reader->p2_dca[i]);
 			h1D_p2_Dcaxy    	->Fill(Reader->p2_dcaxy[i]);
 			h1D_p2_nSigmaPion   ->Fill(Reader->p2_nSigmaPion[i]);
+
+
+
+
 		}
 
 		h1D_track_Number ->Fill(Reader->track_Number);
@@ -280,6 +291,9 @@ void ntp_Lambda_Histogram::Fill_QAplots(){
 			h1D_track_nSigmaProton ->Fill(Reader->track_nSigmaProton[i]);
 			h1D_track_ch ->Fill(Reader->track_ch[i]);
 		}
+
+
+		
 
 
 	
@@ -341,6 +355,8 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 	
 		
 
+			
+
 
 
 			
@@ -353,6 +369,8 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 				h2D_p1Pt_pairMass[0]->Fill(Reader->p1_pt[i],Reader->pair_mass[i]);		
 				h2D_p2Pt_pairMass[0]->Fill(Reader->p2_pt[i],Reader->pair_mass[i]);		
 				h2D_p1Pt_p2Pt[0]    ->Fill(Reader->p1_pt[i] ,Reader->p2_pt[i]); 
+				h1D_p1_plus_pt->Fill(Reader->p1_pt[i]);
+				h1D_p2_minus_pt->Fill(Reader->p2_pt[i]);
 			}
 				
 			
@@ -364,7 +382,9 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 				h2D_pairDecayL_pairMass[1]->Fill( Reader->pair_decayL[i],Reader->pair_mass[i] );
 				h2D_p1Pt_pairMass[1]->Fill(Reader->p1_pt[i],Reader->pair_mass[i]);		
 				h2D_p2Pt_pairMass[1]->Fill(Reader->p2_pt[i],Reader->pair_mass[i]);
-				h2D_p1Pt_p2Pt[1]    ->Fill(Reader->p1_pt[i] ,Reader->p2_pt[i]); 		
+				h2D_p1Pt_p2Pt[1]    ->Fill(Reader->p1_pt[i] ,Reader->p2_pt[i]); 
+				h1D_p1_minus_pt ->Fill(Reader->p1_pt[i]);
+				h1D_p2_plus_pt->Fill(Reader->p2_pt[i]);		
 			}
 	
 
@@ -460,6 +480,11 @@ void ntp_Lambda_Histogram::Reset(){
 	h1D_p2_Dcaxy    	->Reset("ICES");
 	h1D_p2_nSigmaPion ->Reset("ICES");
 
+	h1D_p1_plus_pt  ->Reset("ICES");
+	h1D_p1_minus_pt ->Reset("ICES");
+	h1D_p2_plus_pt  ->Reset("ICES");
+	h1D_p2_minus_pt ->Reset("ICES");
+
 
 	h2D_NLambda_NGoodLambda ->Reset("ICES");
 	for(int i =0 ; i <3 ; i++){
@@ -541,7 +566,10 @@ void ntp_Lambda_Histogram::WriteAll(){
 	h1D_p2_Dcaxy    	->Write();
 	h1D_p2_nSigmaPion ->Write();
 
-	
+	h1D_p1_plus_pt  ->Write();
+	h1D_p1_minus_pt ->Write();
+	h1D_p2_plus_pt  ->Write();
+	h1D_p2_minus_pt ->Write();
 
 	h2D_NLambda_NGoodLambda->Write(); 
 	for(int i =0 ; i <3 ; i++){

@@ -16,7 +16,7 @@
 
 #include "constants.h"
 #include "ntp_Lambda_Histogram.h"
-#include "ntp_Lambda_Reader.h"
+#include "ntp_Lambda_Reader_v2.h"
 #include "ntp_Lambda_EventSelecter.h"
 #include "ntp_Lambda_LambdaSelecter.h"
 
@@ -209,10 +209,10 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 
 			//Fill Histograms of QA plot (without any cut);
-			Histogramer->Fill_QAplots();
+			//Histogramer->Fill_QAplots();
 
 			//------------------------Make some selections on the events-----------------------------
-			/*	
+				
 			std::vector<int> GoodLambdaFlag;
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
 				
@@ -242,7 +242,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 					Analysis_Pair(i_lambda,j_lambda);
 				}
 			}
-			*/
+			
 			
 					
 		}
