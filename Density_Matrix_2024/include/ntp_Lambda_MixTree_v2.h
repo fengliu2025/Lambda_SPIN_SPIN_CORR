@@ -26,10 +26,10 @@ public :
 	Int_t CounterPart_Number;
 
 
-	Int_t Start_Index[1000]; 
-	Int_t End_Index[1000]; 
-	Int_t CounterPart_FileIndex[1000];
-	Int_t CounterPart_EventIndex[1000]; 
+	Int_t Start_Index[10000]; 
+	Int_t End_Index[10000]; 
+	Int_t CounterPart_FileIndex[10000];
+	Int_t CounterPart_EventIndex[10000]; 
 	//Int_t CounterPart_LambdaIndex[1000];
 
 
@@ -194,21 +194,21 @@ int ntp_Lambda_MixTree::FindCounterPart(int lambda_index){
 	v.SetPtEtaPhiM(reader_Same->pair_pt[lambda_index],reader_Same->pair_eta[lambda_index],reader_Same->pair_phi[lambda_index],reader_Same->pair_mass[lambda_index]);
 
 
-
+	
 	bool goodness = mLambdaSelecter->IsGoodLambda(reader_Same->p2_pt[lambda_index] , reader_Same->p1_pt[lambda_index], 
 												  reader_Same->p2_eta[lambda_index], reader_Same->p1_eta[lambda_index], 
 												  reader_Same->pair_pt[lambda_index],v.Rapidity()					 ,
 												  reader_Same->pair_mass[lambda_index], reader_Same->pair_decayL[lambda_index],
 												  reader_Same->pair_theta[lambda_index],reader_Same->pair_DCAdaughters[lambda_index]);
 
-
+	
 		    
 	if( goodness == false){
 		Start_Index[lambda_index] = CounterPart_Number;
 		End_Index[lambda_index]   = CounterPart_Number;
 		return 0;
 	} 
-
+	
 	// if the goodness is true
 	//loop over the pool
 	Start_Index[lambda_index] = CounterPart_Number; 

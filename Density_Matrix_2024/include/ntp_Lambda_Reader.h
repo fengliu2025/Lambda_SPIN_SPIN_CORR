@@ -200,7 +200,7 @@ void ntp_Lambda_Reader::Init(TTree *tree)
    fChain->SetBranchAddress("pair_eta", pair_eta, &b_pair_eta);
    fChain->SetBranchAddress("pair_pt", pair_pt, &b_pair_pt);
    fChain->SetBranchAddress("pair_mass", pair_mass, &b_pair_mass);
-   fChain->SetBranchAddress("track_Number", &track_Number, &b_track_Number);
+   /*fChain->SetBranchAddress("track_Number", &track_Number, &b_track_Number);
    fChain->SetBranchAddress("track_pt", track_pt, &b_track_pt);
    fChain->SetBranchAddress("track_eta", track_eta, &b_track_eta);
    fChain->SetBranchAddress("track_phi", track_phi, &b_track_phi);
@@ -212,6 +212,20 @@ void ntp_Lambda_Reader::Init(TTree *tree)
    fChain->SetBranchAddress("track_nSigmaProton", track_nSigmaProton, &b_track_nSigmaProton);
    fChain->SetBranchAddress("track_dedx", track_dedx, &b_track_dedx);
    fChain->SetBranchAddress("track_ch", track_ch, &b_track_ch);
+   */ 
+   fChain->SetBranchStatus("track_Number", 0);
+   fChain->SetBranchStatus("track_pt", 0);
+   fChain->SetBranchStatus("track_eta", 0);
+   fChain->SetBranchStatus("track_phi", 0);
+   fChain->SetBranchStatus("track_InEventID", 0);
+   fChain->SetBranchStatus("track_dca", 0);
+   fChain->SetBranchStatus("track_dcaxy", 0);
+   fChain->SetBranchStatus("track_nSigmaPion", 0);
+   fChain->SetBranchStatus("track_nSigmaKaon", 0);
+   fChain->SetBranchStatus("track_nSigmaProton", 0);
+   fChain->SetBranchStatus("track_dedx", 0);
+   fChain->SetBranchStatus("track_ch", 0);   
+   
 }
 
 #endif
