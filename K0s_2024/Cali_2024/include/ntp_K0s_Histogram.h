@@ -141,8 +141,8 @@ void ntp_K0s_Histogram::InitHitogram(){
 		h2D_pairEta_pairMass.push_back(     new TH2D( Form("h2D_pairEta_pairMass_%d",i) 	, Form("h2D_pairEta_pairMass_%d",i)		, 100,-3,3,1000,0.45,0.55             )       ) ;
 		h2D_pairPhi_pairMass.push_back(     new TH2D( Form("h2D_pairPhi_pairMass_%d",i) 	, Form("h2D_pairPhi_pairMass_%d",i)		, 100,-2*3.14,2*3.14,1000,0.45,0.55   )       ) ;
 		h2D_pairDecayL_pairMass.push_back(  new TH2D( Form("h2D_pairDecayL_pairMass_%d",i)  , Form("h2D_pairDecayL_pairMass_%d",i)  , 100,0,30,1000,0.45,0.55             )       ) ;
-		h2D_p1Pt_pairMass.push_back(        new TH2D( Form("h2D_p1Pt_pairMass.%d",i)        , Form("h2D_p1Pt_pairMass.%d",i)        , 100,0,10,1000,0.45,0.55             )       ) ;
-		h2D_p2Pt_pairMass.push_back(        new TH2D( Form("h2D_p2Pt_pairMass.%d",i)        , Form("h2D_p2Pt_pairMass.%d",i)        , 100,0,10,1000,0.45,0.55             )       ) ;
+		h2D_p1Pt_pairMass.push_back(        new TH2D( Form("h2D_p1Pt_pairMass_%d",i)        , Form("h2D_p1Pt_pairMass_%d",i)        , 100,0,10,1000,0.45,0.55             )       ) ;
+		h2D_p2Pt_pairMass.push_back(        new TH2D( Form("h2D_p2Pt_pairMass_%d",i)        , Form("h2D_p2Pt_pairMass_%d",i)        , 100,0,10,1000,0.45,0.55             )       ) ;
 	}
 
 	double delta_Cali_scale = (Cali_scale_max - Cali_scale_min)/10.;
@@ -153,8 +153,8 @@ void ntp_K0s_Histogram::InitHitogram(){
 		Cali_n.push_back(i);
 	}
 
-	gr_ScaleFactor = new TGraph( Cali_NPoint+1, Cali_n.data(), Cali_scale.data() );
-	
+	gr_ScaleFactor = new TGraph(Cali_NPoint+1, Cali_n.data(), Cali_scale.data() );
+	gr_ScaleFactor->SetName("gr_ScaleFactor");
 
 
 }
