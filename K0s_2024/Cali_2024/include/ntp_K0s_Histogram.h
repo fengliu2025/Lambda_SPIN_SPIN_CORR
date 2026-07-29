@@ -318,7 +318,7 @@ void ntp_K0s_Histogram::Reset(){
 
 
 
-	gr_ScaleFactor->Reset();
+	//gr_ScaleFactor->Reset();
 	
 
 
