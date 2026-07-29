@@ -71,7 +71,7 @@ ntp_Lambda_LambdaSelecter::ntp_Lambda_LambdaSelecter()
 	trackEtaMax = 1.5;  //1.5;
 	LambdaPtMin = 0.5;  //GeV/c
 	LambdaPtMax = 5.0;  //GeV/c
-	LambdaRapidityMax =1; //1.5;
+	LambdaRapidityMax =1.5; //1.5;
 	LambdaMassMin = Lambda_mass_lowCut;//1.110;//1.10;  //GeV/c62
 	LambdaMassMax = Lambda_mass_highCut;//1.122;//1.13;  //GeV/c^2
 	LambdaCosThetaMin = 0.996;
@@ -138,7 +138,7 @@ bool ntp_Lambda_LambdaSelecter::IsGoodLambda(double pion_Pt,double proton_Pt, do
 	if(pion_Eta < (-trackEtaMax) || pion_Eta > trackEtaMax || proton_Eta <(-trackEtaMax) || proton_Eta >trackEtaMax ) goodness = false;
 	if(Lambda_Pt < LambdaPtMin  || Lambda_Pt > LambdaPtMax ||  Lambda_Rapidity < (-LambdaRapidityMax) || Lambda_Rapidity > LambdaRapidityMax ) goodness = false;
 	//if(Lambda_Mass < LambdaMassMin || Lambda_Mass > LambdaMassMax  ) goodness = false;
-	if( ! IsGoodLambdaMass(Lambda_Pt,Lambda_Mass) ) goodness = false;
+	//if( ! IsGoodLambdaMass(Lambda_Pt,Lambda_Mass) ) goodness = false;
 	if(Lambda_DecayL < LambdaDecayLMin || Lambda_DecayL > LambdaDecayLMax ) goodness = false;
 	if(TMath::Cos(Lambda_Theta) < LambdaCosThetaMin ) goodness = false;
 	if(Lambda_DauDCA > LambdaDauDCAMax ) goodness = false;
