@@ -189,7 +189,7 @@ void ntp_K0s_Analyzer::Analysis_Cali(){
 				int NGoodK0s = std::accumulate(GoodK0sFlag.begin(), GoodK0sFlag.end(), 0);
 				if(NGoodK0s > 0 ) {
 					Histogramer->Fill_K0sInfo(SameEvent_Reader->pair_charge[i_K0s],SameEvent_Reader->pair_DCAdaughters[i_K0s],SameEvent_Reader->pair_theta[i_K0s],SameEvent_Reader->pair_decayL[i_K0s]);
-					Histogramer->Fill_DauPionInfo(SameEvent_Reader->p1_eta[i_K0s],SameEvent_Reader->p1_phi[i_K0s],SameEvent_Reader->p1_dca[i_K0s],SameEvent_Reader->p1_dcaxy[i_K0s],SameEvent_Reader->p1_nSigmaPion[i_K0s]
+					Histogramer->Fill_DauPionInfo(SameEvent_Reader->p1_eta[i_K0s],SameEvent_Reader->p1_phi[i_K0s],SameEvent_Reader->p1_dca[i_K0s],SameEvent_Reader->p1_dcaxy[i_K0s],SameEvent_Reader->p1_nSigmaPion[i_K0s],
 												  SameEvent_Reader->p2_eta[i_K0s],SameEvent_Reader->p2_phi[i_K0s],SameEvent_Reader->p2_dca[i_K0s],SameEvent_Reader->p2_dcaxy[i_K0s],SameEvent_Reader->p2_nSigmaPion[i_K0s]);
 				}
 			}
@@ -197,7 +197,7 @@ void ntp_K0s_Analyzer::Analysis_Cali(){
 
 			
 			
-			f
+			
 			
 					
 		}

@@ -71,11 +71,11 @@ ntp_K0s_K0sSelecter::ntp_K0s_K0sSelecter()
 	K0sPtMin = 0.5;  //GeV/c
 	K0sPtMax = 5.0;  //GeV/c
 	K0sRapidityMax =1.0; //1.5;
-	K0sMassMin = 0.49;//K0s_mass_lowCut;//1.110;//1.10;  //GeV/c62
-	K0sMassMax = 0.506;//K0s_mass_highCut;//1.122;//1.13;  //GeV/c^2
+	K0sMassMin = 0.45;//K0s_mass_lowCut;//1.110;//1.10;  //GeV/c62
+	K0sMassMax = 0.55;//K0s_mass_highCut;//1.122;//1.13;  //GeV/c^2
 	K0sCosThetaMin = 0.996;
 	K0sCosThetaMax = 100.;
-	K0sDecayLMin = 2;//cm
+	K0sDecayLMin = 0.5;//cm
 	K0sDecayLMax = 25.; //cm
 	K0sDauDCAMin = -1.; //cm
 	K0sDauDCAMax = 1.0; //cm
@@ -83,7 +83,7 @@ ntp_K0s_K0sSelecter::ntp_K0s_K0sSelecter()
 	K0sDCAMax = 1.0; //cm 
 
 	
-	pion_DCAMin = 0.5; //cm;
+	pion_DCAMin = 0.3; //cm;
 
 
 	PtDiffMax = 0.1;
