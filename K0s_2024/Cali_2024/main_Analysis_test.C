@@ -49,7 +49,7 @@ int main(int argc, char*argv[]){
 	std::string OutPutFile = "K0s_P24iyHelixScaledMass_plot_eta1p5.root"; 
 	ntp_K0s_Histogram *myHistogram = new ntp_K0s_Histogram(mySameEventReader,OutPutFile);
 	myHistogram->Cali_scale_max = 1.000;
-	myHistogram->Cali_scale_min = 0.995;
+	myHistogram->Cali_scale_min = 0.990;
 	myHistogram->Cali_NPoint    = 10;
 	myHistogram->InitHitogram();
 
@@ -70,7 +70,7 @@ int main(int argc, char*argv[]){
  	
 
 	
-	ntp_K0s_Analyzer *myAnalyzer = new ntp_K0s_Analyzer(mySameEventReader,myHistogram,myEventSelecter,myK0sSelecter,1.000,0.995,10);
+	ntp_K0s_Analyzer *myAnalyzer = new ntp_K0s_Analyzer(mySameEventReader,myHistogram,myEventSelecter,myK0sSelecter,1.000,0.990,10);
 
 	//---------------
 	myAnalyzer->Analysis_Cali();
