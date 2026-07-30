@@ -13,7 +13,7 @@
 #include <iostream>
 
 
-#include "ntp_Lambda_Reader_v2.h"
+#include "ntp_Lambda_Reader_v3.h"
 
 
 #include "constants.h"
@@ -75,8 +75,6 @@ public :
 	TH1D *h1D_track_nSigmaProton;
 	TH1D *h1D_track_ch;
 
-
-
 	TH2D *h2D_NLambda_NGoodLambda; 
 	TH2D *h2D_NLambda_PtDiff[3];
 	TH2D *h2D_NLambda_RapidityDiff[3];
@@ -129,7 +127,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_NLambda    = new TH1D("h1D_NLambda","h1D_NLambda",10,-1,9);
 	h1D_TrigID     = new TH1D("h1D_TrigID","h1D_TrigID",6,0.5,6.5);
 
-	h2D_NLambda_Ntrks = new TH2D("h2D_NLambda_Ntrks","h2D_NLambda_Ntrks",10,-1,9,100,-1,99);
+	h2D_NLambda_Ntrks = new TH2D("h2D_NLambda_Ntrks","h2D_NLambda_Ntrks",10,-1,9,100,-0.5,99.5);
 
 
 
@@ -237,7 +235,7 @@ void ntp_Lambda_Histogram::Fill_QAplots(){
 		
 
 		
-		h2D_NLambda_Ntrks->Fill(Reader->NLambda,Reader->mNTrks);
+		h2D_NLambda_Ntrks->Fill(Reader->NLambda,Reader->track_Number);
 
 		for(int i =0 ; i < Reader->mNTrks;i++){
 			h1D_high_Pt   ->Fill(Reader->high_pt[i]  );

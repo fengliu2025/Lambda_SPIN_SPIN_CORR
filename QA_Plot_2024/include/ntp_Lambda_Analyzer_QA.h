@@ -16,7 +16,7 @@
 
 #include "constants.h"
 #include "ntp_Lambda_Histogram.h"
-#include "ntp_Lambda_Reader_v2.h"
+#include "ntp_Lambda_Reader_v3.h"
 #include "ntp_Lambda_EventSelecter.h"
 #include "ntp_Lambda_LambdaSelecter.h"
 
