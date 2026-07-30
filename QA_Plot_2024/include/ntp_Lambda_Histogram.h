@@ -81,6 +81,8 @@ public :
 	TH2D *h2D_NLambda_PhiDiff[3];
 	TH2D *h2D_NLambda_DeltaR[3];
 
+	TH2D *h2D_DeltaR_NTrksInWindow[3];
+
 	TH2D *h2D_NLambda_pairMass[2];
 	TH2D *h2D_pairPt_pairMass[2];
 	TH2D *h2D_pairEta_pairMass[2];
@@ -186,12 +188,14 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	
 	h2D_NLambda_NGoodLambda = new TH2D("h2D_NLambda_NGoodLambda","h2D_NLambda_NGoodLambda",10,0.5,10.5,11,-0.5,10.5); 
 	
+	TH2D *h2D_DeltaR_NTrks[3];
+
 	for(int i =0 ; i < 3 ; i ++){
 		h2D_NLambda_PtDiff[i]        = new TH2D(Form("h2D_NLambda_PtDiff_%d",i),Form("h2D_NLambda_PtDiff_%d",i),10,0.5,10.5,100,-10,10 );
 		h2D_NLambda_RapidityDiff[i]  = new TH2D(Form("h2D_NLambda_RapidityDiff_%d",i),Form("h2D_NLambda_RapidityDiff_%d",i),10,0.5,10.5,100,-5,5);
 		h2D_NLambda_PhiDiff[i]       = new TH2D(Form("h2D_NLambda_PhiDiff_%d",i),Form("h2D_NLambda_PhiDiff_%d",i),10,0.5,10.5,200,-2*TMath::Pi(),2*TMath::Pi());
 		h2D_NLambda_DeltaR[i]        = new TH2D(Form("h2D_NLambda_DeltaR_%d",i),Form("h2D_NLambda_DeltaR_%d",i),10,0.5,10.5,100,0,4 );
-
+		h2D_DeltaR_NTrksInWindow[i]          = new TH2D(Form("h2D_DeltaR_NTrks_%d",i)  ,Form("h2D_DeltaR_NTrks_%d",i)  ,100,0,4,100,-0.5,99.5 );
 	}
 	
 	
@@ -201,7 +205,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 		h2D_pairPt_pairMass[i]  	= new TH2D(Form("h2D_pairPt_pairMass_%d",i),  Form("h2D_pairPt_pairMass_%d",i),100,0,5,240,1.09,1.15);
 		h2D_pairEta_pairMass[i] 	= new TH2D(Form("h2D_pairEta_pairMass_%d",i), Form("h2D_pairEta_pairMass_%d",i),200,-2,2,240,1.09,1.15);
 		h2D_pairPhi_pairMass[i] 	= new TH2D(Form("h2D_pairPhi_PairMass_%d",i), Form("h2D_pairPhi_pair_Mass_%d",i),100,-3.2,3.2,240,1.09,1.15);
-		h2D_pairDecayL_pairMass[i]  = new TH2D(Form("h2D_pairDecayL_pairMass_%d",i),Form("h2D_pairDecayL_pairMass_%d"),100,2,25,240,1.09,1.15 );
+		h2D_pairDecayL_pairMass[i]  = new TH2D(Form("h2D_pairDecayL_pairMass_%d",i),Form("h2D_pairDecayL_pairMass_%d",i),100,2,25,240,1.09,1.15 );
 		h2D_p1Pt_pairMass[i]		= new TH2D(Form("h2D_p1Pt_pairMass_%d",i)   , Form("h2D_p1Pt_pairMass_%d",i),100,0.15,5,240,1.09,1.15  );
 		h2D_p2Pt_pairMass[i]		= new TH2D(Form("h2D_p2Pt_pairMass_%d",i)   , Form("h2D_p2Pt_pairMass_%d",i),100,0.15,1.5,240,1.09,1.15);
 		h2D_p1Pt_p2Pt[i] 			= new TH2D(Form("h2D_p1Pt_p2Pt_%d",i)       , Form("h2D_p1Pt_p2Pt_%d",i)    ,200,0,5,200,0,3);
@@ -419,6 +423,52 @@ void ntp_Lambda_Histogram::Fill_PairPlots(TLorentzVector *v1,TLorentzVector *v2,
 	h2D_NLambda_PhiDiff[pair_type]->Fill(Reader->NLambda,delta_Phi);
 	h2D_NLambda_DeltaR[pair_type]->Fill(Reader->NLambda,deltaR);
 
+	double Eta_max = v1->Eta();
+	double Eta_min = v2->Eta();
+	double Phi_max = v1->Phi();
+	double Phi_min = v2->Phi();
+	if(Eta_min > Eta_max ){
+		Eta_max = v2->Eta();
+		Eta_min = v1->Eta();
+	}
+
+	if(Phi_min > Phi_max ){
+		Phi_max =  v2->Phi();
+		Phi_min =  v1->Phi();
+	}
+
+
+	double Window_Eta_max = Eta_max; 
+	double Window_Eta_min = Eta_min;
+	double delta_Eta = Eta_max - Eta_min;
+
+	double Window1_Phi_max = Phi_max;
+	double Window1_Phi_min = Phi_min;
+
+	double Window2_Phi_max = Phi_max; 
+	double Window2_Phi_min = Phi_min;
+
+	if(TMath::Abs(Phi_max-Phi_min) > TMath::Pi() ){
+		Window1_Phi_max = TMath::Pi();
+		Window1_Phi_min = Phi_max;
+		Window2_Phi_max = Phi_min; 
+		Window2_Phi_min = -TMath::Pi();
+	}
+
+	int NTrks_InWindow = 0 ; 
+	for(int i_trk = 0 ; i_trk < Reader->track_Number; i_trk++ ){
+		 bool IsEtaIn  = (track_eta[i_trk] < Window_Eta_max) && (track_eta[i_trk] > Window_Eta_min)  ;
+		 bool IsPhiIn1 = (track_phi[i_trk] < Window1_Phi_max)&& (track_phi[i_trk] > Window1_Phi_min) ;
+		 bool IsPhiIn2 = (track_phi[i_trk] < Window2_Phi_max)&& (track_phi[i_trk] > Window2_Phi_min) ;
+		 bool IsPhiIn = IsPhiIn1 || IsPhiIn2;
+		 if ( IsEtaIn && IsPhiIn  ) NTrks_InWindow ++;
+	}
+
+
+
+	h2D_DeltaR_NTrksInWindow[pair_type]->Fill( TMath::Sqrt( delta_Phi * delta_Phi + delta_Eta * delta_Eta  )  , NTrks_InWindow  );       
+
+
 
 }
 
@@ -490,6 +540,7 @@ void ntp_Lambda_Histogram::Reset(){
 		h2D_NLambda_RapidityDiff[i]->Reset("ICES");
 		h2D_NLambda_PhiDiff[i]->Reset("ICES");
 		h2D_NLambda_DeltaR[i]->Reset("ICES");
+		h2D_DeltaR_NTrksInWindow[i]  ->Reset("ICES");
 	}
 	
 	for(int i=0 ;i <2 ;i++){
@@ -575,6 +626,7 @@ void ntp_Lambda_Histogram::WriteAll(){
 		h2D_NLambda_RapidityDiff[i]->Write();
 		h2D_NLambda_PhiDiff[i]->Write();
 		h2D_NLambda_DeltaR[i]->Write();
+		h2D_DeltaR_NTrksInWindow[i]  ->Write();
 	}
 	
 	for(int i=0 ;i <2 ;i++){
