@@ -406,7 +406,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList, SameEvent_Reader->Vz) ) continue;
-			if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
+			//if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
 			
 			std::vector<int> GoodLambdaFlag;
 			
@@ -656,7 +656,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList,SameEvent_Reader->Vz ) ) continue;
-			if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
+			//if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
 			
 			std::vector<int> GoodLambdaFlag;
 
