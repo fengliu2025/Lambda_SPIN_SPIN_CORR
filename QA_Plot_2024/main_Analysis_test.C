@@ -14,26 +14,26 @@ int main(int argc, char*argv[]){
 	std::vector<std::string> FileList;
 	std::vector<std::string> FileName;
 
-	//std::ifstream filelist("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree/filelist.txt");
+	std::ifstream filelist("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree/filelist.txt");
 	
 	//std::ifstream filelist("/gpfs01/star/pwg/fliu/production/pp2024/PicoDstLambda_P24iy_woTrk/filelist.txt");
 	//std::ifstream filelist("/gpfs01/star/pwg/fliu/production/pp2012/PicoDstLambda_P12id/FileList.txt");
-	std::ifstream filelist("/gpfs01/star/pwg/fliu/production_test/pp2024_P24iy/PicoDstLambda_P24iy/FileList.txt");
+	//std::ifstream filelist("/gpfs01/star/pwg/fliu/production_test/pp2024_P24iy/PicoDstLambda_P24iy/FileList.txt");
 
 	if (!filelist.is_open()) {
 		std::cerr <<"can't open the file" <<std::endl;
 	}
-	//std::string directory="/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree/";
+	std::string directory="/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree/";
 	//std::string directory="/gpfs01/star/pwg/fliu/production/pp2024/PicoDstLambda_P24iy_woTrk/";
 	//std::string directory="/gpfs01/star/pwg/fliu/production/pp2012/PicoDstLambda_P12id/";
-	std::string directory="/gpfs01/star/pwg/fliu/production_test/pp2024_P24iy/PicoDstLambda_P24iy/";
+	//std::string directory="/gpfs01/star/pwg/fliu/production_test/pp2024_P24iy/PicoDstLambda_P24iy/";
 	std::string line;
 	
 	while (std::getline(filelist,line)){
 		FileList.push_back(directory+line);
 		FileName.push_back(line);
 	}
-	//FileList.push_back(directory+"121picoDstLambda.root.picoLambdaAnaMaker.root");
+
 	
 
 	
@@ -58,7 +58,7 @@ int main(int argc, char*argv[]){
 	//std::string OutPutFile = "P24iyHelixAfterSelectionMass_plot_HM_eta1p0.root"; 
 	//std::string OutPutFile = "SLAfterSelectionMass_plot_MB_eta1p0.root"; 
 	//std::string OutPutFile = "P12idHelixAfterSelectionMass_plot_eta1p0.root"; 
-	std::string OutPutFile = "P24iyHelixAfterSelectionCharge_plot_eta1p0.root"; 
+	std::string OutPutFile = "P24iyBeforeSelection_plot_eta1p5_MB_Check.root"; 
 	ntp_Lambda_Histogram *myHistogram = new ntp_Lambda_Histogram(mySameEventReader,OutPutFile);
 	myHistogram->InitHitogram();
 
@@ -68,11 +68,11 @@ int main(int argc, char*argv[]){
 
 	ntp_Lambda_EventSelecter *myEventSelecter = new ntp_Lambda_EventSelecter();
 	
-	//myEventSelecter->AllowedTriggerId.push_back(910001);
-	//myEventSelecter->AllowedTriggerId.push_back(910003);
-	//myEventSelecter->AllowedTriggerId.push_back(910013);
-	myEventSelecter->AllowedTriggerId.push_back(910802);
-	myEventSelecter->AllowedTriggerId.push_back(910804);
+	myEventSelecter->AllowedTriggerId.push_back(910001);
+	myEventSelecter->AllowedTriggerId.push_back(910003);
+	myEventSelecter->AllowedTriggerId.push_back(910013);
+	myEventSelecter->NotAllowedTriggerId.push_back(910802);
+	myEventSelecter->NotAllowedTriggerId.push_back(910804);
 	//myEventSelecter->AllowedTriggerId.push_back(370001);
 	//myEventSelecter->AllowedTriggerId.push_back(370011);
 	ntp_Lambda_LambdaSelecter *myLambdaSelecter = new ntp_Lambda_LambdaSelecter();
