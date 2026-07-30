@@ -457,9 +457,9 @@ void ntp_Lambda_Histogram::Fill_PairPlots(TLorentzVector *v1,TLorentzVector *v2,
 
 	int NTrks_InWindow = 0 ; 
 	for(int i_trk = 0 ; i_trk < Reader->track_Number; i_trk++ ){
-		 bool IsEtaIn  = (track_eta[i_trk] < Window_Eta_max) && (track_eta[i_trk] > Window_Eta_min)  ;
-		 bool IsPhiIn1 = (track_phi[i_trk] < Window1_Phi_max)&& (track_phi[i_trk] > Window1_Phi_min) ;
-		 bool IsPhiIn2 = (track_phi[i_trk] < Window2_Phi_max)&& (track_phi[i_trk] > Window2_Phi_min) ;
+		 bool IsEtaIn  = (Reader->track_eta[i_trk] < Window_Eta_max) && (Reader->track_eta[i_trk] > Window_Eta_min)  ;
+		 bool IsPhiIn1 = (Reader->track_phi[i_trk] < Window1_Phi_max)&& (Reader->track_phi[i_trk] > Window1_Phi_min) ;
+		 bool IsPhiIn2 = (Reader->track_phi[i_trk] < Window2_Phi_max)&& (Reader->track_phi[i_trk] > Window2_Phi_min) ;
 		 bool IsPhiIn = IsPhiIn1 || IsPhiIn2;
 		 if ( IsEtaIn && IsPhiIn  ) NTrks_InWindow ++;
 	}
