@@ -45,7 +45,7 @@ public:
 
 
 	ntp_Lambda_Analyzer();
-	ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *histogram, ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *LambdaSelecter,double max, double min , int n  );
+	ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *histogram, ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *lambdaSelecter,double max, double min , int n  );
 
 	~ntp_Lambda_Analyzer();
 	
@@ -62,8 +62,8 @@ ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(){
 
 }
 
-ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *histogram, ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *LambdaSelecter,double max, double min , int n )
-: SameEvent_Reader(reader1),Histogramer(histogram), EventSelecter(eventSelecter), LambdaSelecter(LambdaSelecter),Cali_scale_max(max),Cali_scale_min(min),Cali_NPoint(n)
+ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *histogram, ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *lambdaSelecter,double max, double min , int n )
+: SameEvent_Reader(reader1),Histogramer(histogram), EventSelecter(eventSelecter), LambdaSelecter(lambdaSelecter),Cali_scale_max(max),Cali_scale_min(min),Cali_NPoint(n)
 {
 	double delta_Cali_scale = (Cali_scale_max - Cali_scale_min)/10.;
 	Cali_scale.clear();
@@ -194,7 +194,7 @@ void ntp_Lambda_Analyzer::Analysis_Cali(){
 					GoodLambdaFlag.push_back(isGoodLambda);
 					if (isGoodLambda ==0 ) continue;
 					Histogramer->Fill_LambdaInfo(i_scale,Lambda_scaled, SameEvent_Reader->pair_decayL[i_Lambda] );
-					Histogramer->Fill_DauPionInfo(i_scale,Lambda_scaled,proton_scaled,pion_scaled);
+					Histogramer->Fill_DauInfo(i_scale,Lambda_scaled,proton_scaled,pion_scaled);
 
 				}
 				//---------------------End Loop of i_scale----------------------------------

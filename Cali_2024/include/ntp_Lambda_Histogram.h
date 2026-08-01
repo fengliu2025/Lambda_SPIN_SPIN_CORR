@@ -79,7 +79,7 @@ public :
 	void Fill_LambdaInfo(int pair_Charge, float pair_DauDCA, float pair_Theta, float pair_DecayL);
 	void Fill_LambdaInfo(int i_scale, TLorentzVector Lambda_scaled,float pair_DecayL);
 	void Fill_DauInfo(float p1_Eta,float p1_Phi ,float p1_Dca, float p1_Dcaxy, float p1_nSigmaProton ,float p2_Eta,float p2_Phi ,float p2_Dca, float p2_Dcaxy, float p2_nSigmaPion);
-	void Fill_DaunInfo(int i_scale, TLorentzVector Lambda_scaled,TLorentzVector Proton_scaled,TLorentzVector Pion_scaled);
+	void Fill_DauInfo(int i_scale, TLorentzVector Lambda_scaled,TLorentzVector Proton_scaled,TLorentzVector Pion_scaled);
 
 	void Reset();
 

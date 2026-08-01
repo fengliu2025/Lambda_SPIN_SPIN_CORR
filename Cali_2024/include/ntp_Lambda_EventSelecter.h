@@ -13,7 +13,7 @@ public:
 	virtual ~ntp_Lambda_EventSelecter();
 
 
-	bool IsGoodEvent(std::vector<int> EventTrigId,float Vz );
+	bool IsGoodEvent(std::vector<int> EventTrigId );
 	bool IsGoodEvent(float Vz);
 	bool IsGoodEvent();
 
@@ -32,7 +32,7 @@ ntp_Lambda_EventSelecter::~ntp_Lambda_EventSelecter(){
 }
 
 
- bool ntp_Lambda_EventSelecter::IsGoodEvent(std::vector<int> EventTrigId, float Vz){
+ bool ntp_Lambda_EventSelecter::IsGoodEvent(std::vector<int> EventTrigId){
  	bool goodness = false;
  	
  	for(int i=0 ; i < EventTrigId.size();i++){
@@ -48,8 +48,6 @@ ntp_Lambda_EventSelecter::~ntp_Lambda_EventSelecter(){
  	}
 
 
-
- 	if(Vz > VzMax || Vz < (-VzMax) ) goodness = false;
 
  	return goodness;
 
