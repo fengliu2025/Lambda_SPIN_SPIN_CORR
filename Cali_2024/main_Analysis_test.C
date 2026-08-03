@@ -46,7 +46,7 @@ int main(int argc, char*argv[]){
 	ntp_Lambda_Reader *mySameEventReader = new ntp_Lambda_Reader(InputFile_SameEvent);
 	
 	
-	std::string OutPutFile = "Lambda_P24iyScaledMass_plot_eta1p5.root"; 
+	std::string OutPutFile = "Lambda_P24iyScaledMass_plot_eta1p0.root"; 
 	ntp_Lambda_Histogram *myHistogram = new ntp_Lambda_Histogram(mySameEventReader,OutPutFile);
 	myHistogram->Cali_scale_max = 1.000;
 	myHistogram->Cali_scale_min = 0.996;

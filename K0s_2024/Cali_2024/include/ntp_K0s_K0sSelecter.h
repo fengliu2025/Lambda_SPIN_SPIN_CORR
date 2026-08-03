@@ -67,7 +67,7 @@ ntp_K0s_K0sSelecter::ntp_K0s_K0sSelecter()
 
 	trackPtMin  = 0.15;   //GeV/c
 	trackPtMax  = 10000.; //GeV/c
-	trackEtaMax = 1.5;  //1.5;
+	trackEtaMax = 1.0;  //1.5;
 	K0sPtMin = 0.5;  //GeV/c
 	K0sPtMax = 5.0;  //GeV/c
 	K0sRapidityMax =1.0; //1.5;
