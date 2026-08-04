@@ -141,7 +141,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_pair_Eta   = new TH1D("h1D_pair_Eta","h1D_pair_Eta",100,-3,3);
 	h1D_pair_Phi   = new TH1D("h1D_pair_Phi","h1D_pair_Phi",100,-2*TMath::Pi(),2*TMath::Pi());
 	//h1D_pair_Mass  = new TH1D("h1D_pair_Mass","h1D_pair_Mass",120,1.07,1.20);
-	h1D_pair_Mass  = new TH1D("h1D_pair_Mass","h1D_pair_Mass",240,1.09,1.15);
+	h1D_pair_Mass  = new TH1D("h1D_pair_Mass","h1D_pair_Mass",1000,1.06,1.18);
 	h1D_pair_Charge= new TH1D("h1D_pair_Charge","h1D_pair_Charge",4,-2,2);
 	h1D_pair_DauDCA= new TH1D("h1D_pair_DauDCA","h1D_pair_DauDCA",100,-5,5);
 	h1D_pair_CosTheta= new TH1D("h1D_pair_CosTheta","h1D_pair_CosTheta",100,0.5,1.5);
