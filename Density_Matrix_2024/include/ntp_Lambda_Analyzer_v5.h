@@ -313,9 +313,9 @@ std::vector <int> ntp_Lambda_Analyzer::Range_Type_Classifier(TLorentzVector *v1,
 	for(int i = 0 ; i < Range_Bin ;i ++ ){
 		if(delta_R > Range_Low[i] && delta_R < Range_High[i] ){
 			RangeBinFlag.push_back(i);
-			return RangeBinFlag;
 		}
 	}
+	return RangeBinFlag;
 
 }
 
