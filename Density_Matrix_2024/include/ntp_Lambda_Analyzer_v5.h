@@ -364,7 +364,7 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 
 		std::vector<int> NTrksBinFlag; NTrksBinFlag.clear();
 		for(int i = 0 ; i < NTrks_Bin ; i++){
-			if( NTrks_InWindow > NTrks_Low[i] && NTrks_InWindow < NTrks_High[i] ){
+			if( NTrks_InWindow >= NTrks_Low[i] && NTrks_InWindow <= NTrks_High[i] ){
 				NTrksBinFlag.push_back(i);
 			}
 		}
@@ -429,10 +429,10 @@ int ntp_Lambda_Analyzer::Analyze_SEPair(int i_lambda,int j_lambda){
 		std::vector<int> Range_Type  = Range_Type_Classifier(&Lambda1,&Lambda2);
 		std::vector<int> NTrks_Type  = NTrks_Type_Classifier(&Lambda1,&Lambda2);
 		
-
-		std::cout<<Range_Type.size()<<std::endl;
-		std::cout<<NTrks_Type.size()<<std::endl;
-
+		//std::cout<<"-------"<<std::endl;
+		//std::cout<<Range_Type.size()<<std::endl;
+		//std::cout<<NTrks_Type.size()<<std::endl;
+		//std::cout<<"-------"<<std::endl;
 		//Calculate the Density Matrix
 		Calculator->Reset(&Lambda1,&proton1,&pion1,&Lambda2,&proton2,&pion2);
 		Calculator->Calculation();
