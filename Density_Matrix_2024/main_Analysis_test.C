@@ -1,6 +1,6 @@
-#include "include/ntp_Lambda_Analyzer_v3.h"
+#include "include/ntp_Lambda_Analyzer_v5.h"
 #include "include/ntp_Lambda_Calculator.h"
-#include "include/ntp_Lambda_Histogram.h"
+#include "include/ntp_Lambda_Histogram_v2.h"
 #include "include/ntp_Lambda_Reader.h"
 #include "include/ntp_Lambda_EventSelecter.h"
 #include "include/ntp_Lambda_LambdaSelecter.h"

@@ -240,11 +240,11 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 
 
 
-void ntp_Lambda_Histogram::Fill_PairPlots(TLorentzVector *v1, TLorentzVector *v2,int type_bin,int range_bin){
-	h2D_L1Mass_L2Mass[range_bin][type_bin]->Fill(v1->M(),v2->M());          //h2D_L1Mass_L2Mass[Range_Bin-1][type_bin]->Fill(v1->M(),v2->M());
-	h2D_L1Pt_L2Pt[range_bin][type_bin]->Fill(v1->Pt(),v2->Pt());			//h2D_L1Pt_L2Pt[Range_Bin-1][type_bin]->Fill(v1->Pt(),v2->Pt());					
-	h2D_L1Phi_L2Phi[range_bin][type_bin]->Fill(v1->Phi(),v2->Phi());		//h2D_L1Phi_L2Phi[Range_Bin-1][type_bin]->Fill(v1->Phi(),v2->Phi());	
-	h2D_L1Eta_L2Eta[range_bin][type_bin]->Fill(v1->Eta(),v2->Eta());		//h2D_L1Eta_L2Eta[Range_Bin-1][type_bin]->Fill(v1->Eta(),v2->Eta());
+void ntp_Lambda_Histogram::Fill_PairPlots(TLorentzVector *v1, TLorentzVector *v2,int type_bin,int track_bin,int range_bin){
+	h2D_L1Mass_L2Mass[range_bin][track_bin][type_bin]->Fill(v1->M(),v2->M());          //h2D_L1Mass_L2Mass[Range_Bin-1][type_bin]->Fill(v1->M(),v2->M());
+	h2D_L1Pt_L2Pt[range_bin][track_bin][type_bin]->Fill(v1->Pt(),v2->Pt());			//h2D_L1Pt_L2Pt[Range_Bin-1][type_bin]->Fill(v1->Pt(),v2->Pt());					
+	h2D_L1Phi_L2Phi[range_bin][track_bin][type_bin]->Fill(v1->Phi(),v2->Phi());		//h2D_L1Phi_L2Phi[Range_Bin-1][type_bin]->Fill(v1->Phi(),v2->Phi());	
+	h2D_L1Eta_L2Eta[range_bin][track_bin][type_bin]->Fill(v1->Eta(),v2->Eta());		//h2D_L1Eta_L2Eta[Range_Bin-1][type_bin]->Fill(v1->Eta(),v2->Eta());
 
 	TLorentzVector pair = (*v1)+(*v2);
 	double delta_y = v1->Rapidity() - v2->Rapidity();
@@ -263,11 +263,11 @@ void ntp_Lambda_Histogram::Fill_PairPlots(TLorentzVector *v1, TLorentzVector *v2
 	h1D_L1L2_PtDifference[type_bin]->Fill( v1->Pt() - v2->Pt() );
 }
 
-void ntp_Lambda_Histogram::Fill_PairPlots(TLorentzVector *v1, TLorentzVector *v2,int type_bin,int range_bin,double weight){
-	h2D_L1Mass_L2Mass[range_bin][type_bin]->Fill(v1->M(),v2->M(),weight);          //h2D_L1Mass_L2Mass[Range_Bin-1][type_bin]->Fill(v1->M(),v2->M());
-	h2D_L1Pt_L2Pt[range_bin][type_bin]->Fill(v1->Pt(),v2->Pt(),weight);			//h2D_L1Pt_L2Pt[Range_Bin-1][type_bin]->Fill(v1->Pt(),v2->Pt());					
-	h2D_L1Phi_L2Phi[range_bin][type_bin]->Fill(v1->Phi(),v2->Phi(),weight);		//h2D_L1Phi_L2Phi[Range_Bin-1][type_bin]->Fill(v1->Phi(),v2->Phi());	
-	h2D_L1Eta_L2Eta[range_bin][type_bin]->Fill(v1->Eta(),v2->Eta(),weight);		//h2D_L1Eta_L2Eta[Range_Bin-1][type_bin]->Fill(v1->Eta(),v2->Eta());
+void ntp_Lambda_Histogram::Fill_PairPlots(TLorentzVector *v1, TLorentzVector *v2,int type_bin,int track_bin,int range_bin,double weight){
+	h2D_L1Mass_L2Mass[range_bin][track_bin][type_bin]->Fill(v1->M(),v2->M(),weight);          //h2D_L1Mass_L2Mass[Range_Bin-1][type_bin]->Fill(v1->M(),v2->M());
+	h2D_L1Pt_L2Pt[range_bin][track_bin][type_bin]->Fill(v1->Pt(),v2->Pt(),weight);			//h2D_L1Pt_L2Pt[Range_Bin-1][type_bin]->Fill(v1->Pt(),v2->Pt());					
+	h2D_L1Phi_L2Phi[range_bin][track_bin][type_bin]->Fill(v1->Phi(),v2->Phi(),weight);		//h2D_L1Phi_L2Phi[Range_Bin-1][type_bin]->Fill(v1->Phi(),v2->Phi());	
+	h2D_L1Eta_L2Eta[range_bin][track_bin][type_bin]->Fill(v1->Eta(),v2->Eta(),weight);		//h2D_L1Eta_L2Eta[Range_Bin-1][type_bin]->Fill(v1->Eta(),v2->Eta());
 
 	TLorentzVector pair = (*v1)+(*v2);
 	double delta_y = v1->Rapidity() - v2->Rapidity();
