@@ -439,7 +439,7 @@ int ntp_Lambda_Analyzer::Analyze_SEPair(int i_lambda,int j_lambda){
 			for(int it=0; it < NTrks_Type.size();it++){
 				//Fill Density Matrix Histgrams
 				Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir]);
-				Histogramer->Fill_PairPlots(&Lambda1,&Lambda2,TMath::Abs(Pair_Type)-1,Range_Type[ir]); 
+				Histogramer->Fill_PairPlots(&Lambda1,&Lambda2,TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir]); 
 
 			}
 		}
