@@ -92,8 +92,8 @@ public :
 	ntp_Lambda_Histogram(ntp_Lambda_Reader *reader,ntp_Lambda_Calculator *calculator,std::string outPutFile);
 	void InitHitogram();
 	void Fill_QAplots(std::vector<int> GoodLambdaFlag);
-	void Fill_PairPlots(TLorentzVector *v1, TLorentzVector*v2,int type_bin , int range_bin);
-	void Fill_PairPlots(TLorentzVector *v1, TLorentzVector*v2,int type_bin , int range_bin,double weight);
+	void Fill_PairPlots(TLorentzVector *v1, TLorentzVector*v2,int type_bin , int track_bin,int range_bin);
+	void Fill_PairPlots(TLorentzVector *v1, TLorentzVector*v2,int type_bin , int track_bin ,int range_bin,double weight);
 	void Fill_DensityMatrix(int type_bin , int track_bin, int range_bin);
 	void Fill_DensityMatrix(int type_bin , int track_bin, int range_bin, double weight) ;
 	void Reset();
@@ -439,7 +439,7 @@ void ntp_Lambda_Histogram::WriteAll(){
 	for(int i_r=0;i_r < Range_Bin ; i_r ++){
 		for( int i_trk =0; i_trk < NTrks_Bin;i_trk++){
 			for(int i_t=0;i_t < 3; i_t++){
-				h2D_L1Mass_L2Mass[i_r][i_t]->Write();
+				h2D_L1Mass_L2Mass[i_r][i_trk][i_t]->Write();
 				h2D_L1Pt_L2Pt[i_r][i_trk][i_t]->Write();
 				h2D_L1Phi_L2Phi[i_r][i_trk][i_t]->Write();
 				h2D_L1Eta_L2Eta[i_r][i_trk][i_t]->Write();

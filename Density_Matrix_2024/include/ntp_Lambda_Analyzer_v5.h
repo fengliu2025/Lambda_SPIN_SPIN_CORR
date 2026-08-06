@@ -354,7 +354,7 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 		}
 
 		int NTrks_InWindow = 0 ; 
-		for(int i_trk = 0 ; i_trk < Reader->track_Number; i_trk++ ){
+		for(int i_trk = 0 ; i_trk < SameEvent_Reader->track_Number; i_trk++ ){
 		 	bool IsEtaIn  = (SameEvent_Reader->track_eta[i_trk] < Window_Eta_max) && (SameEvent_Reader->track_eta[i_trk] > Window_Eta_min)  ;
 		 	bool IsPhiIn1 = (SameEvent_Reader->track_phi[i_trk] < Window1_Phi_max)&& (SameEvent_Reader->track_phi[i_trk] > Window1_Phi_min) ;
 		 	bool IsPhiIn2 = (SameEvent_Reader->track_phi[i_trk] < Window2_Phi_max)&& (SameEvent_Reader->track_phi[i_trk] > Window2_Phi_min) ;
@@ -428,8 +428,7 @@ int ntp_Lambda_Analyzer::Analyze_SEPair(int i_lambda,int j_lambda){
 		//---------------------------Range Type Classification-------------------------------
 		std::vector<int> Range_Type  = Range_Type_Classifier(&Lambda1,&Lambda2);
 		std::vector<int> NTrks_Type  = NTrks_Type_Classifier(&Lambda1,&Lambda2);
-		//Fill the pair plots 
-		Histogramer->Fill_PairPlots(&Lambda1,&Lambda2,TMath::Abs(Pair_Type)-1,Range_Type);
+		
 
 		//Calculate the Density Matrix
 		Calculator->Reset(&Lambda1,&proton1,&pion1,&Lambda2,&proton2,&pion2);
@@ -674,8 +673,8 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda,int i_event,in
 			Calculator->Calculation();
 			for(int ir = 0; ir <Range_Type.size();ir++){
 				//Fill the pair plots 
-				Histogramer->Fill_PairPlots(&Lambda1,&Lambda2_counterpart[k_lambda],TMath::Abs(Pair_Type)-1,Range_Type[ir], 0.5/Lambda2_counterpart.size() );
 				for(int it =0;it<NTrks_Type.size();it++){
+					Histogramer->Fill_PairPlots(&Lambda1,&Lambda2_counterpart[k_lambda],TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir], 0.5/Lambda2_counterpart.size() );
 					Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir],0.5/Lambda2_counterpart.size() );
 				}
 			}
@@ -688,9 +687,8 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda,int i_event,in
 			Calculator->Reset(&Lambda1_counterpart[k_lambda],&proton1_counterpart[k_lambda],&pion1_counterpart[k_lambda],&Lambda2,&proton2,&pion2);
 			Calculator->Calculation();
 			for(int ir = 0; ir <Range_Type.size();ir++){
-				//Fill the pair plots 
-				Histogramer->Fill_PairPlots(&Lambda1_counterpart[k_lambda],&Lambda2,TMath::Abs(Pair_Type)-1,Range_Type[ir], 0.5/Lambda1_counterpart.size() );
 				for(int it=0;it<NTrks_Type.size();it++){
+						Histogramer->Fill_PairPlots(&Lambda1_counterpart[k_lambda],&Lambda2,TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir], 0.5/Lambda1_counterpart.size() );
 						Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir],0.5/Lambda1_counterpart.size() );
 				}
 			}
