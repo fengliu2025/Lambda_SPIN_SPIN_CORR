@@ -565,12 +565,7 @@ void ntp_Lambda_Analyzer::FindCounterparts(std::vector<TLorentzVector> *Lambda_c
 
 			int tmp_EventIndex = MixTreeReader->CounterPart_EventIndex[iLamCon];
 
-			if(tmp_EventIndex >= pair_pt[i_mixfile].size()) 
-			{	
-				std::cout<<"tmp_EventIndex:"<<tmp_EventIndex<<std::endl;
-				std::cout<<"pair_pt[i_mixfile].size():"<<pair_pt[i_mixfile].size()<<std::endl;
-				std::cout<<"error with tmp_Event!"<<std::endl;
-			}
+			
 			if(!IsGoodLambda[i_mixfile][tmp_EventIndex]) continue;
 
 			int isGoodCounterPart = LambdaSelecter->IsGoodLambdaCounterpart(pair_pt[i_mixfile][tmp_EventIndex], SameEvent_Reader->pair_pt[I_LAMBDA],

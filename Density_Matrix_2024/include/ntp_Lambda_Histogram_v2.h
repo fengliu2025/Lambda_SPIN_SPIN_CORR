@@ -173,8 +173,8 @@ void ntp_Lambda_Histogram::InitHitogram(){
 				h1D_C_32[i_ran][i_trk][i_type]  = new TH1D(Form("h1D_C_32_%d_%d_%d",i_ran,i_trk,i_type),Form("h1D_C_32_%d_%d_%d",i_ran,i_trk,i_type),100,-1,1);
 				h1D_C_33[i_ran][i_trk][i_type]  = new TH1D(Form("h1D_C_33_%d_%d_%d",i_ran,i_trk,i_type),Form("h1D_C_33_%d_%d_%d",i_ran,i_trk,i_type),100,-1,1);
 
-				h1D_cos_theta_star_Lab[i_ran][i_trk][i_type] = new TH1D(Form("h1D_cos_theta_star_Lab_%d_%d_%d",i_ran,i_type),Form("h1D_cos_theta_star_Lab_%d_%d_%d",i_ran,i_trk,i_type),100,-1,1);
-				h1D_cos_theta_star_PairRest[i_ran][i_trk][i_type] =new TH1D(Form("h1D_cos_theta_star_PairRest_%d_%d_%d",i_ran,i_type),Form("h1D_cos_theta_star_PairRest_%d_%d_%d",i_ran,i_trk,i_type),100,-1,1);
+				h1D_cos_theta_star_Lab[i_ran][i_trk][i_type] = new TH1D(Form("h1D_cos_theta_star_Lab_%d_%d_%d",i_ran,i_trk,i_type),Form("h1D_cos_theta_star_Lab_%d_%d_%d",i_ran,i_trk,i_type),100,-1,1);
+				h1D_cos_theta_star_PairRest[i_ran][i_trk][i_type] =new TH1D(Form("h1D_cos_theta_star_PairRest_%d_%d_%d",i_ran,i_trk,i_type),Form("h1D_cos_theta_star_PairRest_%d_%d_%d",i_ran,i_trk,i_type),100,-1,1);
 			}
 		}
 	}
