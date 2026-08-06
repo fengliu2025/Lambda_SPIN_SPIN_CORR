@@ -430,6 +430,9 @@ int ntp_Lambda_Analyzer::Analyze_SEPair(int i_lambda,int j_lambda){
 		std::vector<int> NTrks_Type  = NTrks_Type_Classifier(&Lambda1,&Lambda2);
 		
 
+		std::cout<<Range_Type.size()<<std::endl;
+		std::cout<<NTrks_Type.size()<<std::endl;
+
 		//Calculate the Density Matrix
 		Calculator->Reset(&Lambda1,&proton1,&pion1,&Lambda2,&proton2,&pion2);
 		Calculator->Calculation();
