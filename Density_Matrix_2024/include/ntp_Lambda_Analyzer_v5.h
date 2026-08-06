@@ -338,7 +338,6 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 
 		double Window_Eta_max = Eta_max; 
 		double Window_Eta_min = Eta_min;
-		double delta_Eta = Eta_max - Eta_min;
 
 		double Window1_Phi_max = Phi_max;
 		double Window1_Phi_min = Phi_min;
@@ -369,6 +368,8 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 			}
 		}
 		std::cout<<"----"<<std::endl;
+		std::cout<<Window_Eta_max<<" "<<Window_Eta_min<<std::endl;
+		std::cout<<Window1_Phi_max<<" "<<Window1_Phi_min<<std::endl;
 		std::cout<<NTrks_InWindow<<std::endl;
 		std::cout<<"----"<<std::endl;
 		return NTrksBinFlag;
