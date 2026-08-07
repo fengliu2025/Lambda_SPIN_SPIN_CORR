@@ -79,7 +79,7 @@ int main(int argc, char*argv[]){
 
 	//-----------
 	//std::string OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024Result/MixEvent/") + Form("MixEvent_%d.root",file_Index) ; //Mix Event 
-	std::string OutPutFile = "SameEvent_MBNoShared_NoLambdaDCA.root";   //Same Event
+	std::string OutPutFile = "SameEvent_MBNoShared_LambdaDCAG0p25.root";   //Same Event
 	//-----------
 
 

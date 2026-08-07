@@ -531,7 +531,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 																SameEvent_Reader->pair_mass[i_lambda], SameEvent_Reader->pair_decayL[i_lambda],
 																SameEvent_Reader->pair_theta[i_lambda],SameEvent_Reader->pair_DCAdaughters[i_lambda])
 				 				&& LambdaSelecter->IsGoodLambdaCharge(SameEvent_Reader->pair_charge[i_lambda]) 
-				 				//&& LambdaSelecter->IsGoodLambdaDCA(SameEvent_Reader->pair_decayL[i_lambda], SameEvent_Reader->pair_theta[i_lambda] )
+				 				&& LambdaSelecter->IsGoodLambdaDCA(SameEvent_Reader->pair_decayL[i_lambda], SameEvent_Reader->pair_theta[i_lambda] )
 				 				&& LambdaSelecter->IsGoodDauDCA(SameEvent_Reader->p1_dca[i_lambda], SameEvent_Reader->p2_dca[i_lambda] )
 				 				   );
 				GoodLambdaFlag.push_back(isGoodLambda);
@@ -774,7 +774,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 																SameEvent_Reader->pair_mass[i_lambda], SameEvent_Reader->pair_decayL[i_lambda],
 																SameEvent_Reader->pair_theta[i_lambda],SameEvent_Reader->pair_DCAdaughters[i_lambda])
 				 				&& LambdaSelecter->IsGoodLambdaCharge(SameEvent_Reader->pair_charge[i_lambda]) 
-				 				//&& LambdaSelecter->IsGoodLambdaDCA(SameEvent_Reader->pair_decayL[i_lambda], SameEvent_Reader->pair_theta[i_lambda] )
+				 				&& LambdaSelecter->IsGoodLambdaDCA(SameEvent_Reader->pair_decayL[i_lambda], SameEvent_Reader->pair_theta[i_lambda] )
 				 				&& LambdaSelecter->IsGoodDauDCA(SameEvent_Reader->p1_dca[i_lambda],SameEvent_Reader->p2_dca[i_lambda])
 				 				   );
 				GoodLambdaFlag.push_back(isGoodLambda);
