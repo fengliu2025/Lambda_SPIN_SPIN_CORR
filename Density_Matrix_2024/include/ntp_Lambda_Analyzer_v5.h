@@ -68,11 +68,15 @@ public:
 	std::vector<int> Range_Type_Classifier(TLorentzVector *v1, TLorentzVector *v2);
 	std::vector<int> NTrks_Type_Classifier(TLorentzVector *v1, TLorentzVector *v2);
 
+
+	bool CheckSharedTrack(int i_lambda);
+
 	int Analyze_SEPair(int i_lambda,int j_lambda);
 	void Analysis_SameEvent();
 	void FindCounterparts(std::vector<TLorentzVector> *Lambda_counterpart,std::vector<TLorentzVector> *proton_counterpart,std::vector<TLorentzVector> *pion_counterpart,double rapidity,int I_LAMBDA,int I_EVENT,int I_FILE);
 	int Analyze_MEPair(int i_lambda,int j_lambda,int i_event,int i_file);
 	void Analysis_MixEvent();
+
 
 
 };
@@ -378,6 +382,27 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 
 }
 
+bool ntp_Lambda_Analyzer::CheckSharedTrack(int i_lambda){
+	int Shared = false;
+	if(SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[i_lambda]) Shared = true;
+	for(int i =0 ;i < SameEvent_Reader->NLambda;i++){
+		if(i ==i_lambda ) continue;
+		if(SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p1_InEventID[i]) Shared = true;
+		if(SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[i]) Shared = true;
+		if(SameEvent_Reader->p2_InEventID[i_lambda] == SameEvent_Reader->p1_InEventID[i]) Shared = true;
+		if(SameEvent_Reader->p2_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[i]) Shared = true;
+	
+
+	}
+
+	return Shared;
+
+
+
+
+
+}
+
 
 
 
@@ -429,19 +454,12 @@ int ntp_Lambda_Analyzer::Analyze_SEPair(int i_lambda,int j_lambda){
 		TLorentzVector proton2; proton2.SetPtEtaPhiM( SameEvent_Reader->p1_pt[id_Lambda2]  , SameEvent_Reader->p1_eta[id_Lambda2]  , SameEvent_Reader->p1_phi[id_Lambda2]  , MASS_PROTON                              );
 		TLorentzVector pion2;     pion2.SetPtEtaPhiM( SameEvent_Reader->p2_pt[id_Lambda2]  , SameEvent_Reader->p2_eta[id_Lambda2]  , SameEvent_Reader->p2_phi[id_Lambda2]  , MASS_PION                                );
 
-		std::cout<<"------"<<std::endl;
-		std::cout<<(proton1+pion1).M()<<std::endl;
-		std::cout<<(proton2+pion2).M()<<std::endl;
-		std::cout<<"------"<<std::endl;
+		
 		//---------------------------Range Type Classification-------------------------------
 		std::vector<int> Range_Type  = Range_Type_Classifier(&Lambda1,&Lambda2);
 		std::vector<int> NTrks_Type  = NTrks_Type_Classifier(&Lambda1,&Lambda2);
 		
-		//std::cout<<"-------"<<std::endl;
-		//std::cout<<Range_Type.size()<<std::endl;
-		//std::cout<<NTrks_Type.size()<<std::endl;
-		//std::cout<<"-------"<<std::endl;
-		//Calculate the Density Matrix
+		
 		Calculator->Reset(&Lambda1,&proton1,&pion1,&Lambda2,&proton2,&pion2);
 		Calculator->Calculation();
 
@@ -506,7 +524,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
 
-				int isGoodLambda = ( 
+				int isGoodLambda = ( (!CheckSharedTrack(i)) &&
 									LambdaSelecter->IsGoodLambda(SameEvent_Reader->p2_pt[i_lambda], SameEvent_Reader->p1_pt[i_lambda],
 																SameEvent_Reader->p2_eta[i_lambda], SameEvent_Reader->p1_eta[i_lambda],
 																SameEvent_Reader->pair_pt[i_lambda], v.Rapidity(),
@@ -749,7 +767,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
 
-				int isGoodLambda = ( 
+				int isGoodLambda = ( (!CheckSharedTrack(i)) &&
 									LambdaSelecter->IsGoodLambda(SameEvent_Reader->p2_pt[i_lambda], SameEvent_Reader->p1_pt[i_lambda],
 																SameEvent_Reader->p2_eta[i_lambda], SameEvent_Reader->p1_eta[i_lambda],
 																SameEvent_Reader->pair_pt[i_lambda], v.Rapidity(),
