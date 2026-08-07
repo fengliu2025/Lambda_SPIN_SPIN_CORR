@@ -516,7 +516,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList, SameEvent_Reader->Vz) ) continue;
-			if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
+			//if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
 			
 			std::vector<int> GoodLambdaFlag;
 			
@@ -524,7 +524,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
 
-				int isGoodLambda = ( (!CheckSharedTrack(i)) &&
+				int isGoodLambda = ( (!CheckSharedTrack(i_lambda)) &&
 									LambdaSelecter->IsGoodLambda(SameEvent_Reader->p2_pt[i_lambda], SameEvent_Reader->p1_pt[i_lambda],
 																SameEvent_Reader->p2_eta[i_lambda], SameEvent_Reader->p1_eta[i_lambda],
 																SameEvent_Reader->pair_pt[i_lambda], v.Rapidity(),
@@ -759,7 +759,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList,SameEvent_Reader->Vz ) ) continue;
-			if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
+			//if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
 			
 			std::vector<int> GoodLambdaFlag;
 
@@ -767,7 +767,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
 
-				int isGoodLambda = ( (!CheckSharedTrack(i)) &&
+				int isGoodLambda = ( (!CheckSharedTrack(i_lambda)) &&
 									LambdaSelecter->IsGoodLambda(SameEvent_Reader->p2_pt[i_lambda], SameEvent_Reader->p1_pt[i_lambda],
 																SameEvent_Reader->p2_eta[i_lambda], SameEvent_Reader->p1_eta[i_lambda],
 																SameEvent_Reader->pair_pt[i_lambda], v.Rapidity(),
