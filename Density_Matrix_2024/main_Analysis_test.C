@@ -79,7 +79,7 @@ int main(int argc, char*argv[]){
 
 	//-----------
 	//std::string OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024Result/MixEvent/") + Form("MixEvent_%d.root",file_Index) ; //Mix Event 
-	std::string OutPutFile = "SameEvent_MBNoShared_LambdaDCAG0p25.root";   //Same Event
+	std::string OutPutFile = "SameEvent_HMNoShared_LambdaDCAG0p25.root";   //Same Event
 	//-----------
 
 
@@ -93,11 +93,11 @@ int main(int argc, char*argv[]){
 	myHistogram->InitHitogram();
 
 	ntp_Lambda_EventSelecter *myEventSelecter = new ntp_Lambda_EventSelecter();
-	myEventSelecter->AllowedTriggerId.push_back(910001);
-	myEventSelecter->AllowedTriggerId.push_back(910003);
-	myEventSelecter->AllowedTriggerId.push_back(910013);
-	//myEventSelecter->AllowedTriggerId.push_back(910802);
-	//myEventSelecter->AllowedTriggerId.push_back(910804);
+	//myEventSelecter->AllowedTriggerId.push_back(910001);
+	//myEventSelecter->AllowedTriggerId.push_back(910003);
+	//myEventSelecter->AllowedTriggerId.push_back(910013);
+	myEventSelecter->AllowedTriggerId.push_back(910802);
+	myEventSelecter->AllowedTriggerId.push_back(910804);
 
 	ntp_Lambda_LambdaSelecter *myLambdaSelecter = new ntp_Lambda_LambdaSelecter();
 
