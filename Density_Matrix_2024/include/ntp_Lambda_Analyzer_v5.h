@@ -429,7 +429,10 @@ int ntp_Lambda_Analyzer::Analyze_SEPair(int i_lambda,int j_lambda){
 		TLorentzVector proton2; proton2.SetPtEtaPhiM( SameEvent_Reader->p1_pt[id_Lambda2]  , SameEvent_Reader->p1_eta[id_Lambda2]  , SameEvent_Reader->p1_phi[id_Lambda2]  , MASS_PROTON                              );
 		TLorentzVector pion2;     pion2.SetPtEtaPhiM( SameEvent_Reader->p2_pt[id_Lambda2]  , SameEvent_Reader->p2_eta[id_Lambda2]  , SameEvent_Reader->p2_phi[id_Lambda2]  , MASS_PION                                );
 
-
+		std::cout<<"------"<<std::endl;
+		std::cout<<(proton1+pion1).M()<<std::endl;
+		std::cout<<(proton2+pion2).M()<<std::endl;
+		std::cout<<"------"<<std::endl;
 		//---------------------------Range Type Classification-------------------------------
 		std::vector<int> Range_Type  = Range_Type_Classifier(&Lambda1,&Lambda2);
 		std::vector<int> NTrks_Type  = NTrks_Type_Classifier(&Lambda1,&Lambda2);
