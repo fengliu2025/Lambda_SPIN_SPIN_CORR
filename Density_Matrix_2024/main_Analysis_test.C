@@ -39,7 +39,7 @@ int main(int argc, char*argv[]){
 	bool isMixEvent = true;
 	
 
-	if(file_Index > FileList.size() ) {
+	if(file_Index >= FileList.size() ) {
 		file_Index = file_Index - FileList.size();
 		isMixEvent =false;
 	}
@@ -93,9 +93,9 @@ int main(int argc, char*argv[]){
 	//-----------
 
 	std::string OutPutFile;
-	if(isMixEvent) std::string OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024Result/MixEvent/") + Form("MixEvent_%d.root",file_Index) ; //Mix Event 
-	else std::string OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024Result/SameEvent/") + Form("SameEvent_%d.root",file_Index) ; //Same Event 
-
+	if(isMixEvent) OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024Result/MixEvent/") + Form("MixEvent_%d.root",file_Index) ; //Mix Event 
+	else OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024Result/SameEvent/") + Form("SameEvent_%d.root",file_Index) ; //Same Event 
+	
 
 	
 
