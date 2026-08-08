@@ -32,7 +32,7 @@ const int NTrks_High[NTrks_Bin] = {30 , 1000 , 1000  };
 
 const int Range_Bin = 5; 
 const double Range_Low[Range_Bin]  = {0.  , 0.5 , 1.0, 1.5 , 2.0};
-const double Range_High[Range_Bin] = {0.5 , 1.0 , 1.5, 2.0 , 5.0};
+const double Range_High[Range_Bin] = {0.5 , 1.0 , 1.5, 2.0 , 3.0};
 
 //physics constants 
 double MASS_PROTON = 0.93827208816;//GeV/c^2
