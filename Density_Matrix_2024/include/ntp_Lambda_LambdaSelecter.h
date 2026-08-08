@@ -134,7 +134,8 @@ bool ntp_Lambda_LambdaSelecter::IsGoodLambdaMass(double Pt, double Mass){
 bool ntp_Lambda_LambdaSelecter::IsGoodLambda(double pion_Pt,double proton_Pt, double pion_Eta, double proton_Eta, double Lambda_Pt, double Lambda_Rapidity, double Lambda_Mass, double Lambda_DecayL, double Lambda_Theta,double Lambda_DauDCA)
 {
 	bool goodness = true;
-	if(pion_Pt < trackPtMin || proton_Pt < trackPtMin ) goodness = false;
+	//if(pion_Pt < trackPtMin || proton_Pt < trackPtMin ) goodness = false;
+	if(pion_Pt < trackPtMin || proton_Pt < 0.3 ) goodness = false;
 	if(pion_Eta < (-trackEtaMax) || pion_Eta > trackEtaMax || proton_Eta <(-trackEtaMax) || proton_Eta >trackEtaMax ) goodness = false;
 	if(Lambda_Pt < LambdaPtMin  || Lambda_Pt > LambdaPtMax ||  Lambda_Rapidity < (-LambdaRapidityMax) || Lambda_Rapidity > LambdaRapidityMax ) goodness = false;
 	//if(Lambda_Mass < LambdaMassMin || Lambda_Mass > LambdaMassMax  ) goodness = false;
