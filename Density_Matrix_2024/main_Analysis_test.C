@@ -19,6 +19,7 @@ int main(int argc, char*argv[]){
 
 
 
+
 	std::vector<std::string> FileList;
 	std::vector<std::string> FileName;
 
@@ -34,7 +35,16 @@ int main(int argc, char*argv[]){
 		FileName.push_back(line);
 	}
 
+
+	bool isMixEvent = true;
 	
+
+	if(file_Index > FileList.size() ) {
+		file_Index = file_Index - FileList.size();
+		isMixEvent =false;
+	}
+
+
 
 	std::vector<std::string> s1_tmp; 
 	std::vector<std::string> s2_tmp; 
@@ -69,18 +79,25 @@ int main(int argc, char*argv[]){
 	std::vector<std::vector<std::string> > InputFile_MixEvent;
 	std::vector<std::vector<std::string> > InputFile_MixTree;
 	//-----------
-	//InputFile_SameEvent.push_back(FileList[file_Index]); // Mix Event 
-	for(int i=0; i <FileList.size();i++){
-		InputFile_SameEvent.push_back(FileList[i]);      // Same Event
-	}
+	InputFile_SameEvent.push_back(FileList[file_Index]); // single Event 
+	//for(int i=0; i <FileList.size();i++){
+	//	InputFile_SameEvent.push_back(FileList[i]);      // Same Event
+	//}
 	//-----------
 	InputFile_MixEvent.push_back(s1_tmp);
 	InputFile_MixTree.push_back(s2_tmp);
 
 	//-----------
 	//std::string OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024Result/MixEvent/") + Form("MixEvent_%d.root",file_Index) ; //Mix Event 
-	std::string OutPutFile = "SameEvent_HMNoShared_LambdaDCAG0p25.root";   //Same Event
+	//std::string OutPutFile = "SameEvent_HMNoShared_LambdaDCAG0p25.root";   //Same Event
 	//-----------
+
+	std::string OutPutFile;
+	if(isMixEvent) std::string OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024Result/MixEvent/") + Form("MixEvent_%d.root",file_Index) ; //Mix Event 
+	else std::string OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024Result/SameEvent/") + Form("SameEvent_%d.root",file_Index) ; //Same Event 
+
+
+	
 
 
 
@@ -107,7 +124,9 @@ int main(int argc, char*argv[]){
 	
 	ntp_Lambda_Analyzer *myAnalyzer = new ntp_Lambda_Analyzer(mySameEventReader,myMixEventReader,myCalculator,myHistogram,myMixTreeReader,myEventSelecter,myLambdaSelecter);
 	//---------------
-	myAnalyzer->Analysis_SameEvent();
+	if(isMixEvent) myAnalyzer->Analysis_MixEvent();
+	else myAnalyzer->Analysis_SameEvent();
+	//myAnalyzer->Analysis_SameEvent();
 	//myAnalyzer->Analysis_MixEvent();
 	//---------------	
 

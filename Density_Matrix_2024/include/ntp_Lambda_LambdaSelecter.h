@@ -157,8 +157,8 @@ bool ntp_Lambda_LambdaSelecter::IsGoodLambdaCharge(int Lambda_Charge){
 
 bool ntp_Lambda_LambdaSelecter::IsGoodLambdaDCA(double Lambda_DecayL,double Lambda_Theta){
 	double LambdaDCA = Lambda_DecayL * TMath::Sin(Lambda_Theta);
-	//if(LambdaDCA < LambdaDCAMax ) return true;
-	if(LambdaDCA > LambdaDCAMin ) return true;
+	if(LambdaDCA < LambdaDCAMax ) return true;
+	//if(LambdaDCA > LambdaDCAMin ) return true;
 	else return false;
 }
 

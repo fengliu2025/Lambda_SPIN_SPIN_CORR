@@ -297,7 +297,7 @@ int ntp_Lambda_Analyzer::Pair_Type_Classifier(int idx1, int idx2){
 
 std::vector <int> ntp_Lambda_Analyzer::Range_Type_Classifier(TLorentzVector *v1, TLorentzVector *v2){
 	//double delta_phi 		= TMath::ACos(TMath::Cos( v1->Phi()-v2->Phi() ) );
-	//double delta_rapidity 	= TMath::Abs( v1->Rapidity() - v2->Rapidity()   );
+	
 
 	//range_Type 
 	//0 : short range 
@@ -308,7 +308,8 @@ std::vector <int> ntp_Lambda_Analyzer::Range_Type_Classifier(TLorentzVector *v1,
 
 	double delta_phi 		= TMath::ACos(TMath::Cos( v1->Phi()-v2->Phi() ) );
 	double delta_eta 	= TMath::Abs( v1->Eta() - v2->Eta()   );
-	double delta_R  = TMath::Sqrt( delta_phi * delta_phi + delta_eta * delta_eta  );
+	double delta_rapidity 	= TMath::Abs( v1->Rapidity() - v2->Rapidity()   );
+	double delta_R  = TMath::Sqrt( delta_phi * delta_phi + delta_rapidity * delta_rapidity  );
 
 
 	std::vector<int> RangeBinFlag;
@@ -357,6 +358,7 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 		}
 
 		int NTrks_InWindow = 0 ; 
+		/*
 		for(int i_trk = 0 ; i_trk < SameEvent_Reader->track_Number; i_trk++ ){
 		 	bool IsEtaIn  = (SameEvent_Reader->track_eta[i_trk] < Window_Eta_max) && (SameEvent_Reader->track_eta[i_trk] > Window_Eta_min)  ;
 		 	bool IsPhiIn1 = (SameEvent_Reader->track_phi[i_trk] < Window1_Phi_max)&& (SameEvent_Reader->track_phi[i_trk] > Window1_Phi_min) ;
@@ -364,6 +366,7 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 			bool IsPhiIn = IsPhiIn1 || IsPhiIn2;
 		 	if ( IsEtaIn && IsPhiIn  ) NTrks_InWindow ++;
 		}
+		*/
 		NTrks_InWindow = SameEvent_Reader->track_Number;
 		std::vector<int> NTrksBinFlag; NTrksBinFlag.clear();
 		for(int i = 0 ; i < NTrks_Bin ; i++){
@@ -371,13 +374,7 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 				NTrksBinFlag.push_back(i);
 			}
 		}
-		/*
-		std::cout<<"----"<<std::endl;
-		std::cout<<Window_Eta_max<<" "<<Window_Eta_min<<std::endl;
-		std::cout<<Window1_Phi_max<<" "<<Window1_Phi_min<<std::endl;
-		std::cout<<NTrks_InWindow<<std::endl;
-		std::cout<<"----"<<std::endl;
-		*/
+		
 		return NTrksBinFlag;
 
 }
@@ -524,7 +521,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
 
-				int isGoodLambda = ( (!CheckSharedTrack(i_lambda)) &&
+				int isGoodLambda = ( //(!CheckSharedTrack(i_lambda)) &&
 									LambdaSelecter->IsGoodLambda(SameEvent_Reader->p2_pt[i_lambda], SameEvent_Reader->p1_pt[i_lambda],
 																SameEvent_Reader->p2_eta[i_lambda], SameEvent_Reader->p1_eta[i_lambda],
 																SameEvent_Reader->pair_pt[i_lambda], v.Rapidity(),
@@ -767,7 +764,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
 
-				int isGoodLambda = ( (!CheckSharedTrack(i_lambda)) &&
+				int isGoodLambda = ( //(!CheckSharedTrack(i_lambda)) &&
 									LambdaSelecter->IsGoodLambda(SameEvent_Reader->p2_pt[i_lambda], SameEvent_Reader->p1_pt[i_lambda],
 																SameEvent_Reader->p2_eta[i_lambda], SameEvent_Reader->p1_eta[i_lambda],
 																SameEvent_Reader->pair_pt[i_lambda], v.Rapidity(),
