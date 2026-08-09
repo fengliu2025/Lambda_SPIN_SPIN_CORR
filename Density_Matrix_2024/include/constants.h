@@ -25,9 +25,9 @@ const float rapidityDiffLim = 0.02;
 
 //track number bin 
 // NTrks_Low<= * <= NTrks_High
-const int NTrks_Bin = 3 ;
-const int NTrks_Low[NTrks_Bin]  = {0 , 31   , 0 };
-const int NTrks_High[NTrks_Bin] = {30 , 1000 , 1000  };
+const int NTrks_Bin = 5 ;
+const int NTrks_Low[NTrks_Bin]  = {0 ,0  ,0 , 0   ,0  };
+const int NTrks_High[NTrks_Bin] = {5 ,10 ,15, 20  ,100  };
 
 
 const int Range_Bin = 5; 
