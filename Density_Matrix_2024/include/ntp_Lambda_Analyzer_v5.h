@@ -358,16 +358,17 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 		}
 
 		int NTrks_InWindow = 0 ; 
-		/*
+		
 		for(int i_trk = 0 ; i_trk < SameEvent_Reader->track_Number; i_trk++ ){
-		 	bool IsEtaIn  = (SameEvent_Reader->track_eta[i_trk] < Window_Eta_max) && (SameEvent_Reader->track_eta[i_trk] > Window_Eta_min)  ;
-		 	bool IsPhiIn1 = (SameEvent_Reader->track_phi[i_trk] < Window1_Phi_max)&& (SameEvent_Reader->track_phi[i_trk] > Window1_Phi_min) ;
-		 	bool IsPhiIn2 = (SameEvent_Reader->track_phi[i_trk] < Window2_Phi_max)&& (SameEvent_Reader->track_phi[i_trk] > Window2_Phi_min) ;
-			bool IsPhiIn = IsPhiIn1 || IsPhiIn2;
-		 	if ( IsEtaIn && IsPhiIn  ) NTrks_InWindow ++;
+		 	//bool IsEtaIn  = (SameEvent_Reader->track_eta[i_trk] < Window_Eta_max) && (SameEvent_Reader->track_eta[i_trk] > Window_Eta_min)  ;
+		 	//bool IsPhiIn1 = (SameEvent_Reader->track_phi[i_trk] < Window1_Phi_max)&& (SameEvent_Reader->track_phi[i_trk] > Window1_Phi_min) ;
+		 	//bool IsPhiIn2 = (SameEvent_Reader->track_phi[i_trk] < Window2_Phi_max)&& (SameEvent_Reader->track_phi[i_trk] > Window2_Phi_min) ;
+			//bool IsPhiIn = IsPhiIn1 || IsPhiIn2;
+		 	//if ( IsEtaIn && IsPhiIn  ) NTrks_InWindow ++;
+		 	if( TMath::Abs(SameEvent_Reader->track_dca[i_trk]) < 1.0  ) NTrks_InWindow ++;
 		}
-		*/
-		NTrks_InWindow = SameEvent_Reader->track_Number;
+		
+		//NTrks_InWindow = SameEvent_Reader->track_Number;
 		std::vector<int> NTrksBinFlag; NTrksBinFlag.clear();
 		for(int i = 0 ; i < NTrks_Bin ; i++){
 			if( NTrks_InWindow >= NTrks_Low[i] && NTrks_InWindow <= NTrks_High[i] ){
@@ -535,7 +536,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 			}
 
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
-			//if(NGoodLambda != 2) continue;
+			if(NGoodLambda != 2) continue;
 
 
 			//Fill Histograms of QA plot;
