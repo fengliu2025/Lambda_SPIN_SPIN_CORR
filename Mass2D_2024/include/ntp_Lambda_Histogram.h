@@ -736,7 +736,7 @@ void ntp_Lambda_Histogram::Reset(){
 		h2D_Lambda_Lambda_US_US_DeltaR[i]    ->Reset("ICES");
 		h2D_Lambda_Lambda_US_LS_DeltaR[i]    ->Reset("ICES");
 		h2D_LambdaBar_LambdaBar_US_US_DeltaR[i] ->Reset("ICES");
-		h2D_LambdaBar_LambarBar_US_LS_DeltaR[i] ->Reset("ICES");
+		h2D_LambdaBar_LambdaBar_US_LS_DeltaR[i] ->Reset("ICES");
 	}
 	
 
@@ -845,7 +845,7 @@ void ntp_Lambda_Histogram::WriteAll(){
 		h2D_Lambda_Lambda_US_US_DeltaR[i]    ->Write();
 		h2D_Lambda_Lambda_US_LS_DeltaR[i]    ->Write();
 		h2D_LambdaBar_LambdaBar_US_US_DeltaR[i] ->Write();
-		h2D_LambdaBar_LambarBar_US_LS_DeltaR[i] ->Write();
+		h2D_LambdaBar_LambdaBar_US_LS_DeltaR[i] ->Write();
 	}
 
 
