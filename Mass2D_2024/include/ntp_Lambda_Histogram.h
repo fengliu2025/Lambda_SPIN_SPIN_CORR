@@ -239,7 +239,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	for(int i = 0 ;i < 2 ; i++ ){
 		for(int j=0; j <2 ;j++){
 			h2D_Lambda_LambdaBar_US_US[i][j] = new TH2D( Form("h2D_Lambda_LambdaBar_US_US_%d_%d",i,j),Form("h2D_Lambda_LambdaBar_US_US_%d_%d",i,j),1000,1.07,1.20, 1000,1.07,1.20  );
-			h2D_Lambda_LambdaBar_US_LS[i][j] = new TH2D( Form("h2D_Lambda_LambdaBar_US_LS_%d_%d",i,j),Form("h2D_Lambda_LambdaBar_US_LS_%d_%d",i,j),1000,1.07,1.20, 1000,1.07,1,20  );
+			h2D_Lambda_LambdaBar_US_LS[i][j] = new TH2D( Form("h2D_Lambda_LambdaBar_US_LS_%d_%d",i,j),Form("h2D_Lambda_LambdaBar_US_LS_%d_%d",i,j),1000,1.07,1.20, 1000,1.07,1.20  );
 			h2D_Lambda_Lambda_US_US[i][j]    = new TH2D( Form("h2D_Lambda_Lambda_US_US_%d_%d",i,j)   ,Form("h2D_Lambda_Lambda_US_US_%d_%d",i,j)   ,1000,1.07,1.20, 1000,1.07,1.20  );
 			h2D_Lambda_Lambda_US_LS[i][j]    = new TH2D( Form("h2D_Lambda_Lambda_US_LS_%d_%d",i,j)   ,Form("h2D_Lambda_Lambda_US_LS_%d_%d",i,j)   ,1000,1.07,1.20, 1000,1.07,1.20  );
 			h2D_LambdaBar_LambdaBar_US_US[i][j] = new TH2D( Form("h2D_LambdaBar_LambdaBar_US_US_%d_%d",i,j), Form("h2D_LambdaBar_LambdaBar_%d_%d",i,j),1000,1.07,1.20,1000,1.07,1.20 );
