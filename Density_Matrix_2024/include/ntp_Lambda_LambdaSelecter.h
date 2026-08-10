@@ -87,9 +87,9 @@ ntp_Lambda_LambdaSelecter::ntp_Lambda_LambdaSelecter()
 	pion_DCAMin = 0.3; //cm;
 
 
-	PtDiffMax = 0.05;
-	RapidityDiffMax = 0.05;
-	PhiDiffMax = 0.05;
+	PtDiffMax = 0.10;
+	RapidityDiffMax = 0.10;
+	PhiDiffMax = 0.10;
 
 
 }
