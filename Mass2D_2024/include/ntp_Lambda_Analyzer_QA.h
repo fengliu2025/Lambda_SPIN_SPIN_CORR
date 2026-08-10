@@ -148,6 +148,9 @@ void ntp_Lambda_Analyzer::Analysis_Pair(int i_lambda,int j_lambda){
 
 
 		Pair_Type = Pair_Type_Classifier(i_lambda,j_lambda);
+		Histogramer->Fill_Mass2D(i_lambda,j_lambda );
+
+
 
 		if(Pair_Type == 1){
 			id_Lambda1 = i_lambda;id_Lambda2 = j_lambda;
@@ -165,15 +168,15 @@ void ntp_Lambda_Analyzer::Analysis_Pair(int i_lambda,int j_lambda){
 		}
 		else{
 			
-			std::cout<<"Something went wrong with the pair type classifier"<<std::endl;
+			//std::cout<<"Something went wrong with the pair type classifier"<<std::endl;
 			return ;
 		}
 		TLorentzVector Lambda1; Lambda1.SetPtEtaPhiM( SameEvent_Reader->pair_pt[id_Lambda1], SameEvent_Reader->pair_eta[id_Lambda1], SameEvent_Reader->pair_phi[id_Lambda1], SameEvent_Reader->pair_mass[id_Lambda1]  );
 		TLorentzVector Lambda2; Lambda2.SetPtEtaPhiM( SameEvent_Reader->pair_pt[id_Lambda2], SameEvent_Reader->pair_eta[id_Lambda2], SameEvent_Reader->pair_phi[id_Lambda2], SameEvent_Reader->pair_mass[id_Lambda2]  );
 
-
+		//only fill US sign pair
 		Histogramer->Fill_PairPlots(&Lambda1,&Lambda2,TMath::Abs(Pair_Type)-1);
-		Histogramer->Fill_Mass2D(i_lambda,j_lambda );
+		
 
 
 };
