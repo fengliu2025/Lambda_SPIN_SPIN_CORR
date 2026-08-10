@@ -105,7 +105,12 @@ public :
 	TH2D *h2D_LambdaBar_LambarBar_US_LS[2][2];
 
 
-
+	h2D_Lambda_LambdaBar_US_US_DeltaR[Range_Bin] ;
+	h2D_Lambda_LambdaBar_US_LS_DeltaR[Range_Bin] ;
+	h2D_Lambda_Lambda_US_US_DeltaR[Range_Bin]   ;
+	h2D_Lambda_Lambda_US_LS_DeltaR[Range_Bin]    ;
+	h2D_LambdaBar_LambdaBar_US_US_DeltaR[Range_Bin];
+	h2D_LambdaBar_LambarBar_US_LS_DeltaR[Range_Bin];
 	
 
 
@@ -511,9 +516,9 @@ void ntp_Lambda_Histogram::Fill_PairPlots(TLorentzVector *v1,TLorentzVector *v2,
 
 void ntp_Lambda_Histogram::Fill_Mass2D(int i_lambda,int j_lambda){
 	int pti_bin = 0;
-	if(SameEvent_Reader->pair_pt[i_lambda] > 1.5 ) pti_bin = 1;
+	if(Reader->pair_pt[i_lambda] > 1.5 ) pti_bin = 1;
 	int ptj_bin = 0; 
-	if(SameEvent_Reader->pair_pt[j_lambda] > 1.5 ) ptj_bin = 1;
+	if(Reader->pair_pt[j_lambda] > 1.5 ) ptj_bin = 1;
 
 	TLorentzVector Lambda_i;
 	TLorentzVector Lambda_j;
@@ -537,78 +542,82 @@ void ntp_Lambda_Histogram::Fill_Mass2D(int i_lambda,int j_lambda){
 
 
 	//US US
-	if( SameEvent_Reader->pair_charge[i_lambda] == 0  && SameEvent_Reader->pair_charge[j_lambda] == 0 ){
+	if( Reader->pair_charge[i_lambda] == 0  && Reader->pair_charge[j_lambda] == 0 ){
 			//L Lbar
-			if( SameEvent_Reader->p1_ch[i_lambda] >0 &&  SameEvent_Reader->p1_ch[j_lambda] < 0 ) {
-					h2D_Lambda_LambdaBar_US_US[pti_bin][ptj_bin]->Fill(SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda]);
-					for(int ib = 0;ib < Range_Type.size();ib++) {h2D_Lambda_LambdaBar_US_US_DeltaR[Range_Type[ir]]->Fill( SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda] ); }
+			if( Reader->p1_ch[i_lambda] >0 &&  Reader->p1_ch[j_lambda] < 0 ) {
+					h2D_Lambda_LambdaBar_US_US[pti_bin][ptj_bin]->Fill(Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda]);
+					for(int ir = 0;ir < Range_Type.size();ir++) {h2D_Lambda_LambdaBar_US_US_DeltaR[Range_Type[ir]]->Fill( Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda] ); }
 			}
 			//Lbar L
-			if( SameEvent_Reader->p1_ch[i_lambda] <0 &&  SameEvent_Reader->p1_ch[j_lambda] > 0 ) {
-					h2D_Lambda_LambdaBar_US_US[ptj_bin][pti_bin]->Fill(SameEvent_Reader->pair_mass[j_lambda],SameEvent_Reader->pair_mass[i_lambda]);
-					for(int ib = 0;ib < Range_Type.size();ib++) {h2D_Lambda_LambdaBar_US_US_DeltaR[Range_Type[ir]]->Fill( SameEvent_Reader->pair_mass[j_lambda],SameEvent_Reader->pair_mass[i_lambda] ); }
+			if( Reader->p1_ch[i_lambda] <0 &&  Reader->p1_ch[j_lambda] > 0 ) {
+					h2D_Lambda_LambdaBar_US_US[ptj_bin][pti_bin]->Fill(Reader->pair_mass[j_lambda],Reader->pair_mass[i_lambda]);
+					for(int ir = 0;ir < Range_Type.size();ir++) {h2D_Lambda_LambdaBar_US_US_DeltaR[Range_Type[ir]]->Fill( Reader->pair_mass[j_lambda],Reader->pair_mass[i_lambda] ); }
 			}
 
 			//L L
-			if( SameEvent_Reader->p1_ch[i_lambda] >0 &&  SameEvent_Reader->p1_ch[j_lambda] > 0 ) {
-					h2D_Lambda_Lambda_US_US[pti_bin][ptj_bin]->Fill(SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda]);
-					for(int ib = 0;ib < Range_Type.size();ib++) {h2D_Lambda_Lambda_US_US_DeltaR[Range_Type[ir]]->Fill( SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda] ); }
+			if( Reader->p1_ch[i_lambda] >0 &&  Reader->p1_ch[j_lambda] > 0 ) {
+					h2D_Lambda_Lambda_US_US[pti_bin][ptj_bin]->Fill(Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda]);
+					for(int ir = 0;ir < Range_Type.size();ir++) {h2D_Lambda_Lambda_US_US_DeltaR[Range_Type[ir]]->Fill( Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda] ); }
 			}
 
 			//Lbar Lbar
-			if( SameEvent_Reader->p1_ch[i_lambda] <0 &&  SameEvent_Reader->p1_ch[j_lambda] < 0 ) {
-					h2D_LambdaBar_LambdaBar_US_US[pti_bin][ptj_bin]->Fill(SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda]);
-					for(int ib = 0;ib < Range_Type.size();ib++) {h2D_LambdaBar_LambdaBar_US_US_DeltaR[Range_Type[ir]]->Fill( SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda] ); }
+			if( Reader->p1_ch[i_lambda] <0 &&  Reader->p1_ch[j_lambda] < 0 ) {
+					h2D_LambdaBar_LambdaBar_US_US[pti_bin][ptj_bin]->Fill(Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda]);
+					for(int ir = 0;ir < Range_Type.size();ir++) {h2D_LambdaBar_LambdaBar_US_US_DeltaR[Range_Type[ir]]->Fill( Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda] ); }
 			}
 
 	}
 
 	// LS US
-	if( SameEvent_Reader->pair_charge[i_lambda] == 1  && SameEvent_Reader->pair_charge[j_lambda] == 0 ){
+	if( Reader->pair_charge[i_lambda] == 1  && Reader->pair_charge[j_lambda] == 0 ){
 			//L Lbar
-			if( SameEvent_Reader->p1_ch[i_lambda] >0 &&  SameEvent_Reader->p1_ch[j_lambda] < 0 ) {
-					h2D_Lambda_LambdaBar_US_LS[pti_bin][ptj_bin]->Fill(SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda]);
-					for(int ib = 0;ib < Range_Type.size();ib++) {h2D_Lambda_LambdaBar_US_LS_DeltaR[Range_Type[ir]]->Fill( SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda] ); }
+			if( Reader->p1_ch[i_lambda] >0 &&  Reader->p1_ch[j_lambda] < 0 ) {
+					h2D_Lambda_LambdaBar_US_LS[pti_bin][ptj_bin]->Fill(Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda]);
+					for(int ir = 0;ir < Range_Type.size();ir++) {h2D_Lambda_LambdaBar_US_LS_DeltaR[Range_Type[ir]]->Fill( Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda] ); }
 			}
 			//Lbar L
-			if( SameEvent_Reader->p1_ch[i_lambda] <0 &&  SameEvent_Reader->p1_ch[j_lambda] > 0 ) {
-					h2D_Lambda_LambdaBar_US_LS[ptj_bin][pti_bin]->Fill(SameEvent_Reader->pair_mass[j_lambda],SameEvent_Reader->pair_mass[i_lambda]);
-					for(int ib = 0;ib < Range_Type.size();ib++) {h2D_Lambda_LambdaBar_US_LS_DeltaR[Range_Type[ir]]->Fill( SameEvent_Reader->pair_mass[j_lambda],SameEvent_Reader->pair_mass[i_lambda] ); }
+			if( Reader->p1_ch[i_lambda] <0 &&  Reader->p1_ch[j_lambda] > 0 ) {
+					h2D_Lambda_LambdaBar_US_LS[ptj_bin][pti_bin]->Fill(Reader->pair_mass[j_lambda],Reader->pair_mass[i_lambda]);
+					for(int ir = 0;ir < Range_Type.size();ir++) {h2D_Lambda_LambdaBar_US_LS_DeltaR[Range_Type[ir]]->Fill( Reader->pair_mass[j_lambda],Reader->pair_mass[i_lambda] ); }
 			}
 
 			//L L
-			if( SameEvent_Reader->p1_ch[i_lambda] >0 &&  SameEvent_Reader->p1_ch[j_lambda] > 0 ) {
-					h2D_Lambda_Lambda_US_LS[pti_bin][ptj_bin]->Fill(SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda]);
-					for(int ib = 0;ib < Range_Type.size();ib++) {h2D_Lambda_Lambda_US_LS_DeltaR[Range_Type[ir]]->Fill( SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda] ); }
+			if( Reader->p1_ch[i_lambda] >0 &&  Reader->p1_ch[j_lambda] > 0 ) {
+					h2D_Lambda_Lambda_US_LS[pti_bin][ptj_bin]->Fill(Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda]);
+					for(int ir = 0;ir < Range_Type.size();ir++) {h2D_Lambda_Lambda_US_LS_DeltaR[Range_Type[ir]]->Fill( Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda] ); }
 			}
 
 			//Lbar Lbar
-			if( SameEvent_Reader->p1_ch[i_lambda] <0 &&  SameEvent_Reader->p1_ch[j_lambda] < 0 ) {
-					h2D_LambdaBar_LambarBar_US_LS[pti_bin][ptj_bin]->Fill(SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda]);
-					for(int ib = 0;ib < Range_Type.size();ib++) {h2D_LambdaBar_LambdaBar_US_LS_DeltaR[Range_Type[ir]]->Fill( SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda] ); }
+			if( Reader->p1_ch[i_lambda] <0 &&  Reader->p1_ch[j_lambda] < 0 ) {
+					h2D_LambdaBar_LambarBar_US_LS[pti_bin][ptj_bin]->Fill(Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda]);
+					for(int ir = 0;ir < Range_Type.size();ir++) {h2D_LambdaBar_LambdaBar_US_LS_DeltaR[Range_Type[ir]]->Fill( Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda] ); }
 			}
 
 	}
 	
 	// US LS
-	if( SameEvent_Reader->pair_charge[i_lambda] == 0  && SameEvent_Reader->pair_charge[j_lambda] == 1 ){
+	if( Reader->pair_charge[i_lambda] == 0  && Reader->pair_charge[j_lambda] == 1 ){
 			//L Lbar
-			if( SameEvent_Reader->p1_ch[i_lambda] >0 &&  SameEvent_Reader->p1_ch[j_lambda] < 0 ) {
-					h2D_Lambda_LambdaBar_US_LS[pti_bin][ptj_bin]->Fill(SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda]);
+			if( Reader->p1_ch[i_lambda] >0 &&  Reader->p1_ch[j_lambda] < 0 ) {
+					h2D_Lambda_LambdaBar_US_LS[pti_bin][ptj_bin]->Fill(Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda]);
+					for(int ir = 0;ir < Range_Type.size();ir++) {h2D_Lambda_LambdaBar_US_LS_DeltaR[Range_Type[ir]]->Fill( Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda] ); }
 			}
 			//Lbar L
-			if( SameEvent_Reader->p1_ch[i_lambda] <0 &&  SameEvent_Reader->p1_ch[j_lambda] > 0 ) {
-					h2D_Lambda_LambdaBar_US_LS[ptj_bin][pti_bin]->Fill(SameEvent_Reader->pair_mass[j_lambda],SameEvent_Reader->pair_mass[i_lambda]);
+			if( Reader->p1_ch[i_lambda] <0 &&  Reader->p1_ch[j_lambda] > 0 ) {
+					h2D_Lambda_LambdaBar_US_LS[ptj_bin][pti_bin]->Fill(Reader->pair_mass[j_lambda],Reader->pair_mass[i_lambda]);
+					for(int ir = 0;ir < Range_Type.size();ir++) {h2D_Lambda_LambdaBar_US_LS_DeltaR[Range_Type[ir]]->Fill( Reader->pair_mass[j_lambda],Reader->pair_mass[i_lambda] ); }
 			}
 
 			//L L
-			if( SameEvent_Reader->p1_ch[i_lambda] >0 &&  SameEvent_Reader->p1_ch[j_lambda] > 0 ) {
-					h2D_Lambda_Lambda_US_LS[pti_bin][ptj_bin]->Fill(SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda]);
+			if( Reader->p1_ch[i_lambda] >0 &&  Reader->p1_ch[j_lambda] > 0 ) {
+					h2D_Lambda_Lambda_US_LS[pti_bin][ptj_bin]->Fill(Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda]);
+					for(int ir = 0;ir < Range_Type.size();ir++) {h2D_Lambda_Lambda_US_LS_DeltaR[Range_Type[ir]]->Fill( Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda] ); }
 			}	
 
 			//Lbar Lbar
-			if( SameEvent_Reader->p1_ch[i_lambda] <0 &&  SameEvent_Reader->p1_ch[j_lambda] < 0 ) {
-					h2D_LambdaBar_LambarBar_US_LS[pti_bin][ptj_bin]->Fill(SameEvent_Reader->pair_mass[i_lambda],SameEvent_Reader->pair_mass[j_lambda]);
+			if( Reader->p1_ch[i_lambda] <0 &&  Reader->p1_ch[j_lambda] < 0 ) {
+					h2D_LambdaBar_LambarBar_US_LS[pti_bin][ptj_bin]->Fill(Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda]);
+					for(int ir = 0;ir < Range_Type.size();ir++) {h2D_LambdaBar_LambdaBar_US_LS_DeltaR[Range_Type[ir]]->Fill( Reader->pair_mass[i_lambda],Reader->pair_mass[j_lambda] ); }
 			}
 
 	}
