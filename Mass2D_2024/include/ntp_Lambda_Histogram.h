@@ -105,12 +105,12 @@ public :
 	TH2D *h2D_LambdaBar_LambarBar_US_LS[2][2];
 
 
-	h2D_Lambda_LambdaBar_US_US_DeltaR[Range_Bin] ;
-	h2D_Lambda_LambdaBar_US_LS_DeltaR[Range_Bin] ;
-	h2D_Lambda_Lambda_US_US_DeltaR[Range_Bin]   ;
-	h2D_Lambda_Lambda_US_LS_DeltaR[Range_Bin]    ;
-	h2D_LambdaBar_LambdaBar_US_US_DeltaR[Range_Bin];
-	h2D_LambdaBar_LambarBar_US_LS_DeltaR[Range_Bin];
+	TH2D *h2D_Lambda_LambdaBar_US_US_DeltaR[Range_Bin] ;
+	TH2D *h2D_Lambda_LambdaBar_US_LS_DeltaR[Range_Bin] ;
+	TH2D *h2D_Lambda_Lambda_US_US_DeltaR[Range_Bin]   ;
+	TH2D *h2D_Lambda_Lambda_US_LS_DeltaR[Range_Bin]    ;
+	TH2D *h2D_LambdaBar_LambdaBar_US_US_DeltaR[Range_Bin];
+	TH2D *h2D_LambdaBar_LambarBar_US_LS_DeltaR[Range_Bin];
 	
 
 
