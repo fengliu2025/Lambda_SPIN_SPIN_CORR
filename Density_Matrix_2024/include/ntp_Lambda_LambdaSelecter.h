@@ -74,8 +74,8 @@ ntp_Lambda_LambdaSelecter::ntp_Lambda_LambdaSelecter()
 	LambdaRapidityMax =1.0; //1.5;
 	LambdaMassMin = 1.08;//Lambda_mass_lowCut;//1.110;//1.10;  //GeV/c62
 	LambdaMassMax = 1.20;//Lambda_mass_highCut;//1.122;//1.13;  //GeV/c^2
-	LambdaCosThetaMin = 0.;
-	LambdaCosThetaMax = 0.996;
+	LambdaCosThetaMin = 0.996;
+	LambdaCosThetaMax = 100;
 	LambdaDecayLMin = 2. ; //cm
 	LambdaDecayLMax = 25.; //cm
 	LambdaDauDCAMin = -1.; //cm

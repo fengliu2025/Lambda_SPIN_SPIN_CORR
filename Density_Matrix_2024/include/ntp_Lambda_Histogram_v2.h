@@ -89,6 +89,7 @@ public :
 	TH1D *h1D_MB_HM_Trigger;
 
 	TH1D *h1D_TrkCalss;
+	TH1D *h1D_KaonTrkClass;
 
 
 
@@ -191,6 +192,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_MB_HM_Trigger = new TH1D("h1D_MB_HM_Trigger","h1D_MB_HM_Trigger",3,0.5,3.5);
 
 	h1D_TrkCalss      = new TH1D("h1D_TrkCalss","h1D_TrkCalss",100,-0.5,99.5);
+	h1D_KaonTrkClass = new TH1D("h1D_KaonTrkClass","h1D_KaonTrkClass",100,-0.5,99.5);
 }
 
 
@@ -413,7 +415,8 @@ void ntp_Lambda_Histogram::Reset(){
 		h1D_L1L2_PtDifference[i_t]->Reset("ICES");
 	}
 
-	h1D_TrkCalss ->Reset("ICES");     
+	h1D_TrkCalss ->Reset("ICES");
+	h1D_KaonTrkClass->Reset("ICES");
 }
 
 void ntp_Lambda_Histogram::WriteAll(){
@@ -489,6 +492,7 @@ void ntp_Lambda_Histogram::WriteAll(){
 
 	h1D_MB_HM_Trigger ->Write();
 	h1D_TrkCalss ->Write();
+	h1D_KaonTrkClass->Write();
 
 	fout->Close();
 	delete fout;

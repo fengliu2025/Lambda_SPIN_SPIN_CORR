@@ -358,6 +358,7 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 		}
 
 		int NTrks_InWindow = 0 ; 
+		int NKaonTrks = 0;
 		
 		for(int i_trk = 0 ; i_trk < SameEvent_Reader->track_Number; i_trk++ ){
 		 	//bool IsEtaIn  = (SameEvent_Reader->track_eta[i_trk] < Window_Eta_max) && (SameEvent_Reader->track_eta[i_trk] > Window_Eta_min)  ;
@@ -366,6 +367,7 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 			//bool IsPhiIn = IsPhiIn1 || IsPhiIn2;
 		 	//if ( IsEtaIn && IsPhiIn  ) NTrks_InWindow ++;
 		 	if( TMath::Abs(SameEvent_Reader->track_dca[i_trk]) < 1.0  ) NTrks_InWindow ++;
+		 	if( TMath::Abs(SameEvent_Reader->track_nSigmaKaon[i_trk]  ) < 2.0   ) NKaonTrks ++;
 		}
 		
 		//NTrks_InWindow = SameEvent_Reader->track_Number;
@@ -376,6 +378,7 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 			}
 		}
 		Histogramer->h1D_TrkCalss->Fill(NTrks_InWindow);
+		Histogramer->h1D_KaonTrkClass->Fill(NKaonTrks);
 		
 		return NTrksBinFlag;
 
