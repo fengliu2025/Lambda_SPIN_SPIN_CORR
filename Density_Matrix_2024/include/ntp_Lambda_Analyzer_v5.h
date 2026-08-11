@@ -373,7 +373,8 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 		//NTrks_InWindow = SameEvent_Reader->track_Number;
 		std::vector<int> NTrksBinFlag; NTrksBinFlag.clear();
 		for(int i = 0 ; i < NTrks_Bin ; i++){
-			if( NTrks_InWindow >= NTrks_Low[i] && NTrks_InWindow <= NTrks_High[i] ){
+			//if( NTrks_InWindow >= NTrks_Low[i] && NTrks_InWindow <= NTrks_High[i] ){
+			if(  NKaonTrks >= NTrks_Low[i] && NKaonTrks <= NTrks_High[i] ){
 				NTrksBinFlag.push_back(i);
 			}
 		}
