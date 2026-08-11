@@ -367,7 +367,7 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 			//bool IsPhiIn = IsPhiIn1 || IsPhiIn2;
 		 	//if ( IsEtaIn && IsPhiIn  ) NTrks_InWindow ++;
 		 	if( TMath::Abs(SameEvent_Reader->track_dca[i_trk]) < 1.0  ) NTrks_InWindow ++;
-		 	if( TMath::Abs(SameEvent_Reader->track_nSigmaKaon[i_trk]  ) < 2.0   ) NKaonTrks ++;
+		 	if( TMath::Abs(SameEvent_Reader->track_nSigmaKaon[i_trk]  ) < 2.0 && TMath::Abs(SameEvent_Reader->track_dca[i_trk]) < 1.0  ) NKaonTrks ++;
 		}
 		
 		//NTrks_InWindow = SameEvent_Reader->track_Number;
