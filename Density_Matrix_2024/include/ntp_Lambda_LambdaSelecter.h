@@ -72,19 +72,19 @@ ntp_Lambda_LambdaSelecter::ntp_Lambda_LambdaSelecter()
 	LambdaPtMin = 0.5;  //GeV/c
 	LambdaPtMax = 5.0;  //GeV/c
 	LambdaRapidityMax =1.0; //1.5;
-	LambdaMassMin = 1.0;//Lambda_mass_lowCut;//1.110;//1.10;  //GeV/c62
-	LambdaMassMax = 1.2;//Lambda_mass_highCut;//1.122;//1.13;  //GeV/c^2
-	LambdaCosThetaMin = 0.996;
+	LambdaMassMin = 1.08;//Lambda_mass_lowCut;//1.110;//1.10;  //GeV/c62
+	LambdaMassMax = 1.20;//Lambda_mass_highCut;//1.122;//1.13;  //GeV/c^2
+	LambdaCosThetaMin = 0.;
 	LambdaCosThetaMax = 100.;
-	LambdaDecayLMin = 2. ; //cm
-	LambdaDecayLMax = 25.; //cm
+	LambdaDecayLMin = 0. ; //cm
+	LambdaDecayLMax = 250.; //cm
 	LambdaDauDCAMin = -1.; //cm
-	LambdaDauDCAMax = 1.0; //cm
-	LambdaDCAMin = 0.25;  //cm
-	LambdaDCAMax = 1.0; //cm 
+	LambdaDauDCAMax = 10.0; //cm
+	LambdaDCAMin = 0.0;  //cm
+	LambdaDCAMax = 10.0; //cm 
 
-	proton_DCAMin= 0.1; //cm;
-	pion_DCAMin = 0.3; //cm;
+	proton_DCAMin= 0.0; //cm;
+	pion_DCAMin = 0.0; //cm;
 
 
 	PtDiffMax = 0.10;
@@ -138,11 +138,11 @@ bool ntp_Lambda_LambdaSelecter::IsGoodLambda(double pion_Pt,double proton_Pt, do
 	//if(pion_Pt < trackPtMin || proton_Pt < 0.3 ) goodness = false;
 	if(pion_Eta < (-trackEtaMax) || pion_Eta > trackEtaMax || proton_Eta <(-trackEtaMax) || proton_Eta >trackEtaMax ) goodness = false;
 	if(Lambda_Pt < LambdaPtMin  || Lambda_Pt > LambdaPtMax ||  Lambda_Rapidity < (-LambdaRapidityMax) || Lambda_Rapidity > LambdaRapidityMax ) goodness = false;
-	//if(Lambda_Mass < LambdaMassMin || Lambda_Mass > LambdaMassMax  ) goodness = false;
-	if( ! IsGoodLambdaMass(Lambda_Pt,Lambda_Mass) ) goodness = false;
-	if(Lambda_DecayL < LambdaDecayLMin || Lambda_DecayL > LambdaDecayLMax ) goodness = false;
-	if(TMath::Cos(Lambda_Theta) < LambdaCosThetaMin ) goodness = false;
-	if(Lambda_DauDCA > LambdaDauDCAMax ) goodness = false;
+	if(Lambda_Mass < LambdaMassMin || Lambda_Mass > LambdaMassMax  ) goodness = false;
+	//if( ! IsGoodLambdaMass(Lambda_Pt,Lambda_Mass) ) goodness = false;
+	//if(Lambda_DecayL < LambdaDecayLMin || Lambda_DecayL > LambdaDecayLMax ) goodness = false;
+	//if(TMath::Cos(Lambda_Theta) < LambdaCosThetaMin ) goodness = false;
+	//if(Lambda_DauDCA > LambdaDauDCAMax ) goodness = false;
 
 	return goodness;
 
