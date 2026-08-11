@@ -88,6 +88,10 @@ public :
 
 	TH1D *h1D_MB_HM_Trigger;
 
+	TH1D *h1D_TrkCalss;
+
+
+
 	ntp_Lambda_Histogram();
 	ntp_Lambda_Histogram(ntp_Lambda_Reader *reader,ntp_Lambda_Calculator *calculator,std::string outPutFile);
 	void InitHitogram();
@@ -186,7 +190,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 
 	h1D_MB_HM_Trigger = new TH1D("h1D_MB_HM_Trigger","h1D_MB_HM_Trigger",3,0.5,3.5);
 
-
+	h1D_TrkCalss      = new TH1D("h1D_TrkCalss","h1D_TrkCalss",100,-0.5,99.5);
 }
 
 
@@ -408,6 +412,8 @@ void ntp_Lambda_Histogram::Reset(){
 		h2D_PairMass_deltaR[i_t]->Reset("ICES");
 		h1D_L1L2_PtDifference[i_t]->Reset("ICES");
 	}
+
+	h1D_TrkCalss ->Reset("ICES");     
 }
 
 void ntp_Lambda_Histogram::WriteAll(){
@@ -482,7 +488,7 @@ void ntp_Lambda_Histogram::WriteAll(){
 	h1D_HM_Trigger   ->Write();
 
 	h1D_MB_HM_Trigger ->Write();
-
+	h1D_TrkCalss ->Write();
 
 	fout->Close();
 	delete fout;

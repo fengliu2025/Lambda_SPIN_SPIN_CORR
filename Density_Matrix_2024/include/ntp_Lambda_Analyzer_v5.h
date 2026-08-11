@@ -375,6 +375,7 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 				NTrksBinFlag.push_back(i);
 			}
 		}
+		Histogramer->h1D_TrkCalss->Fill(NTrks_InWindow);
 		
 		return NTrksBinFlag;
 

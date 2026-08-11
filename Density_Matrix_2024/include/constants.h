@@ -25,14 +25,14 @@ const float rapidityDiffLim = 0.02;
 
 //track number bin 
 // NTrks_Low<= * <= NTrks_High
-const int NTrks_Bin = 5 ;
-const int NTrks_Low[NTrks_Bin]  = {0 ,0  ,0 , 0   ,0  };
-const int NTrks_High[NTrks_Bin] = {5 ,10 ,15, 20  ,100  };
+//const int NTrks_Bin = 5 ;
+//const int NTrks_Low[NTrks_Bin]  = {0 ,0  ,0 , 0   ,0  };
+//const int NTrks_High[NTrks_Bin] = {5 ,10 ,15, 20  ,100  };
 
 
-const int Range_Bin = 5; 
-const double Range_Low[Range_Bin]  = {0.  , 0.5 , 1.0, 1.5 , 2.0};
-const double Range_High[Range_Bin] = {0.5 , 1.0 , 1.5, 2.0 , 3.0};
+const int Range_Bin = 6; 
+const double Range_Low[Range_Bin]  = {0.  , 0.5 , 1.0, 1.5 , 2.0,0.};
+const double Range_High[Range_Bin] = {0.5 , 1.0 , 1.5, 2.0 , 3.0,5.0};
 
 //physics constants 
 double MASS_PROTON = 0.93827208816;//GeV/c^2
