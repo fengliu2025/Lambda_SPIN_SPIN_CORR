@@ -71,6 +71,9 @@ public:
 
 	bool CheckSharedTrack(int i_lambda);
 
+	int CountMyNLambda();
+
+
 	int Analyze_SEPair(int i_lambda,int j_lambda);
 	void Analysis_SameEvent();
 	void FindCounterparts(std::vector<TLorentzVector> *Lambda_counterpart,std::vector<TLorentzVector> *proton_counterpart,std::vector<TLorentzVector> *pion_counterpart,double rapidity,int I_LAMBDA,int I_EVENT,int I_FILE);
@@ -401,10 +404,35 @@ bool ntp_Lambda_Analyzer::CheckSharedTrack(int i_lambda){
 	return Shared;
 
 
+}
+
+
+int ntp_Lambda_Analyzer::CountMyNLambda(){
+	int myNLambda = 0 ; 
+	for(int i =0 ;i < SameEvent_Reader->NLambda;i++){
+		if(SameEvent_Reader->p1_pt[i] < 0.15 ) continue;
+		if(SameEvent_Reader->p2_pt[i] < 0.15 ) continue;
+		if(TMath::Abs(SameEvent_Reader->p1_eta[i])> 1.5  ) continue;
+		if(TMath::Abs(SameEvent_Reader->p2_eta[i])> 1.5  ) continue;
+		if(SameEvent_Reader->p1_dca[i] < 0.1 ) continue;
+		if(SameEvent_Reader->p2_dca[i] < 0.3 ) continue;
+		if(SameEvent_Reader->pair_DCAdaughters[i] > 1.0 ) continue;
+		if(SameEvent_Reader->pair_decayL[i] < 2 || SameEvent_Reader->pair_decayL[i] > 25 ) continue;
+		if(TMath::Cos(SameEvent_Reader->pair_theta[i]) < 0.996 ) continue;
+
+		myNLambda++;
+
+	}
+
+	return myNLambda;
+
 
 
 
 }
+
+
+
 
 
 
@@ -519,6 +547,9 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList, SameEvent_Reader->Vz) ) continue;
+
+			int myNLambda =CountMyNLambda();
+
 			//if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
 			//if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
 			std::vector<int> GoodLambdaFlag;
@@ -762,6 +793,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList,SameEvent_Reader->Vz ) ) continue;
+			int myNLambda =CountMyNLambda();
 			//if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
 			//if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
 			std::vector<int> GoodLambdaFlag;
