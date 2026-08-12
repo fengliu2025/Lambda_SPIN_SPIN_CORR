@@ -373,8 +373,8 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 		//NTrks_InWindow = SameEvent_Reader->track_Number;
 		std::vector<int> NTrksBinFlag; NTrksBinFlag.clear();
 		for(int i = 0 ; i < NTrks_Bin ; i++){
-			//if( NTrks_InWindow >= NTrks_Low[i] && NTrks_InWindow <= NTrks_High[i] ){
-			if(  NKaonTrks >= NTrks_Low[i] && NKaonTrks <= NTrks_High[i] ){
+			if( NTrks_InWindow >= NTrks_Low[i] && NTrks_InWindow <= NTrks_High[i] ){
+			//if(  NKaonTrks >= NTrks_Low[i] && NKaonTrks <= NTrks_High[i] ){
 				NTrksBinFlag.push_back(i);
 			}
 		}
@@ -519,7 +519,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList, SameEvent_Reader->Vz) ) continue;
-			//if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
+			if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
 			
 			std::vector<int> GoodLambdaFlag;
 			
@@ -762,7 +762,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList,SameEvent_Reader->Vz ) ) continue;
-			//if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
+			if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
 			
 			std::vector<int> GoodLambdaFlag;
 
