@@ -23,11 +23,13 @@ int main(int argc, char*argv[]){
 	std::vector<std::string> FileList;
 	std::vector<std::string> FileName;
 
-	std::ifstream filelist("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data_July27_v1/MiddleTree/filelist.txt");
+	//std::ifstream filelist("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data_July27_v1/MiddleTree/filelist.txt");
+	std::ifstream filelist("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree/filelist.txt");
 	if (!filelist.is_open()) {
 		std::cerr <<"can't open the file" <<std::endl;
 	}
-	std::string directory="/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data_July27_v1/MiddleTree/";
+	//std::string directory="/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data_July27_v1/MiddleTree/";
+	std::string directory="/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree/";
 	std::string line;
 	
 	while (std::getline(filelist,line)){
@@ -53,7 +55,8 @@ int main(int argc, char*argv[]){
 	s1_tmp.push_back(FileList[file_Index]);
 
 
-	std::string MixTreeDir = "/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data_July27_v1/MiddleTree_MixTree/";
+	//std::string MixTreeDir = "/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data_July27_v1/MiddleTree_MixTree/";
+	std::string MixTreeDir = "/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree_MixTree/";
 	std::string s1 = FileName[file_Index];
 
 	
