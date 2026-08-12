@@ -29,9 +29,9 @@ const float rapidityDiffLim = 0.02;
 //const int NTrks_Low[NTrks_Bin]  = {0 ,0  ,0 , 0   ,0 , 5   ,10 , 15 , 20  , 30};
 //const int NTrks_High[NTrks_Bin] = {5 ,10 ,15, 20  ,30, 100 ,100, 100, 100 , 100};
 
-const int NTrks_Bin = 3 ;
-const int NTrks_Low[NTrks_Bin]  = {0  ,12  ,21 };
-const int NTrks_High[NTrks_Bin] = {11 ,20  ,100};
+const int NTrks_Bin = 4 ;
+const int NTrks_Low[NTrks_Bin]  = {0  ,12  ,21 ,0};
+const int NTrks_High[NTrks_Bin] = {11 ,20  ,100,100};
 //const int NTrks_Bin = 3 ;
 //const int NTrks_Low[NTrks_Bin]  = {0  ,7   ,11 };
 //const int NTrks_High[NTrks_Bin] = {6  ,11  ,100};
