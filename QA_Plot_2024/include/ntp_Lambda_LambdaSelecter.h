@@ -80,11 +80,11 @@ ntp_Lambda_LambdaSelecter::ntp_Lambda_LambdaSelecter()
 	LambdaDecayLMax = 25.; //cm
 	LambdaDauDCAMin = -1.; //cm
 	LambdaDauDCAMax = 1.0; //cm
-	LambdaDCAMin = -1;  //cm
-	LambdaDCAMax = 1.0; //cm 
+	LambdaDCAMin = 0.;  //cm
+	LambdaDCAMax = 0.50; //cm 
 
-	proton_DCAMin= 0.0; //cm;
-	pion_DCAMin = 0.0; //cm;
+	proton_DCAMin= 0.1; //cm;
+	pion_DCAMin = 0.3; //cm;
 
 
 	PtDiffMax = 0.1;
@@ -157,7 +157,7 @@ bool ntp_Lambda_LambdaSelecter::IsGoodLambdaCharge(int Lambda_Charge){
 
 bool ntp_Lambda_LambdaSelecter::IsGoodLambdaDCA(double Lambda_DecayL,double Lambda_Theta){
 	double LambdaDCA = Lambda_DecayL * TMath::Sin(Lambda_Theta);
-	if(LambdaDCA < LambdaDCAMax ) return true;
+	if(LambdaDCA < LambdaDCAMax && LambdaDCA > LambdaDCAMin  ) return true;
 	else return false;
 }
 
