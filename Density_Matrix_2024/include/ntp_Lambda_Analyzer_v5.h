@@ -72,7 +72,8 @@ public:
 	bool CheckSharedTrack(int i_lambda);
 
 	int CountMyNLambda();
-
+	std::vector<int> FindDauTrk(std::vector<int> GoodLambdaFlag );
+	bool IsCleanLambda(std::vector<int> DauTrkID,int i_lambda);
 
 	int Analyze_SEPair(int i_lambda,int j_lambda);
 	void Analysis_SameEvent();
@@ -329,6 +330,7 @@ std::vector <int> ntp_Lambda_Analyzer::Range_Type_Classifier(TLorentzVector *v1,
 
 
 std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, TLorentzVector *v2){
+		/*
 		double Eta_max = v1->Eta();
 		double Eta_min = v2->Eta();
 		double Phi_max = v1->Phi();
@@ -359,6 +361,7 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 			Window2_Phi_max = Phi_min; 
 			Window2_Phi_min = -TMath::Pi();
 		}
+		*/
 
 		int NTrks_InWindow = 0 ; 
 		int NKaonTrks = 0;
@@ -427,6 +430,66 @@ int ntp_Lambda_Analyzer::CountMyNLambda(){
 	return myNLambda;
 
 
+
+
+}
+
+std::vector<int> ntp_Lambda_Analyzer::FindDauTrk(std::vector<int> GoodLambdaFlag ){
+
+	std::vector<int> DauTrkID; 
+	DauTrkID.clear();
+	for(int i_lambda=0;i_lambda < GoodLambdaFlag.size();i_lambda++){
+			if(GoodLambdaFlag[i_lambda]==0) continue;
+			bool p1Flag =false;
+			for(int idau1=0;idau1<DauTrkID.size();idau1++){
+					if( SameEvent_Reader->p1_InEventID[i_lambda] == DauTrkID[idau1] ) p1Flag == true;
+			}
+			if(p1Flag==false) DauTrkID.push_back(SameEvent_Reader->p1_InEventID[i_lambda]);
+
+	}
+
+	for(int i_lambda=0;i_lambda < GoodLambdaFlag.size();i_lambda++){
+			if(GoodLambdaFlag[i_lambda]==0) continue;
+			bool p2Flag =false;
+			for(int idau2=0;idau2<DauTrkID.size();idau2++){
+					if( SameEvent_Reader->p2_InEventID[i_lambda] == DauTrkID[idau2] ) p2Flag == true;
+			}
+			if(p2Flag==false) DauTrkID.push_back(SameEvent_Reader->p2_InEventID[i_lambda]);
+
+	}
+
+
+	return DauTrkID;
+
+}
+
+
+
+bool ntp_Lambda_Analyzer::IsCleanLambda(std::vector<int> DauTrkID,int i_lambda){
+		
+	int NTrkAround = 0 ;
+
+	for(int iTrk = 0; iTrk < SameEvent_Reader->track_Number;iTrk++){
+		bool IsDauTrk = false;
+		for(int iDauTrk=0; iDauTrk<DauTrkID.size();iDauTrk++){
+			if(DauTrkID[iDauTrk] == SameEvent_Reader->track_InEventID[iTrk]){
+				IsDauTrk = true;
+				break;
+			}
+		}
+		if(IsDauTrk) continue;
+
+
+		double deltaEta = TMath::Abs( SameEvent_Reader->pair_eta[i_lambda] - SameEvent_Reader->track_eta[iTrk] );
+		double deltaPhi = TMath::ACos( TMath::Cos( SameEvent_Reader->pair_phi[i_lambda] - SameEvent_Reader->track_phi[iTrk] )   );
+		double deltaR = TMath::Sqrt( deltaEta*deltaEta + deltaPhi * deltaPhi );
+		if(deltaR < CleanRadius ) NTrkAround++;
+
+
+	}
+
+	if(NTrkAround > 0 ) return false;
+	else return true;
 
 
 }
@@ -547,13 +610,13 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList, SameEvent_Reader->Vz) ) continue;
-
 			int myNLambda =CountMyNLambda();
-
 			//if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
 			//if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
+			//------------------------Make some selections on the events-----------------------------
+
+			//------------------------Identify Goood Lambda-----------------------------
 			std::vector<int> GoodLambdaFlag;
-			
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
@@ -572,20 +635,38 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 			}
 
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
-			//if(NGoodLambda != 2) continue;
-
+			//------------------------Identify Goood Lambda-----------------------------
+			
 
 			//Fill Histograms of QA plot;
 			Histogramer->Fill_QAplots(GoodLambdaFlag);//Notice that here, if two Lambda Candiates share some tracks, both Lambdas will be filled inthe QAplots.
+			
+			//------------------------Identify Clean Lambda-----------------------------
+			if(NGoodLambda < 2) continue;
+			std::vector<int> DauTrkID = FindDauTrk(GoodLambdaFlag );
+			std::vector<bool> CleanLambdaFlag;
+			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
+				if(GoodLambdaFlag[i_lambda]==0){
+					CleanLambdaFlag.push_back(false);
+					continue;
+				}
+				CleanLambdaFlag.push_back ( IsCleanLambda(DauTrkID,i_lambda) );
+			}
+			//------------------------Identify Clean Lambda-----------------------------
+			
 
+
+			//------------------------Analysis Pair-----------------------------
 			for(int i_lambda=0;i_lambda < SameEvent_Reader->NLambda;i_lambda++){
 				if( GoodLambdaFlag[i_lambda] == 0 ) continue;
+				if( CleanLambdaFlag[i_lambda] == false ) continue;
 				for(int j_lambda=i_lambda+1;j_lambda < SameEvent_Reader->NLambda;j_lambda++){
 					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
+					if( CleanLambdaFlag[j_lambda] == false ) continue;
 					Analyze_SEPair(i_lambda,j_lambda);
 				}
 			}
-
+			//------------------------Analysis Pair-----------------------------
 
 
 		}
@@ -796,8 +877,11 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 			int myNLambda =CountMyNLambda();
 			//if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
 			//if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
-			std::vector<int> GoodLambdaFlag;
+			//------------------------Make some selections on the events-----------------------------
 
+
+			//------------------------Identify Goood Lambda-----------------------------
+			std::vector<int> GoodLambdaFlag;
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
@@ -814,20 +898,34 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 				 				   );
 				GoodLambdaFlag.push_back(isGoodLambda);
 			}
-
-
-			
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
-			//if(NGoodLambda != 2) continue;
+			//------------------------Identify Goood Lambda-----------------------------
+
 
 			//Fill Histograms of QA plot;
 			Histogramer->Fill_QAplots(GoodLambdaFlag);
 
 
+			//------------------------Identify Clean Lambda-----------------------------
+			if(NGoodLambda < 2) continue;
+			std::vector<int> DauTrkID = FindDauTrk(GoodLambdaFlag );
+			std::vector<bool> CleanLambdaFlag;
+			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
+				if(GoodLambdaFlag[i_lambda]==0){
+					CleanLambdaFlag.push_back(false);
+					continue;
+				}
+				CleanLambdaFlag.push_back ( IsCleanLambda(DauTrkID,i_lambda) );
+			}
+			//------------------------Identify Clean Lambda-----------------------------
+
+
 			for(int i_lambda=0;i_lambda < SameEvent_Reader->NLambda;i_lambda++){
 				if( GoodLambdaFlag[i_lambda] == 0) continue;
+				if( CleanLambdaFlag[i_lambda] == false ) continue;
 				for(int j_lambda=i_lambda+1;j_lambda < SameEvent_Reader->NLambda;j_lambda++){
 					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
+					if( CleanLambdaFlag[j_lambda] == false ) continue;
 					Analyze_MEPair(i_lambda,j_lambda,i_event,i_file);
 				}
 			}

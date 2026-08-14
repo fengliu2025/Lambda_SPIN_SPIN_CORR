@@ -23,4 +23,8 @@ const float rapidityDiffLim = 0.02;
 //physics constants 
 double MASS_PROTON = 0.93827208816;//GeV/c^2
 double MASS_PION   = 0.13957039;   //GeV/c^2
+
+
+double CleanRadius  = 0.2;
+
 #endif

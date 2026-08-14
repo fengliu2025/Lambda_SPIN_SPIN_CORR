@@ -16,9 +16,9 @@ const float Lambda_mass_highCut = 1.13;//1.1183980;//1.119833;//1.1180;//GeV/c^2
 
 
 //MixEvent Limitation 
-const float ptDiffLim = 0.02;
-const float phiDiffLim = 0.02;
-const float rapidityDiffLim = 0.02;
+//const float ptDiffLim = 0.02;
+//const float phiDiffLim = 0.02;
+//const float rapidityDiffLim = 0.02;
 
 
 
@@ -41,6 +41,9 @@ const int NTrks_High[NTrks_Bin] = {11 ,20  ,100,100};
 const int Range_Bin = 6; 
 const double Range_Low[Range_Bin]  = {0.  , 0.5 , 1.0, 1.5 , 2.0,0.};
 const double Range_High[Range_Bin] = {0.5 , 1.0 , 1.5, 2.0 , 3.0,5.0};
+
+
+double CleanRadius  = 0.2;
 
 //physics constants 
 double MASS_PROTON = 0.93827208816;//GeV/c^2
