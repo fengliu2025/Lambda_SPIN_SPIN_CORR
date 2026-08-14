@@ -178,6 +178,9 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 	
 	unsigned long N_Inputfiles_SE = SameEvent_Reader->InputFiles.size();
+	int N3L2GoodL = 0 ; 
+	int SharedPion = 0 ; 
+	int SharedProton = 0;
 	//-------------------------------Enter i_file loop---------------------------------
 	for(unsigned long i_file = 0 ; i_file < N_Inputfiles_SE ; i_file ++){
 		//Open the file 
@@ -198,9 +201,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 		Long64_t N_Events=SameEvent_Reader->fChain->GetEntries();
 
 
-		int N3L2GoodL = 0 ; 
-		int SharedPion = 0 ; 
-		int SharedProton = 0;
+		
 
 		if(i_file%10==0) {
 			std::cout<<"N3L2GoodL="<< N3L2GoodL <<std::endl;
