@@ -246,6 +246,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
+			//--------for test=-------
 			if(SameEvent_Reader->NLambda!=3)continue;
 			if(NGoodLambda!=2)continue;
 
@@ -260,7 +261,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 					for(int idau1=0;idau1<Dau1Trk.size();idau1++){
 						if( SameEvent_Reader->p1_InEventID[i_lambda] == Dau1Trk[idau1] ) p1Flag == true;
 					}
-					for(int idau1=0;idau1<Dau1Trk.size();idau1++){
+					for(int idau2=0;idau2<Dau2Trk.size();idau2++){
 						if( SameEvent_Reader->p2_InEventID[i_lambda] == Dau2Trk[idau2]) p2Flag == true;
 					}
 
@@ -281,14 +282,14 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 					for(int idau1=0;idau1<Dau1Trk.size();idau1++){
 						if( SameEvent_Reader->p1_InEventID[i_lambda] == Dau1Trk[idau1] ) SharedProton ++;
 					}
-					for(int idau1=0;idau1<Dau1Trk.size();idau1++){
+					for(int idau2=0;idau2Dau1Trk.size();idau2++){
 						if( SameEvent_Reader->p2_InEventID[i_lambda] == Dau2Trk[idau2]) SharedPion ++;
 					}
 
 
 			}
 
-
+			//--------for test=-------
 
 
 
