@@ -81,7 +81,7 @@ ntp_Lambda_LambdaSelecter::ntp_Lambda_LambdaSelecter()
 	LambdaDauDCAMin = -1.; //cm
 	LambdaDauDCAMax = 1.0; //cm
 	LambdaDCAMin = 0.;  //cm
-	LambdaDCAMax = 0.50; //cm 
+	LambdaDCAMax = 1.00; //cm 
 
 	proton_DCAMin= 0.1; //cm;
 	pion_DCAMin = 0.3; //cm;
@@ -138,7 +138,7 @@ bool ntp_Lambda_LambdaSelecter::IsGoodLambda(double pion_Pt,double proton_Pt, do
 	if(pion_Eta < (-trackEtaMax) || pion_Eta > trackEtaMax || proton_Eta <(-trackEtaMax) || proton_Eta >trackEtaMax ) goodness = false;
 	if(Lambda_Pt < LambdaPtMin  || Lambda_Pt > LambdaPtMax ||  Lambda_Rapidity < (-LambdaRapidityMax) || Lambda_Rapidity > LambdaRapidityMax ) goodness = false;
 	//if(Lambda_Mass < LambdaMassMin || Lambda_Mass > LambdaMassMax  ) goodness = false;
-	//if( ! IsGoodLambdaMass(Lambda_Pt,Lambda_Mass) ) goodness = false;
+	if( ! IsGoodLambdaMass(Lambda_Pt,Lambda_Mass) ) goodness = false;
 	if(Lambda_DecayL < LambdaDecayLMin || Lambda_DecayL > LambdaDecayLMax ) goodness = false;
 	if(TMath::Cos(Lambda_Theta) < LambdaCosThetaMin ) goodness = false;
 	if(Lambda_DauDCA > LambdaDauDCAMax ) goodness = false;

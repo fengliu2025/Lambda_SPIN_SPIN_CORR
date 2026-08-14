@@ -197,6 +197,17 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 		//Get the number of entries in current tree
 		Long64_t N_Events=SameEvent_Reader->fChain->GetEntries();
 
+
+		int N3L2GoodL = 0 ; 
+		int SharedPion = 0 ; 
+		int SharedProton = 0;
+
+		if(i_file%10==0) {
+			std::cout<<"N3L2GoodL="<< N3L2GoodL <<std::endl;
+			std::cout<<"SharedPion="<< SharedPion <<std::endl;
+			std::cout<<"SharedProton="<< SharedProton <<std::endl;
+		}
+
 		//---------------------------Enter i_event loop----------------------------
 		for(Long64_t i_event=0; i_event < N_Events ; i_event++ ){
 			SameEvent_Reader->fChain->GetEntry(i_event);
@@ -231,10 +242,60 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 				 				   );
 				GoodLambdaFlag.push_back(isGoodLambda);
 			}
-			//if(NGoodLambda < 2) continue;
-			Histogramer->Fill_QAplots(GoodLambdaFlag);
+
+
+
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
-			Histogramer->Fill_NLambda_NGoodLambda(NGoodLambda);
+			if(SameEvent_Reader->NLambda!=3)continue;
+			if(NGoodLambda!=2)continue;
+
+			std::vector<int> Dau1Trk; 
+			std::vector<int> Dau2Trk; 
+			Dau1Trk.clear();
+			Dau2Trk.clear();
+			for(int i_lambda=0;i_lambda < GoodLambdaFlag.size();i_lambda++){
+					if(GoodLambdaFlag[i_lambda]==0) continue;
+					bool p1Flag =false;
+					bool p2Flag =false;
+					for(int idau1=0;idau1<Dau1Trk.size();idau1++){
+						if( SameEvent_Reader->p1_InEventID[i_lambda] == Dau1Trk[idau1] ) p1Flag == true;
+					}
+					for(int idau1=0;idau1<Dau1Trk.size();idau1++){
+						if( SameEvent_Reader->p2_InEventID[i_lambda] == Dau2Trk[idau2]) p2Flag == true;
+					}
+
+					if(p1Flag==false) Dau1Trk.push_back(SameEvent_Reader->p1_InEventID[i_lambda]);
+					if(p2Flag==false) Dau2Trk.push_back(SameEvent_Reader->p2_InEventID[i_lambda]);
+
+
+			}
+
+			if(Dau1Trk.size()!=2) continue;
+			if(Dau2Trk.size()!=2) continue;
+
+			N3L2GoodL ++;
+
+			for(int i_lambda=0;i_lambda < GoodLambdaFlag.size();i_lambda++){
+					if(GoodLambdaFlag[i_lambda]!=0) continue;
+			
+					for(int idau1=0;idau1<Dau1Trk.size();idau1++){
+						if( SameEvent_Reader->p1_InEventID[i_lambda] == Dau1Trk[idau1] ) SharedProton ++;
+					}
+					for(int idau1=0;idau1<Dau1Trk.size();idau1++){
+						if( SameEvent_Reader->p2_InEventID[i_lambda] == Dau2Trk[idau2]) SharedPion ++;
+					}
+
+
+			}
+
+
+
+
+
+			//if(NGoodLambda < 2) continue;
+			//Histogramer->Fill_QAplots(GoodLambdaFlag);
+			//Histogramer->Fill_NLambda_NGoodLambda(NGoodLambda);
+			/*
 			for(int i_lambda = 0 ; i_lambda < SameEvent_Reader->NLambda;i_lambda++){
 				if(GoodLambdaFlag[i_lambda]==0) continue;
 				for(int j_lambda = i_lambda+1; j_lambda < SameEvent_Reader->NLambda;j_lambda++){
@@ -243,7 +304,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 				}
 			}
 			
-			
+			*/
 					
 		}
 		//---------------------------End i_event loop----------------------------

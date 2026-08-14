@@ -14,8 +14,10 @@ int main(int argc, char*argv[]){
 	std::vector<std::string> FileList;
 	std::vector<std::string> FileName;
 
-	std::ifstream filelist("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree/filelist.txt");
+	//std::ifstream filelist("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree/filelist.txt");
+	std::ifstream filelist("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data_July27_v1//MiddleTree/filelist.txt");
 	
+
 	//std::ifstream filelist("/gpfs01/star/pwg/fliu/production/pp2024/PicoDstLambda_P24iy_woTrk/filelist.txt");
 	//std::ifstream filelist("/gpfs01/star/pwg/fliu/production/pp2012/PicoDstLambda_P12id/FileList.txt");
 	//std::ifstream filelist("/gpfs01/star/pwg/fliu/production_test/pp2024_P24iy/PicoDstLambda_P24iy/FileList.txt");
@@ -23,7 +25,8 @@ int main(int argc, char*argv[]){
 	if (!filelist.is_open()) {
 		std::cerr <<"can't open the file" <<std::endl;
 	}
-	std::string directory="/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree/";
+	//std::string directory="/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree/";
+	std::string directory="/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data_July27_v1/MiddleTree/";
 	//std::string directory="/gpfs01/star/pwg/fliu/production/pp2024/PicoDstLambda_P24iy_woTrk/";
 	//std::string directory="/gpfs01/star/pwg/fliu/production/pp2012/PicoDstLambda_P12id/";
 	//std::string directory="/gpfs01/star/pwg/fliu/production_test/pp2024_P24iy/PicoDstLambda_P24iy/";
@@ -59,7 +62,8 @@ int main(int argc, char*argv[]){
 	//std::string OutPutFile = "SLAfterSelectionMass_plot_MB_eta1p0.root"; 
 	//std::string OutPutFile = "P12idHelixAfterSelectionMass_plot_eta1p0.root"; 
 	//std::string OutPutFile = "P24iyAfterSelection_plot_eta1p5_HM_NewPro_RemoveDauDCA.root"; 
-	std::string OutPutFile = "P24iyAfterSelection_plot_eta1p5_HM_NewPro_LamDCA0_0p50.root";
+	//std::string OutPutFile = "P24iyAfterSelection_plot_eta1p5_HM_NewPro_LamDCA0_0p50.root";
+	std::string OutPutFile = "test.root";
 	ntp_Lambda_Histogram *myHistogram = new ntp_Lambda_Histogram(mySameEventReader,OutPutFile);
 	myHistogram->InitHitogram();
 
@@ -87,6 +91,6 @@ int main(int argc, char*argv[]){
 	myAnalyzer->Analysis_QAPlot();
 	//---------------	
 
-	myHistogram->WriteAll();
+	//myHistogram->WriteAll();
 	return 0;
 }
