@@ -269,8 +269,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 						if( SameEvent_Reader->p2_InEventID[i_lambda] == Dau2Trk[idau2]) p2Flag == true;
 					}
 
-					if(p1Flag==false) {Dau1Trk.push_back(SameEvent_Reader->p1_InEventID[i_lambda]);Dau1Index.push_back(i_lambda)}
-					if(p2Flag==false) {Dau2Trk.push_back(SameEvent_Reader->p2_InEventID[i_lambda]);Dau2Index.push_back(i_lambda)}
+					if(p1Flag==false) {Dau1Trk.push_back(SameEvent_Reader->p1_InEventID[i_lambda]);Dau1Index.push_back(i_lambda);}
+					if(p2Flag==false) {Dau2Trk.push_back(SameEvent_Reader->p2_InEventID[i_lambda]);Dau2Index.push_back(i_lambda);}
 
 
 			}
@@ -287,7 +287,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 						if( SameEvent_Reader->p1_InEventID[i_lambda] == Dau1Trk[idau1] ) {
 							SharedProton ++;
 							double deltaEta = SameEvent_Reader->p2_eta[i_lambda] -SameEvent_Reader->pair_eta[Dau1Index[idau1]];
-							double deltaPhi = TMath::ACos( TMath::Cos(SameEvent_Reader->p2_phi[i_lambda]-SameEvent_Reader->pair_phi[Dau1Index[idau1]];)  );
+							double deltaPhi = TMath::ACos( TMath::Cos(SameEvent_Reader->p2_phi[i_lambda]-SameEvent_Reader->pair_phi[Dau1Index[idau1]])  );
 							double deltaR = TMath::Sqrt(deltaEta*deltaEta + deltaPhi*deltaPhi );
 							Histogramer->h1D_PionDeltaR->Fill(deltaR);
 							
@@ -299,7 +299,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 						if( SameEvent_Reader->p2_InEventID[i_lambda] == Dau2Trk[idau2]) {
 							SharedPion ++;
 							double deltaEta = SameEvent_Reader->p1_eta[i_lambda] -SameEvent_Reader->pair_eta[Dau2Index[idau2]];
-							double deltaPhi = TMath::ACos( TMath::Cos(SameEvent_Reader->p1_phi[i_lambda]-SameEvent_Reader->pair_phi[Dau2Index[idau2]];)  );
+							double deltaPhi = TMath::ACos( TMath::Cos(SameEvent_Reader->p1_phi[i_lambda]-SameEvent_Reader->pair_phi[Dau2Index[idau2]])  );
 							double deltaR = TMath::Sqrt(deltaEta*deltaEta + deltaPhi*deltaPhi );
 							Histogramer->h1D_ProtonDeltaR->Fill(deltaR);
 						}
