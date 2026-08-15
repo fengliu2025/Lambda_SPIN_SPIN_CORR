@@ -43,7 +43,7 @@ const double Range_Low[Range_Bin]  = {0.  , 0.5 , 1.0, 1.5 , 2.0,0.};
 const double Range_High[Range_Bin] = {0.5 , 1.0 , 1.5, 2.0 , 3.0,5.0};
 
 
-double CleanRadius  = 0.3;
+double CleanRadius  = 0.5;
 
 //physics constants 
 double MASS_PROTON = 0.93827208816;//GeV/c^2
