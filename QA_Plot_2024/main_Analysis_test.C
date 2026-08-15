@@ -63,7 +63,7 @@ int main(int argc, char*argv[]){
 	//std::string OutPutFile = "P12idHelixAfterSelectionMass_plot_eta1p0.root"; 
 	//std::string OutPutFile = "P24iyAfterSelection_plot_eta1p5_HM_NewPro_RemoveDauDCA.root"; 
 	//std::string OutPutFile = "P24iyAfterSelection_plot_eta1p5_HM_NewPro_LamDCA0_0p50.root";
-	std::string OutPutFile = "test.root";
+	std::string OutPutFile = "testR.root";
 	ntp_Lambda_Histogram *myHistogram = new ntp_Lambda_Histogram(mySameEventReader,OutPutFile);
 	myHistogram->InitHitogram();
 
@@ -91,6 +91,6 @@ int main(int argc, char*argv[]){
 	myAnalyzer->Analysis_QAPlot();
 	//---------------	
 
-	//myHistogram->WriteAll();
+	myHistogram->WriteAll();
 	return 0;
 }

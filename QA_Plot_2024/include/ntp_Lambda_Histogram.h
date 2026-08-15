@@ -97,8 +97,8 @@ public :
 	TH1D *h1D_p2_plus_pt;
 	TH1D *h1D_p2_minus_pt;
 
-
-
+	TH1D *h1D_PionDeltaR;
+	TH1D *h1D_ProtonDeltaR;
 
 	ntp_Lambda_Histogram();
 	ntp_Lambda_Histogram(ntp_Lambda_Reader *reader,std::string outPutFile);
@@ -217,7 +217,8 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_p2_plus_pt  = new TH1D("h1D_p2_plus_pt","h1D_p2_plus_pt",100,0,10);
 	h1D_p2_minus_pt = new TH1D("h1D_p2_minus_pt","h1D_p2_minus_pt",100,0,10);
 
-
+	h1D_PionDeltaR = new TH1D("h1D_PionDeltaR","h1D_PionDeltaR",100,0,1);
+	h1D_ProtonDeltaR = new TH1D("h1D_ProtonDeltaR","h1D_ProtonDeltaR",100,0,1);
 
 
 }
@@ -567,6 +568,8 @@ void ntp_Lambda_Histogram::Reset(){
 	h1D_track_nSigmaProton ->Reset("ICES");
 	h1D_track_ch ->Reset("ICES");
 
+	h1D_PionDeltaR  ->Reset("ICES");
+	h1D_ProtonDeltaR  ->Reset("ICES");
 	
 
 	
@@ -653,6 +656,8 @@ void ntp_Lambda_Histogram::WriteAll(){
 	h1D_track_ch ->Write();
 
 
+	h1D_PionDeltaR  ->Write();
+	h1D_ProtonDeltaR  ->Write();
 
 	fout->Close();
 	delete fout;
