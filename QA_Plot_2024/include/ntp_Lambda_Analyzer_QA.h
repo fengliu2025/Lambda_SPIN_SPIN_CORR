@@ -257,7 +257,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 	int RejectedSharedProton =0; 
 	int RejectedSharedPion   =0; 
 
-	int testRejectedAroundPio = 0 ;
+	int testRejectedAroundPion = 0 ;
 
 
 	//-------------------------------Enter i_file loop---------------------------------
