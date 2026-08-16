@@ -104,7 +104,8 @@ public :
 	TH1D *h1D_ProtonDeltaR;
 	TH1D *h1D_ProtonPt; 
 	TH1D *h1D_ProtonDca;
-
+	
+	TH1D *h1D_LambdaDecayL;
 	ntp_Lambda_Histogram();
 	ntp_Lambda_Histogram(ntp_Lambda_Reader *reader,std::string outPutFile);
 	void InitHitogram();
