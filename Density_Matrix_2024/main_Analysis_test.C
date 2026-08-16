@@ -55,8 +55,8 @@ int main(int argc, char*argv[]){
 	s1_tmp.push_back(FileList[file_Index]);
 
 
-	//std::string MixTreeDir = "/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data_July27_v1/MiddleTree_MixTree/";
-	std::string MixTreeDir = "/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree_MixTree/";
+	std::string MixTreeDir = "/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data_July27_v1/MiddleTree_MixTree/";
+	//std::string MixTreeDir = "/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2024data/MiddleTree_MixTree/";
 	std::string s1 = FileName[file_Index];
 
 	
