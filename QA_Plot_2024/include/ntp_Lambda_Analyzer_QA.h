@@ -373,8 +373,10 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 						if( SameEvent_Reader->p1_InEventID[i_lambda] == Dau1Trk[idau1] ) {
 							SharedProton ++;
 							IsSharedProton = true;
-							double deltaEta = SameEvent_Reader->p2_eta[i_lambda] -SameEvent_Reader->pair_eta[Dau1Index[idau1]];
-							double deltaPhi = TMath::ACos( TMath::Cos(SameEvent_Reader->p2_phi[i_lambda]-SameEvent_Reader->pair_phi[Dau1Index[idau1]])  );
+							//double deltaEta = SameEvent_Reader->p2_eta[i_lambda] -SameEvent_Reader->pair_eta[Dau1Index[idau1]];
+							//double deltaPhi = TMath::ACos( TMath::Cos(SameEvent_Reader->p2_phi[i_lambda]-SameEvent_Reader->pair_phi[Dau1Index[idau1]])  );
+							double deltaEta = SameEvent_Reader->p2_eta[i_lambda] -SameEvent_Reader->p2_eta[Dau1Index[idau1]];
+							double deltaPhi = TMath::ACos( TMath::Cos(SameEvent_Reader->p2_phi[i_lambda]-SameEvent_Reader->p2_phi[Dau1Index[idau1]])  );
 							double deltaR = TMath::Sqrt(deltaEta*deltaEta + deltaPhi*deltaPhi );
 							if(deltaR < CleanRadius  && SameEvent_Reader->p2_dca[i_lambda] < 1 && SameEvent_Reader->p2_pt[i_lambda] < 0.5  ) testRejectedAroundPion++;
 
