@@ -254,6 +254,9 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 	int SharedPion = 0 ; 
 	int SharedProton = 0;
 	int NotRejected =0 ; 
+	int RejectedSharedProton =0; 
+	int RejectedSharedPion   =0; 
+
 
 	//-------------------------------Enter i_file loop---------------------------------
 	for(unsigned long i_file = 0 ; i_file < N_Inputfiles_SE ; i_file ++){
@@ -282,6 +285,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			std::cout<<"SharedPion="<< SharedPion <<std::endl;
 			std::cout<<"SharedProton="<< SharedProton <<std::endl;
 			std::cout<<"NotRejected ="<< NotRejected  <<std::endl;
+			std::cout<<"RejectedSharedProton ="<< RejectedSharedProton  <<std::endl;
+			std::cout<<"RejectedSharedPion ="<< RejectedSharedPion <<std::endl;
 		}
 
 		//---------------------------Enter i_event loop----------------------------
@@ -354,6 +359,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			if(Dau2Trk.size()!=2) continue;
 
 			N3L2GoodL ++;
+			bool IsSharedProton = false;
+			bool IsSharedPion = false;
 
 			for(int i_lambda=0;i_lambda < GoodLambdaFlag.size();i_lambda++){
 					if(GoodLambdaFlag[i_lambda]!=0) continue;
@@ -361,6 +368,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 					for(int idau1=0;idau1<Dau1Trk.size();idau1++){
 						if( SameEvent_Reader->p1_InEventID[i_lambda] == Dau1Trk[idau1] ) {
 							SharedProton ++;
+							IsSharedProton = true;
 							double deltaEta = SameEvent_Reader->p2_eta[i_lambda] -SameEvent_Reader->pair_eta[Dau1Index[idau1]];
 							double deltaPhi = TMath::ACos( TMath::Cos(SameEvent_Reader->p2_phi[i_lambda]-SameEvent_Reader->pair_phi[Dau1Index[idau1]])  );
 							double deltaR = TMath::Sqrt(deltaEta*deltaEta + deltaPhi*deltaPhi );
@@ -373,6 +381,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 					for(int idau2=0;idau2<Dau2Trk.size();idau2++){
 						if( SameEvent_Reader->p2_InEventID[i_lambda] == Dau2Trk[idau2]) {
 							SharedPion ++;
+							IsSharedPion = true;
 							double deltaEta = SameEvent_Reader->p1_eta[i_lambda] -SameEvent_Reader->pair_eta[Dau2Index[idau2]];
 							double deltaPhi = TMath::ACos( TMath::Cos(SameEvent_Reader->p1_phi[i_lambda]-SameEvent_Reader->pair_phi[Dau2Index[idau2]])  );
 							double deltaR = TMath::Sqrt(deltaEta*deltaEta + deltaPhi*deltaPhi );
@@ -405,8 +414,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 				}
 			}
 			if(IsRejected == false ) NotRejected ++ ; 
-
-
+			if(IsRejected == true && IsSharedProton == true) RejectedSharedProton ++; 
+			if(IsRejected == true && IsSharedProton == true) RejectedSharedPion ++; 
 
 			//--------for test=-------
 
