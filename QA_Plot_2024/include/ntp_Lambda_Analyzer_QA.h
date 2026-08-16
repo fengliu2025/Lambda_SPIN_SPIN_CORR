@@ -234,7 +234,7 @@ bool ntp_Lambda_Analyzer::IsCleanLambda(std::vector<int> DauTrkID,int i_lambda){
 		double deltaEta = TMath::Abs( SameEvent_Reader->pair_eta[i_lambda] - SameEvent_Reader->track_eta[iTrk] );
 		double deltaPhi = TMath::ACos( TMath::Cos( SameEvent_Reader->pair_phi[i_lambda] - SameEvent_Reader->track_phi[iTrk] )   );
 		double deltaR = TMath::Sqrt( deltaEta*deltaEta + deltaPhi * deltaPhi );
-		if(deltaR < CleanRadius  && SameEvent_Reader->track_dca[iTrk] < 100 && SameEvent_Reader->track_pt[iTrk] < 0.3  ) NTrkAround++;
+		if(deltaR < CleanRadius  && SameEvent_Reader->track_dca[iTrk] > 1 && SameEvent_Reader->track_pt[iTrk] < 10  ) NTrkAround++;
 
 	}
 
@@ -443,13 +443,13 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			if(IsRejected == true && IsSharedPion == true) RejectedSharedPion ++; 
 
 
-
+			Histogramer->Fill_QAplots(GoodLambdaFlag);
 			//--------for test=-------
 
 
 
 			//if(NGoodLambda < 2) continue;
-			//Histogramer->Fill_QAplots(GoodLambdaFlag);
+			//
 			//Histogramer->Fill_NLambda_NGoodLambda(NGoodLambda);
 			/*
 			for(int i_lambda = 0 ; i_lambda < SameEvent_Reader->NLambda;i_lambda++){

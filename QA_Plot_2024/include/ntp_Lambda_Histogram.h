@@ -142,7 +142,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_high_Phi   = new TH1D("h1D_high_Phi","h1D_high_Phi",100,-2*TMath::Pi(), 2 * TMath::Pi() );
 	h1D_high_eta   = new TH1D("h1D_high_eta","h1D_high_eta",100,-4,4);
 
-	h1D_pair_Pt    = new TH1D("h1D_pair_Pt","h1D_pair_Pt",100,0,10);
+	h1D_pair_Pt    = new TH1D("h1D_pair_Pt","h1D_pair_Pt",100,0,5);
 	h1D_pair_Eta   = new TH1D("h1D_pair_Eta","h1D_pair_Eta",100,-3,3);
 	h1D_pair_Phi   = new TH1D("h1D_pair_Phi","h1D_pair_Phi",100,-2*TMath::Pi(),2*TMath::Pi());
 	//h1D_pair_Mass  = new TH1D("h1D_pair_Mass","h1D_pair_Mass",120,1.07,1.20);
@@ -156,17 +156,17 @@ void ntp_Lambda_Histogram::InitHitogram(){
 
 
 
-	h1D_p1_Pt      = new TH1D("h1D_p1_Pt","h1D_p1_Pt",100,0,10);
+	h1D_p1_Pt      = new TH1D("h1D_p1_Pt","h1D_p1_Pt",100,0,5);
 	h1D_p1_Eta     = new TH1D("h1D_p1_Eta","h1D_p1_Eta",100,-3,3); 
 	h1D_p1_Phi     = new TH1D("h1D_p1_Phi","h1D_p1_Phi",100,-2*TMath::Pi(),2*TMath::Pi() ); 
-	h1D_p1_Dca     = new TH1D("h1D_p1_Dca","h1D_p1_Dca",100,-1,1);
+	h1D_p1_Dca     = new TH1D("h1D_p1_Dca","h1D_p1_Dca",200,0,5);
 	h1D_p1_Dcaxy   = new TH1D("h1D_p1_Dcaxy","h1D_p1_Dcaxy",100,-1,1);
 	h1D_p1_nSigmaProton = new TH1D("h1D_p1_nSigmaProton","h1D_p1_nSigmaProton",100,-5,5);
 
-	h1D_p2_Pt      = new TH1D("h1D_p2_Pt","h1D_p2_Pt",100,0,10);
+	h1D_p2_Pt      = new TH1D("h1D_p2_Pt","h1D_p2_Pt",100,0,3);
 	h1D_p2_Eta     = new TH1D("h1D_p2_Eta","h1D_p2_Eta",100,-3,3);
 	h1D_p2_Phi     = new TH1D("h1D_p2_Phi","h1D_p2_Phi",100,-2*TMath::Pi(),2*TMath::Pi() ); 
-	h1D_p2_Dca     = new TH1D("h1D_p2_Dca","h1D_p2_Dca",100,-1,1);
+	h1D_p2_Dca     = new TH1D("h1D_p2_Dca","h1D_p2_Dca",200,0,5);
 	h1D_p2_Dcaxy   = new TH1D("h1D_p2_Dcaxy","h1D_p2_Dcaxy",100,-1,1);
 	h1D_p2_nSigmaPion = new TH1D("h1D_p2_nSigmaPion","h1D_p2_nSigmaPion",100,-5,5);
 
