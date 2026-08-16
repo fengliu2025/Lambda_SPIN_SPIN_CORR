@@ -411,7 +411,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 				std::cout<<Dau1Trk[idau1]<<std::endl;
 			}
 			std::cout<<"Dua2TrkID:"<<std::endl;
-			for(int idau2=0;idau1<Dau2Trk.size();idau2++){
+			for(int idau2=0;idau2<Dau2Trk.size();idau2++){
 				std::cout<<Dau2Trk[idau2]<<std::endl;
 			}
 			std::cout<<"DauTrkID:"<<std::endl;
