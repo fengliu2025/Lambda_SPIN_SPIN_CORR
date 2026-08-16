@@ -98,7 +98,12 @@ public :
 	TH1D *h1D_p2_minus_pt;
 
 	TH1D *h1D_PionDeltaR;
+	TH1D *h1D_PionPt; 
+	TH1D *h1D_PionDca;
+
 	TH1D *h1D_ProtonDeltaR;
+	TH1D *h1D_ProtonPt; 
+	TH1D *h1D_ProtonDca;
 
 	ntp_Lambda_Histogram();
 	ntp_Lambda_Histogram(ntp_Lambda_Reader *reader,std::string outPutFile);
@@ -218,7 +223,12 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_p2_minus_pt = new TH1D("h1D_p2_minus_pt","h1D_p2_minus_pt",100,0,10);
 
 	h1D_PionDeltaR = new TH1D("h1D_PionDeltaR","h1D_PionDeltaR",100,0,1);
+	h1D_PionPt = new TH1D("h1D_PionPt","h1D_PionPt",100,0,3); 
+	h1D_PionDca= new TH1D("h1D_PionDca","h1D_PionDca",200,0,5);
+
 	h1D_ProtonDeltaR = new TH1D("h1D_ProtonDeltaR","h1D_ProtonDeltaR",100,0,1);
+	h1D_ProtonPt= new TH1D("h1D_ProtonPt","h1D_ProtonPt",100,0,5); 
+	h1D_ProtonDca= new TH1D("h1D_ProtonDca","h1D_ProtonDca",200,0,5);
 
 
 }
@@ -569,9 +579,13 @@ void ntp_Lambda_Histogram::Reset(){
 	h1D_track_ch ->Reset("ICES");
 
 	h1D_PionDeltaR  ->Reset("ICES");
-	h1D_ProtonDeltaR  ->Reset("ICES");
-	
+	h1D_PionPt->Reset("ICES");
+	h1D_PionDca->Reset("ICES");
 
+	h1D_ProtonDeltaR  ->Reset("ICES");
+	h1D_ProtonPt->Reset("ICES");
+	h1D_ProtonDca->Reset("ICES");
+	
 	
 }
 
@@ -657,7 +671,15 @@ void ntp_Lambda_Histogram::WriteAll(){
 
 
 	h1D_PionDeltaR  ->Write();
+	h1D_PionPt ->Write();
+	h1D_PionDca ->Write();
+
 	h1D_ProtonDeltaR  ->Write();
+	h1D_ProtonPt ->Write();
+	h1D_ProtonDca ->Write();
+
+
+	
 
 	fout->Close();
 	delete fout;

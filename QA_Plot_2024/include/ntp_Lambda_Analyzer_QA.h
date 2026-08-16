@@ -373,6 +373,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 							double deltaPhi = TMath::ACos( TMath::Cos(SameEvent_Reader->p2_phi[i_lambda]-SameEvent_Reader->pair_phi[Dau1Index[idau1]])  );
 							double deltaR = TMath::Sqrt(deltaEta*deltaEta + deltaPhi*deltaPhi );
 							Histogramer->h1D_PionDeltaR->Fill(deltaR);
+							Histogramer->h1D_PionPt->Fill(SameEvent_Reader->p2_pt[i_lambda]);
+							Histogramer->h1D_PionDca->Fill(SameEvent_Reader->p2_dca[i_lambda]);
 							
 						}
 							
@@ -386,6 +388,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 							double deltaPhi = TMath::ACos( TMath::Cos(SameEvent_Reader->p1_phi[i_lambda]-SameEvent_Reader->pair_phi[Dau2Index[idau2]])  );
 							double deltaR = TMath::Sqrt(deltaEta*deltaEta + deltaPhi*deltaPhi );
 							Histogramer->h1D_ProtonDeltaR->Fill(deltaR);
+							Histogramer->h1D_ProtonPt->Fill(SameEvent_Reader->p1_pt[i_lambda]);
+							Histogramer->h1D_ProtonDca->Fill(SameEvent_Reader->p1_dca[i_lambda]);
 						}
 					}
 
