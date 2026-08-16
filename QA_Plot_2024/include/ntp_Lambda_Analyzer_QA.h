@@ -391,6 +391,9 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 
 			}
+			
+
+
 
 			std::vector<int> DauTrkID = FindDauTrk(GoodLambdaFlag );
 			std::vector<bool> CleanLambdaFlag;
@@ -401,6 +404,23 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 				}
 				CleanLambdaFlag.push_back ( IsCleanLambda(DauTrkID,i_lambda) );
 			}
+
+			//print test
+			std::cout<<"Dua1TrkID:"<<std::endl;
+			for(int idau1=0;idau1<Dau1Trk.size();idau1++){
+				std::cout<<Dau1Trk[idau1]<<std::endl;
+			}
+			std::cout<<"Dua2TrkID:"<<std::endl;
+			for(int idau2=0;idau1<Dau2Trk.size();idau2++){
+				std::cout<<Dau2Trk[idau2]<<std::endl;
+			}
+			std::cout<<"DauTrkID:"<<std::endl;
+			for(int idau=0;idau<DauTrkID.size();idau++){
+				std::cout<<DauTrkID[idau]<<std::endl;
+			}
+			std::cout<<"----------"<<std::endl;
+			//print test
+
 
 			bool IsRejected = true;
 
@@ -416,6 +436,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			if(IsRejected == false ) NotRejected ++ ; 
 			if(IsRejected == true && IsSharedProton == true) RejectedSharedProton ++; 
 			if(IsRejected == true && IsSharedPion == true) RejectedSharedPion ++; 
+
+
 
 			//--------for test=-------
 
