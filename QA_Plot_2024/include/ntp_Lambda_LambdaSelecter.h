@@ -114,13 +114,13 @@ bool ntp_Lambda_LambdaSelecter::IsGoodLambdaMass(double Pt, double Mass){
 
 
 	if(Pt < 1.5){
-		mean = 1.115702;
-		sigma = 0.00134;
+		mean = 1.11596;//1.115702;
+		sigma = 0.00126926;//0.00134;
 	}
 
 	else {
-		mean = 1.115765;
-		sigma = 0.001915; 
+		mean = 1.11587;//1.115765;
+		sigma = 0.00148389;//0.001915; 
 	}
 
 	if( Mass > (mean -2 *sigma )  && Mass < (mean + 2*sigma) ){

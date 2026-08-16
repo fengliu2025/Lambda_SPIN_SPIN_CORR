@@ -42,9 +42,20 @@ public:
 	ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_Histogram *histogram, ntp_Lambda_EventSelecter *eventSelecter, ntp_Lambda_LambdaSelecter *lambdaSelecter  );
 
 	~ntp_Lambda_Analyzer();
+
+
+
+
 	
 	int Pair_Type_Classifier(int idx1, int idx2);
 	int Range_Type_Classifier(TLorentzVector *v1, TLorentzVector *v2);
+
+
+
+	std::vector<int> FindDauTrk(std::vector<int> GoodLambdaFlag );
+	bool IsCleanLambda(std::vector<int> DauTrkID,int i_lambda);
+
+
 	void Analysis_Pair(int i_lambda,int j_lambda);
 	void Analysis_QAPlot();
 
@@ -174,6 +185,67 @@ void ntp_Lambda_Analyzer::Analysis_Pair(int i_lambda,int j_lambda){
 
 
 
+std::vector<int> ntp_Lambda_Analyzer::FindDauTrk(std::vector<int> GoodLambdaFlag ){
+
+	std::vector<int> DauTrkID; 
+	DauTrkID.clear();
+	for(int i_lambda=0;i_lambda < GoodLambdaFlag.size();i_lambda++){
+			if(GoodLambdaFlag[i_lambda]==0) continue;
+			bool p1Flag =false;
+			for(int idau1=0;idau1<DauTrkID.size();idau1++){
+					if( SameEvent_Reader->p1_InEventID[i_lambda] == DauTrkID[idau1] ) p1Flag == true;
+			}
+			if(p1Flag==false) DauTrkID.push_back(SameEvent_Reader->p1_InEventID[i_lambda]);
+
+	}
+
+	for(int i_lambda=0;i_lambda < GoodLambdaFlag.size();i_lambda++){
+			if(GoodLambdaFlag[i_lambda]==0) continue;
+			bool p2Flag =false;
+			for(int idau2=0;idau2<DauTrkID.size();idau2++){
+					if( SameEvent_Reader->p2_InEventID[i_lambda] == DauTrkID[idau2] ) p2Flag == true;
+			}
+			if(p2Flag==false) DauTrkID.push_back(SameEvent_Reader->p2_InEventID[i_lambda]);
+
+	}
+
+
+	return DauTrkID;
+
+}
+
+
+
+bool ntp_Lambda_Analyzer::IsCleanLambda(std::vector<int> DauTrkID,int i_lambda){
+		
+	int NTrkAround = 0 ;
+
+	for(int iTrk = 0; iTrk < SameEvent_Reader->track_Number;iTrk++){
+		bool IsDauTrk = false;
+		for(int iDauTrk=0; iDauTrk<DauTrkID.size();iDauTrk++){
+			if(DauTrkID[iDauTrk] == SameEvent_Reader->track_InEventID[iTrk]){
+				IsDauTrk = true;
+				break;
+			}
+		}
+		if(IsDauTrk) continue;
+
+
+		double deltaEta = TMath::Abs( SameEvent_Reader->pair_eta[i_lambda] - SameEvent_Reader->track_eta[iTrk] );
+		double deltaPhi = TMath::ACos( TMath::Cos( SameEvent_Reader->pair_phi[i_lambda] - SameEvent_Reader->track_phi[iTrk] )   );
+		double deltaR = TMath::Sqrt( deltaEta*deltaEta + deltaPhi * deltaPhi );
+		if(deltaR < CleanRadius  && SameEvent_Reader->track_dca[iTrk] < 1.0 && SameEvent_Reader->track_pt[iTrk] < 0.3  ) NTrkAround++;
+
+	}
+
+	if(NTrkAround > 0 ) return false;
+	else return true;
+
+
+}
+
+
+
 void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 	
@@ -181,6 +253,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 	int N3L2GoodL = 0 ; 
 	int SharedPion = 0 ; 
 	int SharedProton = 0;
+	int NotRejected =0 ; 
+
 	//-------------------------------Enter i_file loop---------------------------------
 	for(unsigned long i_file = 0 ; i_file < N_Inputfiles_SE ; i_file ++){
 		//Open the file 
@@ -207,6 +281,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			std::cout<<"N3L2GoodL="<< N3L2GoodL <<std::endl;
 			std::cout<<"SharedPion="<< SharedPion <<std::endl;
 			std::cout<<"SharedProton="<< SharedProton <<std::endl;
+			std::cout<<"NotRejected ="<< NotRejected  <<std::endl;
 		}
 
 		//---------------------------Enter i_event loop----------------------------
@@ -217,14 +292,14 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			for(int iTrig = 0; iTrig < SameEvent_Reader->mNTrigs;iTrig++){
 				TriggerIDList.push_back( SameEvent_Reader->mTrigId[iTrig]);
 			}
-			if( !EventSelecter->IsGoodEvent(TriggerIDList) ) continue;
+			
 
 
 			//Fill Histograms of QA plot (without any cut);
 			//Histogramer->Fill_QAplots();
 
 			//------------------------Make some selections on the events-----------------------------
-				
+			if( !EventSelecter->IsGoodEvent(TriggerIDList) ) continue;
 			std::vector<int> GoodLambdaFlag;
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
 				
@@ -307,6 +382,31 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 
 			}
+
+			std::vector<int> DauTrkID = FindDauTrk(GoodLambdaFlag );
+			std::vector<bool> CleanLambdaFlag;
+			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
+				if(GoodLambdaFlag[i_lambda]==0){
+					CleanLambdaFlag.push_back(false);
+					continue;
+				}
+				CleanLambdaFlag.push_back ( IsCleanLambda(DauTrkID,i_lambda) );
+			}
+
+			bool IsRejected = true;
+
+			for(int i_lambda=0;i_lambda < SameEvent_Reader->NLambda;i_lambda++){
+				if( GoodLambdaFlag[i_lambda] == 0) continue;
+				if( CleanLambdaFlag[i_lambda] == false ) continue;
+				for(int j_lambda=i_lambda+1;j_lambda < SameEvent_Reader->NLambda;j_lambda++){
+					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
+					if( CleanLambdaFlag[j_lambda] == false ) continue;
+					IsRejected = false;
+				}
+			}
+			if(IsRejected == false ) NotRejected ++ ; 
+
+
 
 			//--------for test=-------
 
