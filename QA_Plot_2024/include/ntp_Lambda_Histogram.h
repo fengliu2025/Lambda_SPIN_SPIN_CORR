@@ -231,6 +231,9 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_ProtonDca= new TH1D("h1D_ProtonDca","h1D_ProtonDca",200,0,5);
 
 
+	h1D_LambdaDecayL= new TH1D("h1D_LambdaDecayL","h1D_LambdaDecayL",200,0,25);
+
+
 }
 
 
@@ -585,6 +588,7 @@ void ntp_Lambda_Histogram::Reset(){
 	h1D_ProtonDeltaR  ->Reset("ICES");
 	h1D_ProtonPt->Reset("ICES");
 	h1D_ProtonDca->Reset("ICES");
+	h1D_LambdaDecayL->Reset("ICES");
 	
 	
 }
@@ -677,7 +681,8 @@ void ntp_Lambda_Histogram::WriteAll(){
 	h1D_ProtonDeltaR  ->Write();
 	h1D_ProtonPt ->Write();
 	h1D_ProtonDca ->Write();
-
+	
+	h1D_LambdaDecayL->Write();
 
 	
 

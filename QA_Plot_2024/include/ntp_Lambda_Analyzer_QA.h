@@ -375,6 +375,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 							Histogramer->h1D_PionDeltaR->Fill(deltaR);
 							Histogramer->h1D_PionPt->Fill(SameEvent_Reader->p2_pt[i_lambda]);
 							Histogramer->h1D_PionDca->Fill(SameEvent_Reader->p2_dca[i_lambda]);
+							Histogramer->h1D_LambdaDecayL->Fill(SameEvent_Reader->pair_decayL[i_lambda]);
 							
 						}
 							
@@ -390,6 +391,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 							Histogramer->h1D_ProtonDeltaR->Fill(deltaR);
 							Histogramer->h1D_ProtonPt->Fill(SameEvent_Reader->p1_pt[i_lambda]);
 							Histogramer->h1D_ProtonDca->Fill(SameEvent_Reader->p1_dca[i_lambda]);
+							Histogramer->h1D_LambdaDecayL->Fill(SameEvent_Reader->pair_decayL[i_lambda]);
 						}
 					}
 
