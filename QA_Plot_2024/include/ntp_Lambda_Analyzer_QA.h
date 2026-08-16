@@ -376,7 +376,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 							double deltaEta = SameEvent_Reader->p2_eta[i_lambda] -SameEvent_Reader->pair_eta[Dau1Index[idau1]];
 							double deltaPhi = TMath::ACos( TMath::Cos(SameEvent_Reader->p2_phi[i_lambda]-SameEvent_Reader->pair_phi[Dau1Index[idau1]])  );
 							double deltaR = TMath::Sqrt(deltaEta*deltaEta + deltaPhi*deltaPhi );
-							if(deltaR < CleanRadius  && SameEvent_Reader->p2_dca[iTrk] < 1 && SameEvent_Reader->track_pt[iTrk] < 0.5  ) testRejectedAroundPion++;
+							if(deltaR < CleanRadius  && SameEvent_Reader->p2_dca[i_lambda] < 1 && SameEvent_Reader->p2_pt[i_lambda] < 0.5  ) testRejectedAroundPion++;
 
 							Histogramer->h1D_PionDeltaR->Fill(deltaR);
 							Histogramer->h1D_PionPt->Fill(SameEvent_Reader->p2_pt[i_lambda]);
