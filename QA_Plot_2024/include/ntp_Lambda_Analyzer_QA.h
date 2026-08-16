@@ -415,7 +415,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			}
 			if(IsRejected == false ) NotRejected ++ ; 
 			if(IsRejected == true && IsSharedProton == true) RejectedSharedProton ++; 
-			if(IsRejected == true && IsSharedProton == true) RejectedSharedPion ++; 
+			if(IsRejected == true && IsSharedPion == true) RejectedSharedPion ++; 
 
 			//--------for test=-------
 
