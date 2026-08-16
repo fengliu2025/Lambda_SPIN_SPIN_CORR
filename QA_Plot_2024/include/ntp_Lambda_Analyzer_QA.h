@@ -257,6 +257,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 	int RejectedSharedProton =0; 
 	int RejectedSharedPion   =0; 
 
+	int testRejectedAroundPio = 0 ;
+
 
 	//-------------------------------Enter i_file loop---------------------------------
 	for(unsigned long i_file = 0 ; i_file < N_Inputfiles_SE ; i_file ++){
@@ -287,6 +289,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			std::cout<<"NotRejected ="<< NotRejected  <<std::endl;
 			std::cout<<"RejectedSharedProton ="<< RejectedSharedProton  <<std::endl;
 			std::cout<<"RejectedSharedPion ="<< RejectedSharedPion <<std::endl;
+			std::cout<<"testRejectedAroundPion  ="<< testRejectedAroundPion <<std::endl;
+
 		}
 
 		//---------------------------Enter i_event loop----------------------------
@@ -372,6 +376,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 							double deltaEta = SameEvent_Reader->p2_eta[i_lambda] -SameEvent_Reader->pair_eta[Dau1Index[idau1]];
 							double deltaPhi = TMath::ACos( TMath::Cos(SameEvent_Reader->p2_phi[i_lambda]-SameEvent_Reader->pair_phi[Dau1Index[idau1]])  );
 							double deltaR = TMath::Sqrt(deltaEta*deltaEta + deltaPhi*deltaPhi );
+							if(deltaR < CleanRadius  && SameEvent_Reader->p2_dca[iTrk] < 1 && SameEvent_Reader->track_pt[iTrk] < 0.5  ) testRejectedAroundPion++;
+
 							Histogramer->h1D_PionDeltaR->Fill(deltaR);
 							Histogramer->h1D_PionPt->Fill(SameEvent_Reader->p2_pt[i_lambda]);
 							Histogramer->h1D_PionDca->Fill(SameEvent_Reader->p2_dca[i_lambda]);
