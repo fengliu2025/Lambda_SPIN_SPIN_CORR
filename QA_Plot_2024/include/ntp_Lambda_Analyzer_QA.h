@@ -334,7 +334,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
 			//--------for test=-------
-			if(SameEvent_Reader->NLambda!=3)continue;
+			if(SameEvent_Reader->NLambda!=2)continue;
 			if(NGoodLambda!=2)continue;
 
 			std::vector<int> Dau1Trk; 
