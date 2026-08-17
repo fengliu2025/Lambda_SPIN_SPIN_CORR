@@ -610,7 +610,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList, SameEvent_Reader->Vz) ) continue;
 			int myNLambda =CountMyNLambda();
-			//if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
+			if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
 			//if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
 			//------------------------Make some selections on the events-----------------------------
 
@@ -658,10 +658,10 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 			//------------------------Analysis Pair-----------------------------
 			for(int i_lambda=0;i_lambda < SameEvent_Reader->NLambda;i_lambda++){
 				if( GoodLambdaFlag[i_lambda] == 0 ) continue;
-				if( CleanLambdaFlag[i_lambda] == false ) continue;
+				//if( CleanLambdaFlag[i_lambda] == false ) continue;
 				for(int j_lambda=i_lambda+1;j_lambda < SameEvent_Reader->NLambda;j_lambda++){
 					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
-					if( CleanLambdaFlag[j_lambda] == false ) continue;
+					//if( CleanLambdaFlag[j_lambda] == false ) continue;
 					Analyze_SEPair(i_lambda,j_lambda);
 				}
 			}
@@ -874,7 +874,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList,SameEvent_Reader->Vz ) ) continue;
 			int myNLambda =CountMyNLambda();
-			//if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
+			if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
 			//if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
 			//------------------------Make some selections on the events-----------------------------
 
@@ -921,10 +921,10 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 
 			for(int i_lambda=0;i_lambda < SameEvent_Reader->NLambda;i_lambda++){
 				if( GoodLambdaFlag[i_lambda] == 0) continue;
-				if( CleanLambdaFlag[i_lambda] == false ) continue;
+				//if( CleanLambdaFlag[i_lambda] == false ) continue;
 				for(int j_lambda=i_lambda+1;j_lambda < SameEvent_Reader->NLambda;j_lambda++){
 					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
-					if( CleanLambdaFlag[j_lambda] == false ) continue;
+					//if( CleanLambdaFlag[j_lambda] == false ) continue;
 					Analyze_MEPair(i_lambda,j_lambda,i_event,i_file);
 				}
 			}
