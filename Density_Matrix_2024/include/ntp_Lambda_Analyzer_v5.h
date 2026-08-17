@@ -483,7 +483,7 @@ bool ntp_Lambda_Analyzer::IsCleanLambda(std::vector<int> DauTrkID,int i_lambda){
 		double deltaEta = TMath::Abs( SameEvent_Reader->pair_eta[i_lambda] - SameEvent_Reader->track_eta[iTrk] );
 		double deltaPhi = TMath::ACos( TMath::Cos( SameEvent_Reader->pair_phi[i_lambda] - SameEvent_Reader->track_phi[iTrk] )   );
 		double deltaR = TMath::Sqrt( deltaEta*deltaEta + deltaPhi * deltaPhi );
-		if(deltaR < CleanRadius  && SameEvent_Reader->track_dca[iTrk] < 1.0 && SameEvent_Reader->track_pt[iTrk] < 0.3  ) NTrkAround++;
+		if(deltaR < CleanRadius  && SameEvent_Reader->track_dca[iTrk] < 1.0 && SameEvent_Reader->track_pt[iTrk] < 0.6  ) NTrkAround++;
 
 	}
 
@@ -658,10 +658,10 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 			//------------------------Analysis Pair-----------------------------
 			for(int i_lambda=0;i_lambda < SameEvent_Reader->NLambda;i_lambda++){
 				if( GoodLambdaFlag[i_lambda] == 0 ) continue;
-				//if( CleanLambdaFlag[i_lambda] == false ) continue;
+				if( CleanLambdaFlag[i_lambda] == false ) continue;
 				for(int j_lambda=i_lambda+1;j_lambda < SameEvent_Reader->NLambda;j_lambda++){
 					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
-					//if( CleanLambdaFlag[j_lambda] == false ) continue;
+					if( CleanLambdaFlag[j_lambda] == false ) continue;
 					Analyze_SEPair(i_lambda,j_lambda);
 				}
 			}
@@ -921,10 +921,10 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 
 			for(int i_lambda=0;i_lambda < SameEvent_Reader->NLambda;i_lambda++){
 				if( GoodLambdaFlag[i_lambda] == 0) continue;
-				//if( CleanLambdaFlag[i_lambda] == false ) continue;
+				if( CleanLambdaFlag[i_lambda] == false ) continue;
 				for(int j_lambda=i_lambda+1;j_lambda < SameEvent_Reader->NLambda;j_lambda++){
 					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
-					//if( CleanLambdaFlag[j_lambda] == false ) continue;
+					if( CleanLambdaFlag[j_lambda] == false ) continue;
 					Analyze_MEPair(i_lambda,j_lambda,i_event,i_file);
 				}
 			}
