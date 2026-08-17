@@ -372,7 +372,7 @@ std::vector<int> ntp_Lambda_Analyzer::NTrks_Type_Classifier(TLorentzVector *v1, 
 		 	//bool IsPhiIn2 = (SameEvent_Reader->track_phi[i_trk] < Window2_Phi_max)&& (SameEvent_Reader->track_phi[i_trk] > Window2_Phi_min) ;
 			//bool IsPhiIn = IsPhiIn1 || IsPhiIn2;
 		 	//if ( IsEtaIn && IsPhiIn  ) NTrks_InWindow ++;
-		 	if( TMath::Abs(SameEvent_Reader->track_dca[i_trk]) < 1.0  ) NTrks_InWindow ++;
+		 	if( TMath::Abs(SameEvent_Reader->track_dca[i_trk]) < 0.5  ) NTrks_InWindow ++;
 		 	if( TMath::Abs(SameEvent_Reader->track_nSigmaKaon[i_trk]  ) < 2.0 && TMath::Abs(SameEvent_Reader->track_dca[i_trk]) < 1.0  ) NKaonTrks ++;
 		}
 		
@@ -611,7 +611,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 			if( !EventSelecter->IsGoodEvent(TriggerIDList, SameEvent_Reader->Vz) ) continue;
 			int myNLambda =CountMyNLambda();
 			//if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
-			if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
+			//if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
 			//------------------------Make some selections on the events-----------------------------
 
 			//------------------------Identify Goood Lambda-----------------------------
@@ -658,10 +658,10 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 			//------------------------Analysis Pair-----------------------------
 			for(int i_lambda=0;i_lambda < SameEvent_Reader->NLambda;i_lambda++){
 				if( GoodLambdaFlag[i_lambda] == 0 ) continue;
-				if( CleanLambdaFlag[i_lambda] == false ) continue;
+				//if( CleanLambdaFlag[i_lambda] == false ) continue;
 				for(int j_lambda=i_lambda+1;j_lambda < SameEvent_Reader->NLambda;j_lambda++){
 					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
-					if( CleanLambdaFlag[j_lambda] == false ) continue;
+					//if( CleanLambdaFlag[j_lambda] == false ) continue;
 					Analyze_SEPair(i_lambda,j_lambda);
 				}
 			}
@@ -875,7 +875,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 			if( !EventSelecter->IsGoodEvent(TriggerIDList,SameEvent_Reader->Vz ) ) continue;
 			int myNLambda =CountMyNLambda();
 			//if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
-			if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
+			//if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
 			//------------------------Make some selections on the events-----------------------------
 
 
@@ -921,10 +921,10 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 
 			for(int i_lambda=0;i_lambda < SameEvent_Reader->NLambda;i_lambda++){
 				if( GoodLambdaFlag[i_lambda] == 0) continue;
-				if( CleanLambdaFlag[i_lambda] == false ) continue;
+				//if( CleanLambdaFlag[i_lambda] == false ) continue;
 				for(int j_lambda=i_lambda+1;j_lambda < SameEvent_Reader->NLambda;j_lambda++){
 					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
-					if( CleanLambdaFlag[j_lambda] == false ) continue;
+					//if( CleanLambdaFlag[j_lambda] == false ) continue;
 					Analyze_MEPair(i_lambda,j_lambda,i_event,i_file);
 				}
 			}
