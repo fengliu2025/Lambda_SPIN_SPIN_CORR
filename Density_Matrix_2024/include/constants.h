@@ -30,8 +30,8 @@ const float Lambda_mass_highCut = 1.13;//1.1183980;//1.119833;//1.1180;//GeV/c^2
 //const int NTrks_High[NTrks_Bin] = {5 ,10 ,15, 20  ,30, 100 ,100, 100, 100 , 100};
 
 const int NTrks_Bin = 4 ;
-const int NTrks_Low[NTrks_Bin]  = {0  ,12  ,21 ,0};
-const int NTrks_High[NTrks_Bin] = {11 ,20  ,100,100};
+const int NTrks_Low[NTrks_Bin]  = {0  ,9  ,13 ,0};
+const int NTrks_High[NTrks_Bin] = {8  ,13 ,100,100};
 //const int NTrks_Bin = 3 ;
 //const int NTrks_Low[NTrks_Bin]  = {0  ,7   ,11 };
 //const int NTrks_High[NTrks_Bin] = {6  ,11  ,100};
