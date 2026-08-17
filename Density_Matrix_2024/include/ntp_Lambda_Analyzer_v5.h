@@ -610,8 +610,8 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList, SameEvent_Reader->Vz) ) continue;
 			int myNLambda =CountMyNLambda();
-			if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
-			//if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
+			//if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
+			if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
 			//------------------------Make some selections on the events-----------------------------
 
 			//------------------------Identify Goood Lambda-----------------------------
@@ -874,8 +874,8 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList,SameEvent_Reader->Vz ) ) continue;
 			int myNLambda =CountMyNLambda();
-			if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
-			//if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
+			//if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
+			if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
 			//------------------------Make some selections on the events-----------------------------
 
 
