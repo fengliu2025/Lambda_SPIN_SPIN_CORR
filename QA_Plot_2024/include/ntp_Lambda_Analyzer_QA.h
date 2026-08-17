@@ -234,10 +234,10 @@ bool ntp_Lambda_Analyzer::IsCleanLambda(std::vector<int> DauTrkID,int i_lambda){
 		double deltaEta = TMath::Abs( SameEvent_Reader->pair_eta[i_lambda] - SameEvent_Reader->track_eta[iTrk] );
 		double deltaPhi = TMath::ACos( TMath::Cos( SameEvent_Reader->pair_phi[i_lambda] - SameEvent_Reader->track_phi[iTrk] )   );
 		double deltaR = TMath::Sqrt( deltaEta*deltaEta + deltaPhi * deltaPhi );
-		if(deltaR < CleanRadius  && SameEvent_Reader->track_dca[iTrk] > 1 && SameEvent_Reader->track_pt[iTrk] < 0.5  ) NTrkAround++;
+		if(deltaR < CleanRadius  && SameEvent_Reader->track_dca[iTrk] < 10 && SameEvent_Reader->track_pt[iTrk] < 5  ) NTrkAround++;
 
 	}
-
+	Histogramer->h1D_NTrkAround->Fill(NTrkAround);
 	if(NTrkAround > 0 ) return false;
 	else return true;
 
@@ -290,6 +290,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			std::cout<<"RejectedSharedProton ="<< RejectedSharedProton  <<std::endl;
 			std::cout<<"RejectedSharedPion ="<< RejectedSharedPion <<std::endl;
 			std::cout<<"testRejectedAroundPion  ="<< testRejectedAroundPion <<std::endl;
+			std::cout<<"h1D_NTrkAround Mean  ="<< Histogramer->h1D_NTrkAround->GetMean() <<std::endl;
+			
 
 		}
 
