@@ -234,7 +234,7 @@ bool ntp_Lambda_Analyzer::IsCleanLambda(std::vector<int> DauTrkID,int i_lambda){
 		double deltaEta = TMath::Abs( SameEvent_Reader->pair_eta[i_lambda] - SameEvent_Reader->track_eta[iTrk] );
 		double deltaPhi = TMath::ACos( TMath::Cos( SameEvent_Reader->pair_phi[i_lambda] - SameEvent_Reader->track_phi[iTrk] )   );
 		double deltaR = TMath::Sqrt( deltaEta*deltaEta + deltaPhi * deltaPhi );
-		if(deltaR < CleanRadius  && SameEvent_Reader->track_dca[iTrk] < 10 && SameEvent_Reader->track_pt[iTrk] < 5  ) NTrkAround++;
+		if(deltaR < CleanRadius  && SameEvent_Reader->track_dca[iTrk] < 1 && SameEvent_Reader->track_pt[iTrk] <0.6  ) NTrkAround++;
 
 	}
 	Histogramer->h1D_NTrkAround->Fill(NTrkAround);
@@ -443,10 +443,10 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 			for(int i_lambda=0;i_lambda < SameEvent_Reader->NLambda;i_lambda++){
 				if( GoodLambdaFlag[i_lambda] == 0) continue;
-				if( CleanLambdaFlag[i_lambda] == false ) continue;
+				//if( CleanLambdaFlag[i_lambda] == false ) continue;
 				for(int j_lambda=i_lambda+1;j_lambda < SameEvent_Reader->NLambda;j_lambda++){
-					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
-					if( CleanLambdaFlag[j_lambda] == false ) continue;
+					if( GoodLambdaFlag[j_lambda] == 0  ) continue;
+					if( CleanLambdaFlag[j_lambda] == false || CleanLambdaFlag[i_lambda] == false  ) continue;
 					IsRejected = false;
 				}
 			}
