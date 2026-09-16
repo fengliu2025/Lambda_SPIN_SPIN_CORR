@@ -334,7 +334,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
 			//--------for test=-------
-			if(SameEvent_Reader->NLambda!=2)continue;
+			if(SameEvent_Reader->NLambda!=3)continue;
 			if(NGoodLambda!=2)continue;
 
 			std::vector<int> Dau1Trk; 
@@ -386,6 +386,21 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 							Histogramer->h1D_PionPt->Fill(SameEvent_Reader->p2_pt[i_lambda]);
 							Histogramer->h1D_PionDca->Fill(SameEvent_Reader->p2_dca[i_lambda]);
 							Histogramer->h1D_LambdaDecayL->Fill(SameEvent_Reader->pair_decayL[i_lambda]);
+							TLorentzVector proton1_tmp; 
+							TLorentzVector pion1_tmp;
+							TLorentzVector pion2_tmp; 
+
+							proton1_tmp.SetPtEtaPhiM(   SameEvent_Reader->p1_pt[Dau1Index[idau1]] ,  SameEvent_Reader->p1_eta[Dau1Index[idau1]]  , SameEvent_Reader->p1_phi[Dau1Index[idau1]],  MASS_PROTON  );
+							pion1_tmp.SetPtEtaPhiM(		SameEvent_Reader->p2_pt[Dau1Index[idau1]] ,  SameEvent_Reader->p2_eta[Dau1Index[idau1]]  , SameEvent_Reader->p2_phi[Dau1Index[idau1]],  Mass_PION    ); 
+							pion2_tmp.SetPtEtaPhiM(     SameEvent_Reader->p2_pt[i_lambda]         ,  SameEvent_Reader->p2_eta[i_lambda]          , SameEvent_Reader->p2_phi[Dau1Index[iday1]],  Mass_PION    );
+
+							TLorentzVector *TestLambda = proton1_tmp + pion1_tmp; 
+							TLorentzVector *TestResonance = TestLambda + pion2_tmp;
+
+							h1D_TestLambdaMass->Fill(TestLambda.M());
+							h1D_TestResonanceMass->Fill(TestResonance.M());
+
+
 							
 						}
 							

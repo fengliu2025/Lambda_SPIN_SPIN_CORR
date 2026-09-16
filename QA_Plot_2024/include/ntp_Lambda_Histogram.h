@@ -107,6 +107,11 @@ public :
 	
 	TH1D *h1D_LambdaDecayL;
 	TH1D *h1D_NTrkAround;
+
+
+	TH1D *h1D_TestResonanceMass; 
+	TH1D *h1D_TestLambdaMass;
+
 	ntp_Lambda_Histogram();
 	ntp_Lambda_Histogram(ntp_Lambda_Reader *reader,std::string outPutFile);
 	void InitHitogram();
@@ -235,6 +240,10 @@ void ntp_Lambda_Histogram::InitHitogram(){
 
 	h1D_LambdaDecayL= new TH1D("h1D_LambdaDecayL","h1D_LambdaDecayL",200,0,25);
 	h1D_NTrkAround  = new TH1D("h1D_NTrkAround","h1D_NTrkAround",20,-0.5,19.5);
+
+
+	h1D_TestResonanceMass = new TH1D("h1D_TestResonanceMass","h1D_TestResonanceMass",1000,1.1,2.4);
+	h1D_TestLambdaMass = new TH1D("h1D_TestLambdaMass","h1D_TestLambdaMass",1000,1.1,1.12);
 
 }
 
@@ -592,7 +601,8 @@ void ntp_Lambda_Histogram::Reset(){
 	h1D_ProtonDca->Reset("ICES");
 	h1D_LambdaDecayL->Reset("ICES");
 	h1D_NTrkAround->Reset("ICES");
-	
+	h1D_TestResonanceMass->Reset("ICES");
+	h1D_TestLambdaMass->Reset("ICES");
 	
 }
 
@@ -688,7 +698,8 @@ void ntp_Lambda_Histogram::WriteAll(){
 	h1D_LambdaDecayL->Write();
 	h1D_NTrkAround->Write();
 	
-
+	h1D_TestResonanceMass->Write();
+	h1D_TestLambdaMass->Write();
 	fout->Close();
 	delete fout;
 	
