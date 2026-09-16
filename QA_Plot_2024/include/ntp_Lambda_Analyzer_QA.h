@@ -397,8 +397,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 							TLorentzVector *TestLambda = proton1_tmp + pion1_tmp; 
 							TLorentzVector *TestResonance = TestLambda + pion2_tmp;
 
-							h1D_TestLambdaMass->Fill(TestLambda.M());
-							h1D_TestResonanceMass->Fill(TestResonance.M());
+							Histogramer->h1D_TestLambdaMass->Fill(TestLambda.M());
+							Histogramer->h1D_TestResonanceMass->Fill(TestResonance.M());
 
 
 							
