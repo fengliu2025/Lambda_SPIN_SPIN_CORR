@@ -394,8 +394,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 							pion1_tmp.SetPtEtaPhiM(		SameEvent_Reader->p2_pt[Dau1Index[idau1]] ,  SameEvent_Reader->p2_eta[Dau1Index[idau1]]  , SameEvent_Reader->p2_phi[Dau1Index[idau1]],  Mass_PION    ); 
 							pion2_tmp.SetPtEtaPhiM(     SameEvent_Reader->p2_pt[i_lambda]         ,  SameEvent_Reader->p2_eta[i_lambda]          , SameEvent_Reader->p2_phi[Dau1Index[iday1]],  Mass_PION    );
 
-							TLorentzVector *TestLambda = proton1_tmp + pion1_tmp; 
-							TLorentzVector *TestResonance = TestLambda + pion2_tmp;
+							TLorentzVector TestLambda = proton1_tmp + pion1_tmp; 
+							TLorentzVector TestResonance = TestLambda + pion2_tmp;
 
 							Histogramer->h1D_TestLambdaMass->Fill(TestLambda.M());
 							Histogramer->h1D_TestResonanceMass->Fill(TestResonance.M());
