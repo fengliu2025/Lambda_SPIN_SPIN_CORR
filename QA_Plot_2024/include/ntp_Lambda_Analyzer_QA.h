@@ -364,10 +364,6 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			if(Dau1Trk.size()!=2) continue;
 			if(Dau2Trk.size()!=2) continue;
 
-			N3L2GoodL ++;
-			bool IsSharedProton = false;
-			bool IsSharedPion = false;
-
 			//calculat the delta R between two good-mass lambda
 			TLorentzVector v1_tmp; 
 			TLorentzVector v2_tmp;
@@ -378,6 +374,13 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			double delta_R = TMath::Sqrt( delta_phi * delta_phi + delta_y * delta_y  );
 			if(delta_R > 0.5 ) continue;
 
+
+
+			N3L2GoodL ++;
+			bool IsSharedProton = false;
+			bool IsSharedPion = false;
+
+			
 
 			for(int i_lambda=0;i_lambda < GoodLambdaFlag.size();i_lambda++){
 					if(GoodLambdaFlag[i_lambda]!=0) continue;
