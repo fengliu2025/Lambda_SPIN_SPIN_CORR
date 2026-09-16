@@ -368,6 +368,17 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			bool IsSharedProton = false;
 			bool IsSharedPion = false;
 
+			//calculat the delta R between two good-mass lambda
+			TLorentzVector v1_tmp; 
+			TLorentzVector v2_tmp;
+			v1_tmp.SetPtEtaPhiM( SameEvent_Reader->pair_pt[Dau1Index[0]] , SameEvent_Reader->pair_eta[Dau1Index[0]] ,  SameEvent_Reader->pair_phi[Dau1Index[0]], SameEvent_Reader->pair_mass[Dau1Index[0]]);
+			v2_tmp.SetPtEtaPhiM( SameEvent_Reader->pair_pt[Dau1Index[1]] , SameEvent_Reader->pair_eta[Dau1Index[1]] ,  SameEvent_Reader->pair_phi[Dau1Index[1]], SameEvent_Reader->pair_mass[Dau1Index[1]]);
+			double delta_phi =  TMath::ACos( TMath::Cos( v1_tmp.Phi() - v2_tmp.Phi() ) ) ;
+			double delta_y   = v1_tmp.Rapidity() - v2_tmp.Rapidity();
+			double delta_R = TMath::Sqrt( delta_phi * delta_phi + delta_y * delta_y  );
+			if(delta_R > 0.5 ) continue;
+
+
 			for(int i_lambda=0;i_lambda < GoodLambdaFlag.size();i_lambda++){
 					if(GoodLambdaFlag[i_lambda]!=0) continue;
 			
