@@ -281,7 +281,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			}
 			
 			//Fill Histograms of QA plot (without any cut);
-			//Histogramer->Fill_QAplots();
+			Histogramer->Fill_QAplots();
 
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList) ) continue;
