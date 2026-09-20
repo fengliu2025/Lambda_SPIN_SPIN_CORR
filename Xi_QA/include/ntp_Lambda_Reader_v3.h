@@ -228,6 +228,7 @@ void ntp_Lambda_Reader::Init(TTree *tree)
 
    fChain->SetBranchAddress("eventId", &eventId, &b_eventId);
    fChain->SetBranchAddress("Vz", &Vz, &b_Vz);
+   fChain->SetBranchAddress("NLambda", &NLambda, &b_NLambda);
    fChain->SetBranchAddress("mNTrigs", &mNTrigs, &b_mNTrigs);
    fChain->SetBranchAddress("mTrigId", mTrigId, &b_mTrigId);
    fChain->SetBranchAddress("p1_InEventID", p1_InEventID, &b_p1_InEventID);
