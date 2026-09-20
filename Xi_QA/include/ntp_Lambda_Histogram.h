@@ -242,7 +242,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 
 	h1D_TestResonanceMass = new TH1D("h1D_TestResonanceMass","h1D_TestResonanceMass",1000,1.1,2.4);
 	h1D_TestLambdaMass = new TH1D("h1D_TestLambdaMass","h1D_TestLambdaMass",1000,1.1,1.12);
-	h1D_XiMass         = new TH1D("h1D_XiMass","h1D_XiMass",1000,1.20,1.40);
+	h1D_XiMass         = new TH1D("h1D_XiMass","h1D_XiMass",1000,1.10,1.40);
 
 }
 

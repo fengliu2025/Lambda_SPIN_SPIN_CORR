@@ -285,8 +285,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList) ) continue;
-			for(int i_Xi =0 ; i_Xi < SameEvent_Reader->NXi;i_Xi++){
-				Histogramer->h1D_XiMass->Fill(SameEvent_Reader->Xi_mass[i_Xi]);
+			for(int i_Xi =0 ; i_Xi < SameEvent_Reader->NLambda;i_Xi++){
+				Histogramer->h1D_XiMass->Fill(SameEvent_Reader->pair_mass[i_Xi]);
 			}
 			
 							
