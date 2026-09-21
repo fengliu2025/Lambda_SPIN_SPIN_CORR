@@ -112,6 +112,16 @@ public :
 
 	TH1D *h1D_XiMass;
 	TH1D *h1D_XiMass_ReCal;
+	TH1D *h1D_Xi_CosTheta;
+	TH1D *h1D_Xi_DecayL;
+	TH1D *h1D_Xi_Pt; 
+	TH1D *h1D_Xi_Eta;
+	TH1D *h1D_Xi_Phi;
+	TH1D *h1D_Xi_DCA;
+	TH1D *h1D_Xi_DCAdaughters;
+	TH2D *h2D_NLambda_NXi;
+
+
 
 
 	ntp_Lambda_Histogram();
@@ -245,6 +255,16 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_TestLambdaMass = new TH1D("h1D_TestLambdaMass","h1D_TestLambdaMass",1000,1.1,1.12);
 	h1D_XiMass         = new TH1D("h1D_XiMass","h1D_XiMass",1000,1.10,1.40);
 	h1D_XiMass_ReCal   = new TH1D("h1D_XiMass_ReCal","h1D_XiMass_ReCal",1000,1.10,1.40);
+	h1D_Xi_CosTheta    = new TH1D("h1D_Xi_CosTheta" ,"h1D_Xi_CosTheta" ,1000,-1,1 );
+	h1D_Xi_DecayL      = new TH1D("h1D_Xi_DecayL"   ,"h1D_Xi_DecayL"   ,1000,0,50 );
+	h1D_Xi_Pt          = new TH1D("h1D_Xi_Pt"       ,"h1D_Xi_Pt"       ,1000,0,10 );  
+	h1D_Xi_Eta         = new TH1D("h1D_Xi_Eta"      ,"h1D_Xi_Eta"      ,1000,-2,2 );
+	h1D_Xi_Phi         = new TH1D("h1D_Xi_Phi"      ,"h1D_Xi_Phi"      ,1000,-2*TMath::Pi(),2*TMath::Pi());
+	h1D_Xi_DCA         = new TH1D("h1D_Xi_DCA"      ,"h1D_Xi_DCA"      ,1000,-1,5); 
+	h1D_Xi_DCAdaughters= new TH1D("h1D_Xi_DCAdaughters","h1D_Xi_DCAdaughters",1000,-1,5);
+	h2D_NLambda_NXi    = new TH2D("h2D_NLambda_NXi","h2D_NLambda_NXi"  ,3,0.5,3.5,6,-0.5,5.5);
+
+
 
 }
 
@@ -594,6 +614,15 @@ void ntp_Lambda_Histogram::Reset(){
 	h1D_TestLambdaMass->Reset("ICES");
 	h1D_XiMass->Reset("ICES");
 	h1D_XiMass_ReCal->Reset("ICES");
+
+	h1D_Xi_CosTheta ->Reset("ICES");
+	h1D_Xi_DecayL   ->Reset("ICES");
+	h1D_Xi_Pt       ->Reset("ICES"); 
+	h1D_Xi_Eta      ->Reset("ICES"); 
+	h1D_Xi_Phi      ->Reset("ICES"); 
+	h1D_Xi_DCA      ->Reset("ICES"); 
+	h1D_Xi_DCAdaughters ->Reset("ICES");
+	h2D_NLambda_NXi     ->Reset("ICES");
 	
 }
 
@@ -690,6 +719,18 @@ void ntp_Lambda_Histogram::WriteAll(){
 	h1D_TestLambdaMass->Write();
 	h1D_XiMass->Write();
 	h1D_XiMass_ReCal->Write();
+	
+	h1D_Xi_CosTheta ->Write();
+	h1D_Xi_DecayL   ->Write();
+	h1D_Xi_Pt       ->Write();
+	h1D_Xi_Eta      ->Write();
+	h1D_Xi_Phi      ->Write();
+	h1D_Xi_DCA      ->Write();
+	h1D_Xi_DCAdaughters ->Write();
+	h2D_NLambda_NXi     ->Write();
+
+
+
 	fout->Close();
 	delete fout;
 	

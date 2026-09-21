@@ -283,8 +283,29 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			//Fill Histograms of QA plot (without any cut);
 			Histogramer->Fill_QAplots();
 
+			int myNLambda = 0 ;
+			for(int i_Lambda =0; i_Lambda < SameEvent_Reader->NLambda; i_Lambda++){
+				if(SameEvent_Reader->p1_pt[i] < 0.15 ) continue;
+				if(SameEvent_Reader->p2_pt[i] < 0.15 ) continue;
+				if(TMath::Abs(SameEvent_Reader->p1_eta[i])> 1.5  ) continue;
+				if(TMath::Abs(SameEvent_Reader->p2_eta[i])> 1.5  ) continue;
+				if(SameEvent_Reader->p1_dca[i] < 0.1 ) continue;
+				if(SameEvent_Reader->p2_dca[i] < 0.3 ) continue;
+				if(SameEvent_Reader->pair_DCAdaughters[i] > 1.0 ) continue;
+				if(SameEvent_Reader->pair_decayL[i] < 2 || SameEvent_Reader->pair_decayL[i] > 25 ) continue;
+				if(TMath::Cos(SameEvent_Reader->pair_theta[i]) < 0.996 ) continue;
+				myNLambda++;
+			}
+
+			if(myNLambda >3 )myNLambda=3;
+
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList) ) continue;
+
+
+
+			//cout reconstructed number of Xi 
+			int myNXi=0;
 			for(int i_Xi =0 ; i_Xi < SameEvent_Reader->NXi;i_Xi++){
 				if(SameEvent_Reader->Xi_Charge[i_Xi] ==0 ) continue;
 				if(SameEvent_Reader->Xi_DCAdaughters[i_Xi] >2 ) continue;
@@ -302,9 +323,18 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 				TLorentzVector Xi_ReCal= DauLam + DauPion;
 				Histogramer->h1D_XiMass->Fill(SameEvent_Reader->Xi_mass[i_Xi]);
 				Histogramer->h1D_XiMass_ReCal->Fill(Xi_ReCal.M());
-				//std::cout<<"Xi_Mass:"<<SameEvent_Reader->Xi_mass[i_Xi]<<std::endl;
-				//std::cout<<"Xi_Mass_ReCal:"<<Xi_ReCal.M()<<std::endl;
+				
+				Histogramer->h1D_Xi_CosTheta ->Fill( TMath::Cos(SameEvent_Reader->Xi_theta[i_Xi])  );
+				Histogramer->h1D_Xi_DecayL   ->Fill( SameEvent_Reader->Xi_DecayL[i_Xi] );
+				Histogramer->h1D_Xi_Pt       ->Fill( SameEvent_Reader->Xi_pt[i_Xi]     );
+				Histogramer->h1D_Xi_Eta      ->Fill( SameEvent_Reader->Xi_eta[i_Xi]    );
+				Histogramer->h1D_Xi_Phi      ->Fill( SameEvent_Reader->Xi_phi[i_Xi]    );
+				Histogramer->h1D_Xi_DCA      ->Fill( SameEvent_Reader->Xi_DCA[i_Xi]    );
+				Histogramer->h1D_Xi_DCAdaughters ->Fill( SameEvent_Reader->Xi_DCAdaughters[i_Xi] );
+				myNXi++;
 			}
+
+			Histogramer->h2D_NLambda_NXi->Fill(myNLambda,myNXi);
 			
 							
 		}
