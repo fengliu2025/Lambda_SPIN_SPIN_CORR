@@ -292,7 +292,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 				if(SameEvent_Reader->Xi_DCA[i_Xi] > 2 ) continue;
 				if(SameEvent_Reader->DauLambda_mass[i_Xi] < 1.113) continue;
 				if(SameEvent_Reader->DauLambda_mass[i_Xi] > 1.119) continue;
-
+				if( TMath::Cos( SameEvent_Reader->Xi_theta[i_Xi] ) < 0 ) continue;
 				TLorentzVector DauLam; 
 				TLorentzVector DauPion;
 				DauLam.SetPtEtaPhiM(SameEvent_Reader->DauLambda_pt[i_Xi], SameEvent_Reader->DauLambda_eta[i_Xi],SameEvent_Reader->DauLambda_phi[i_Xi],SameEvent_Reader->DauLambda_mass[i_Xi]);
