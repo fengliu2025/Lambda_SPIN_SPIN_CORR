@@ -111,6 +111,7 @@ public :
 
 
 	TH1D *h1D_XiMass;
+	TH1D *h1D_XiMass_ReCal;
 
 
 	ntp_Lambda_Histogram();
@@ -243,6 +244,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_TestResonanceMass = new TH1D("h1D_TestResonanceMass","h1D_TestResonanceMass",1000,1.1,2.4);
 	h1D_TestLambdaMass = new TH1D("h1D_TestLambdaMass","h1D_TestLambdaMass",1000,1.1,1.12);
 	h1D_XiMass         = new TH1D("h1D_XiMass","h1D_XiMass",1000,1.10,1.40);
+	h1D_XiMass_ReCal   = new TH1D("h1D_XiMass_ReCal","h1D_XiMass_ReCal",1000,1.10,1.40);
 
 }
 
@@ -591,6 +593,7 @@ void ntp_Lambda_Histogram::Reset(){
 	h1D_TestResonanceMass->Reset("ICES");
 	h1D_TestLambdaMass->Reset("ICES");
 	h1D_XiMass->Reset("ICES");
+	h1D_XiMass_ReCal->Reset("ICES");
 	
 }
 
@@ -686,6 +689,7 @@ void ntp_Lambda_Histogram::WriteAll(){
 	h1D_TestResonanceMass->Write();
 	h1D_TestLambdaMass->Write();
 	h1D_XiMass->Write();
+	h1D_XiMass_ReCal->Write();
 	fout->Close();
 	delete fout;
 	

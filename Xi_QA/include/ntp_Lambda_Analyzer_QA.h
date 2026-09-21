@@ -286,7 +286,20 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList) ) continue;
 			for(int i_Xi =0 ; i_Xi < SameEvent_Reader->NXi;i_Xi++){
+				if(SameEvent_Reader->Xi_Charge[i_Xi] ==0 ) continue;
+				if(SameEvent_Reader->Xi_DCAdaughters[i_Xi] >2 ) continue;
+				if(SameEvent_Reader->Xi_DecayL[i_Xi] <2 ) continue;
+				if(SameEvent_Reader->Xi_DCA[i_Xi] > 2 ) continue;
+
+				TLorentzVector DauLam; 
+				TLorentzVector DauPion;
+				DauLam.SetPtEtaPhiM(SameEvent_Reader->DauLambda_pt[i_Xi], SameEvent_Reader->DauLambda_eta[i_Xi],SameEvent_Reader->DauLambda_phi[i_Xi],SameEvent_Reader->DauLambda_mass[i_Xi]);
+				DauPion.SetPtEtaPhiM(SameEvent_Reader->pion3_pt[i_Xi],SameEvent_Reader->pion3_eta[i_Xi],SameEvent_Reader->pion3_phi[i_Xi],MASS_PION);
+				TLorentzVector Xi_ReCal= DauLam + DauPion;
 				Histogramer->h1D_XiMass->Fill(SameEvent_Reader->Xi_mass[i_Xi]);
+				h1D_XiMass_ReCal->Fill(Xi_ReCal.M());
+				std::cout<<"Xi_Mass:"<<SameEvent_Reader->Xi_mass[i_Xi]<<std::endl;
+				std::cout<<"Xi_Mass_ReCal:"<<Xi_ReCal.M()<<std::endl;
 			}
 			
 							
