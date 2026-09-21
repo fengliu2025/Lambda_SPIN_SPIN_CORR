@@ -290,6 +290,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 				if(SameEvent_Reader->Xi_DCAdaughters[i_Xi] >2 ) continue;
 				if(SameEvent_Reader->Xi_DecayL[i_Xi] <2 ) continue;
 				if(SameEvent_Reader->Xi_DCA[i_Xi] > 2 ) continue;
+				if(SameEvent_Reader->DauLambda_mass[i_Xi] < 1.113) continue;
+				if(SameEvent_Reader->DauLambda_mass[i_Xi] > 1.119) continue;
 
 				TLorentzVector DauLam; 
 				TLorentzVector DauPion;
