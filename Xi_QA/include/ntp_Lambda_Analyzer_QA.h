@@ -302,7 +302,31 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList) ) continue;
 
+			std::vector<int> GoodLambdaFlag;
+			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
+				
+				TLorentzVector v;
+				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
 
+				int isGoodLambda = ( 
+									LambdaSelecter->IsGoodLambda(SameEvent_Reader->p2_pt[i_lambda], SameEvent_Reader->p1_pt[i_lambda],
+																SameEvent_Reader->p2_eta[i_lambda], SameEvent_Reader->p1_eta[i_lambda],
+																SameEvent_Reader->pair_pt[i_lambda], v.Rapidity(),
+																SameEvent_Reader->pair_mass[i_lambda], SameEvent_Reader->pair_decayL[i_lambda],
+																SameEvent_Reader->pair_theta[i_lambda],SameEvent_Reader->pair_DCAdaughters[i_lambda])
+				 				&& LambdaSelecter->IsGoodLambdaCharge(SameEvent_Reader->pair_charge[i_lambda]) 
+				 				&& LambdaSelecter->IsGoodLambdaDCA(SameEvent_Reader->pair_decayL[i_lambda], SameEvent_Reader->pair_theta[i_lambda] )
+				 				&& LambdaSelecter->IsGoodDauDCA(SameEvent_Reader->p1_dca[i_lambda], SameEvent_Reader->p2_dca[i_lambda] )
+				 				   );
+				GoodLambdaFlag.push_back(isGoodLambda);
+			}
+
+
+
+			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
+			//--------for test=-------
+
+			if(NGoodLambda<2)continue;
 
 			//cout reconstructed number of Xi 
 			int myNXi=0;
