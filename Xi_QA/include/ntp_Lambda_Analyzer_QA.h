@@ -297,7 +297,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 				DauPion.SetPtEtaPhiM(SameEvent_Reader->pion3_pt[i_Xi],SameEvent_Reader->pion3_eta[i_Xi],SameEvent_Reader->pion3_phi[i_Xi],MASS_PION);
 				TLorentzVector Xi_ReCal= DauLam + DauPion;
 				Histogramer->h1D_XiMass->Fill(SameEvent_Reader->Xi_mass[i_Xi]);
-				h1D_XiMass_ReCal->Fill(Xi_ReCal.M());
+				Histogramer->h1D_XiMass_ReCal->Fill(Xi_ReCal.M());
 				std::cout<<"Xi_Mass:"<<SameEvent_Reader->Xi_mass[i_Xi]<<std::endl;
 				std::cout<<"Xi_Mass_ReCal:"<<Xi_ReCal.M()<<std::endl;
 			}
