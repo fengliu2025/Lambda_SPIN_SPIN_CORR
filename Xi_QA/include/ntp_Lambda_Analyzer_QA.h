@@ -285,15 +285,15 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 			int myNLambda = 0 ;
 			for(int i_Lambda =0; i_Lambda < SameEvent_Reader->NLambda; i_Lambda++){
-				if(SameEvent_Reader->p1_pt[i] < 0.15 ) continue;
-				if(SameEvent_Reader->p2_pt[i] < 0.15 ) continue;
-				if(TMath::Abs(SameEvent_Reader->p1_eta[i])> 1.5  ) continue;
-				if(TMath::Abs(SameEvent_Reader->p2_eta[i])> 1.5  ) continue;
-				if(SameEvent_Reader->p1_dca[i] < 0.1 ) continue;
-				if(SameEvent_Reader->p2_dca[i] < 0.3 ) continue;
+				if(SameEvent_Reader->p1_pt[i_Lambda] < 0.15 ) continue;
+				if(SameEvent_Reader->p2_pt[i_Lambda] < 0.15 ) continue;
+				if(TMath::Abs(SameEvent_Reader->p1_eta[i_Lambda])> 1.5  ) continue;
+				if(TMath::Abs(SameEvent_Reader->p2_eta[i_Lambda])> 1.5  ) continue;
+				if(SameEvent_Reader->p1_dca[i_Lambda] < 0.1 ) continue;
+				if(SameEvent_Reader->p2_dca[i_Lambda] < 0.3 ) continue;
 				if(SameEvent_Reader->pair_DCAdaughters[i] > 1.0 ) continue;
-				if(SameEvent_Reader->pair_decayL[i] < 2 || SameEvent_Reader->pair_decayL[i] > 25 ) continue;
-				if(TMath::Cos(SameEvent_Reader->pair_theta[i]) < 0.996 ) continue;
+				if(SameEvent_Reader->pair_decayL[i_Lambda] < 2 || SameEvent_Reader->pair_decayL[i_Lambda] > 25 ) continue;
+				if(TMath::Cos(SameEvent_Reader->pair_theta[i_Lambda]) < 0.996 ) continue;
 				myNLambda++;
 			}
 
