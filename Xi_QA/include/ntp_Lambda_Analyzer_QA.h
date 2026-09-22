@@ -304,6 +304,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			int CountLambda = 0;
 			int CountLambdaBar = 0;
 			std::vector<int> GoodLambdaFlag;
+			std::vector<int> DauTrkID; DauTrkID.clear();
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
 				
 				TLorentzVector v;
@@ -322,7 +323,17 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 				GoodLambdaFlag.push_back(isGoodLambda);
 				if(isGoodLambda && SameEvent_Reader->p1_ch[i_lambda]>0) CountLambda++;
 				if(isGoodLambda && SameEvent_Reader->p1_ch[i_lambda]<0) CountLambdaBar++;
+				if(isGoodLambda){				
+       				if (std::find(DauTrkID.begin(), DauTrkID.end(), SameEvent_Reader->p1_InEventID[i_lambda] ) == DauTrkID.end()) {
+            			 DauTrkID.push_back(SameEvent_Reader->p1_InEventID[i_lambda]);
+       				}
+       				if (std::find(DauTrkID.begin(), DauTrkID.end(), SameEvent_Reader->p2_InEventID[i_lambda] ) == DauTrkID.end()) {
+            			 DauTrkID.push_back(SameEvent_Reader->p2_InEventID[i_lambda]);
+       				}
+    				
+				}
 			}
+			if(DauTrkID.size()!= 2*(CountLambda+CountLambdaBar)) continue;
 
 			if(CountLambda<1 || CountLambdaBar < 1) continue;
 
