@@ -342,7 +342,23 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
 			//--------for test=-------
 
-			if(NGoodLambda<2)continue;
+			if(NGoodLambda!=2)continue;
+			std::vector<int> GoodLambdaIndex; GoodLambdaIndex.clear();
+			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
+				if(GoodLambdaFlag[i_lambda]){
+					GoodLambdaIndex.push_back(i_lambda);
+				}
+				
+			}	
+			TLorentzVector v1;
+			TLorentzVector v2; 
+			v1.SerPtEtaPhiM(SameEvent_Reader->pair_pt[GoodLambdaIndex[0]],SameEvent_Reader->pair_eta[GoodLambdaIndex[0]],SameEvent_Reader->pair_phi[GoodLambdaIndex[0]],SameEvent_Reader->pair_mass[GoodLambdaIndex[0]]   );
+			v2.SetPtEtaPhiM(SameEvent_Reader->pair_pt[GoodLambdaIndex[1]],SameEvent_Reader->pair_eta[GoodLambdaIndex[1]],SameEvent_Reader->pair_phi[GoodLambdaIndex[1]],SameEvent_Reader->pair_mass[GoodLambdaIndex[1]]   );
+			double deltaY = v1.Rapidity()- v2.Rapidity();
+			double deltaPhi =  TMath::ACos(  TMath::Cos( v1.Phi() -v2.Phi() ) )  ;
+			double deltaR = TMath::Sqrt( deltaY*deltaY + deltaPhi*deltaPhi   );
+			if(deltaR > 0.5) continue;
+
 
 			//cout reconstructed number of Xi 
 			int myNXi=0;
