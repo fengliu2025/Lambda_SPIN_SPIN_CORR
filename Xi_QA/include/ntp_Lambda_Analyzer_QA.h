@@ -301,7 +301,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 			//------------------------Make some selections on the events-----------------------------
 			if( !EventSelecter->IsGoodEvent(TriggerIDList) ) continue;
-
+			int CountLambda = 0;
+			int CountLambdaBar = 0;
 			std::vector<int> GoodLambdaFlag;
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
 				
@@ -319,7 +320,11 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 				 				&& LambdaSelecter->IsGoodDauDCA(SameEvent_Reader->p1_dca[i_lambda], SameEvent_Reader->p2_dca[i_lambda] )
 				 				   );
 				GoodLambdaFlag.push_back(isGoodLambda);
+				if(isGoodLambda && SameEvent_Reader->p1_ch[i_lambda]>0) CountLambda++;
+				if(isGoodLambda && SameEvent_Reader->p1_ch[i_lambda]<0) CountLambdaBar++;
 			}
+
+			if(CountLambda<1 || CountLambdaBar < 1) continue;
 
 
 
