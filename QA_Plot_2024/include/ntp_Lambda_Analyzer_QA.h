@@ -253,6 +253,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 	int N3L2GoodL = 0 ; 
 	int SharedPion = 0 ; 
 	int SharedProton = 0;
+	int SharedPionAndProton =0;
 	int NotRejected =0 ; 
 	int RejectedSharedProton =0; 
 	int RejectedSharedPion   =0; 
@@ -291,7 +292,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			std::cout<<"RejectedSharedPion ="<< RejectedSharedPion <<std::endl;
 			std::cout<<"testRejectedAroundPion  ="<< testRejectedAroundPion <<std::endl;
 			std::cout<<"h1D_NTrkAround Mean  ="<< Histogramer->h1D_NTrkAround->GetMean() <<std::endl;
-			
+			std::cout<<"SharedPionAndProton"<< SharedPionAndProton <<std::endl;
 
 		}
 
@@ -436,6 +437,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 
 			}
+			if(IsSharedPion && IsSharedProton ) SharedPionAndProton ++;
+
 			
 
 
