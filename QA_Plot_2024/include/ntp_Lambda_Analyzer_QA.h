@@ -250,6 +250,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 	
 	unsigned long N_Inputfiles_SE = SameEvent_Reader->InputFiles.size();
+	
+	int NAtLeast3LAtLeast2GooL = 0; 
 	int N3L2GoodL = 0 ; 
 	int SharedPion = 0 ; 
 	int SharedProton = 0;
@@ -294,6 +296,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			std::cout<<"h1D_NTrkAround Mean  ="<< Histogramer->h1D_NTrkAround->GetMean() <<std::endl;
 			std::cout<<"SharedPionAndProton"<< SharedPionAndProton <<std::endl;
 
+			std::cout<<"NAtLeast3LAtLeast2GooL"<< NAtLeast3LAtLeast2GooL <<std::endl;
+
 		}
 
 		//---------------------------Enter i_event loop----------------------------
@@ -335,8 +339,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
 			//--------for test=-------
-			if(SameEvent_Reader->NLambda!=3)continue;
-			if(NGoodLambda!=2)continue;
+
 
 			std::vector<int> Dau1Trk; 
 			std::vector<int> Dau2Trk; 
@@ -362,8 +365,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 
 			}
 
-			if(Dau1Trk.size()!=2) continue;
-			if(Dau2Trk.size()!=2) continue;
+			if(Dau1Trk.size()<2) continue;
+			if(Dau2Trk.size()<2) continue;
 
 			//calculat the delta R between two good-mass lambda
 			TLorentzVector v1_tmp; 
@@ -374,6 +377,15 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			double delta_y   = v1_tmp.Rapidity() - v2_tmp.Rapidity();
 			double delta_R = TMath::Sqrt( delta_phi * delta_phi + delta_y * delta_y  );
 			if(delta_R > 0.5 ) continue;
+
+
+			if(SameEvent_Reader->NLambda>=3 && NGoodLambda >=2 ) NAtLeast3LAtLeast2GooL++;
+			if(SameEvent_Reader->NLambda!=3)continue;
+			if(NGoodLambda!=2)continue;
+			if(Dau1Trk.size()!=2) continue;
+			if(Dau2Trk.size()!=2) continue;
+
+
 
 
 
