@@ -376,7 +376,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			double delta_phi =  TMath::ACos( TMath::Cos( v1_tmp.Phi() - v2_tmp.Phi() ) ) ;
 			double delta_y   = v1_tmp.Rapidity() - v2_tmp.Rapidity();
 			double delta_R = TMath::Sqrt( delta_phi * delta_phi + delta_y * delta_y  );
-			if(delta_R > 0.5 ) continue;
+			//if(delta_R > 0.5 ) continue;
 
 
 			if(SameEvent_Reader->NLambda>=3 && NGoodLambda >=2 ) NAtLeast3LAtLeast2GooL++;
