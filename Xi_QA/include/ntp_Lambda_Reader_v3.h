@@ -41,7 +41,7 @@ public :
    Float_t         p2_phi[50];   //[NLambda]
    Float_t         p2_eta[50];   //[NLambda]
    Float_t         p2_dca[50];   //[NLambda]
-   Float_t         p2_ch[50];   //[NLambda]
+   Int_t         p2_ch[50];   //[NLambda]
    Int_t           p2_hasTOFinfo[50];   //[NLambda]
    Float_t         p2_dedx[50];   //[NLambda]
    Float_t         p2_beta[50];   //[NLambda]
