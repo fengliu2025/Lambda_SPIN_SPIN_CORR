@@ -54,7 +54,7 @@ int main(int argc, char*argv[]){
 	for(int i =0 ; i < InputFile_SameEvent.size();i++){
 		TFile *fin = TFile::Open(InputFile_SameEvent[i].c_str(),"READ");
 		if(!fin) {
-			std::cout<<"The file can not be opened, skip"<<std::end;
+			std::cout<<"The file can not be opened, skip"<<std::endl;
 			continue;
 		}
 
