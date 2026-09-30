@@ -333,16 +333,16 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
     				
 				}
 			}
-			if(DauTrkID.size()!= 2*(CountLambda+CountLambdaBar)) continue;
+			//if(DauTrkID.size()!= 2*(CountLambda+CountLambdaBar)) continue;
 
-			if(CountLambda<1 || CountLambdaBar < 1) continue;
+			//if(CountLambda<1 || CountLambdaBar < 1) continue;
 
 
 
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
 			//--------for test=-------
 
-			if(NGoodLambda!=2)continue;
+			//if(NGoodLambda!=2)continue;
 			std::vector<int> GoodLambdaIndex; GoodLambdaIndex.clear();
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
 				if(GoodLambdaFlag[i_lambda]){
@@ -357,7 +357,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			double deltaY = v1.Rapidity()- v2.Rapidity();
 			double deltaPhi =  TMath::ACos(  TMath::Cos( v1.Phi() -v2.Phi() ) )  ;
 			double deltaR = TMath::Sqrt( deltaY*deltaY + deltaPhi*deltaPhi   );
-			if(deltaR > 0.5) continue;
+			//if(deltaR > 0.5) continue;
 
 
 			//cout reconstructed number of Xi 
