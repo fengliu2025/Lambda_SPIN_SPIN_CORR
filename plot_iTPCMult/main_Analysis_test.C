@@ -61,7 +61,7 @@ int main(int argc, char*argv[]){
 		h2D_iTPCPrimaryMult_Trigger_sum      ->Add( (TH2D*)fin->Get("h2D_iTPCPrimaryMult_Trigger") );
         h2D_iTPCPrimaryMultHighQ_Trigger_sum ->Add( (TH2D*)fin->Get("h2D_iTPCPrimaryMultHighQ_Trigger") );
 
-        fin->Clos();
+        fin->Close();
         delete fin;
 
 
