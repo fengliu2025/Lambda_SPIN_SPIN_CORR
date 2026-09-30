@@ -350,6 +350,7 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 				}
 				
 			}	
+			/*
 			TLorentzVector v1;
 			TLorentzVector v2; 
 			v1.SetPtEtaPhiM(SameEvent_Reader->pair_pt[GoodLambdaIndex[0]],SameEvent_Reader->pair_eta[GoodLambdaIndex[0]],SameEvent_Reader->pair_phi[GoodLambdaIndex[0]],SameEvent_Reader->pair_mass[GoodLambdaIndex[0]]   );
@@ -357,8 +358,8 @@ void ntp_Lambda_Analyzer::Analysis_QAPlot(){
 			double deltaY = v1.Rapidity()- v2.Rapidity();
 			double deltaPhi =  TMath::ACos(  TMath::Cos( v1.Phi() -v2.Phi() ) )  ;
 			double deltaR = TMath::Sqrt( deltaY*deltaY + deltaPhi*deltaPhi   );
-			//if(deltaR > 0.5) continue;
-
+			if(deltaR > 0.5) continue;
+			*/
 
 			//cout reconstructed number of Xi 
 			int myNXi=0;
