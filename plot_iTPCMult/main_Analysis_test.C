@@ -52,6 +52,7 @@ int main(int argc, char*argv[]){
 
 
 	for(int i =0 ; i < InputFile_SameEvent.size();i++){
+		if(i%10==0) std::cout<<"i="<<i<<std::endl;
 		TFile *fin = TFile::Open(InputFile_SameEvent[i].c_str(),"READ");
 		if(!fin) {
 			std::cout<<"The file can not be opened, skip"<<std::endl;
