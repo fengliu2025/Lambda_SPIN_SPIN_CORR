@@ -49,7 +49,7 @@ int main(int argc, char*argv[]){
 	ntp_Lambda_Reader *mySameEventReader = new ntp_Lambda_Reader(InputFile_SameEvent);
 	
 
-	std::string OutPutFile = "testXiMass.root";
+	std::string OutPutFile = "testXiMass_CosPA_L0.root";
 	ntp_Lambda_Histogram *myHistogram = new ntp_Lambda_Histogram(mySameEventReader,OutPutFile);
 	myHistogram->InitHitogram();
 
