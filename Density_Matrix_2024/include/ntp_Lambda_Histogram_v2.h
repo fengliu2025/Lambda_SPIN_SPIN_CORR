@@ -507,7 +507,7 @@ void ntp_Lambda_Histogram::WriteAll(){
 	h1D_KaonTrkClass->Write();
 
 	for(int i =0 ; i <3 ;i++){
-		h2D_PairMass_CosThetaStar[i]->Reset("ICES");
+		h2D_PairMass_CosThetaStar[i]->Write();
 	}
 
 
