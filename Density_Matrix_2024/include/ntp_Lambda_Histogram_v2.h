@@ -81,6 +81,10 @@ public :
 	TH1D *h1D_cos_theta_star_Lab[Range_Bin][NTrks_Bin][3];
 	TH1D *h1D_cos_theta_star_PairRest[Range_Bin][NTrks_Bin][3];
 
+
+	TH2D *h2D_PairMass_CosThetaStar[3];
+
+
 	//Trigger 
 	TH1D *h1D_Trigger;
 	TH1D *h1D_MB_Trigger;
@@ -193,6 +197,11 @@ void ntp_Lambda_Histogram::InitHitogram(){
 
 	h1D_TrkCalss      = new TH1D("h1D_TrkCalss","h1D_TrkCalss",100,-0.5,99.5);
 	h1D_KaonTrkClass = new TH1D("h1D_KaonTrkClass","h1D_KaonTrkClass",100,-0.5,99.5);
+
+	for(int i =0 ; i <3 ;i++){
+		h2D_PairMass_CosThetaStar[i] = new TH2D(Form("h2D_PairMass_CosThetaStar_%d",i),Form("h2D_PairMass_CosThetaStar_%d",i),2,4,1000,-1,1,10);
+	}
+
 }
 
 
@@ -417,6 +426,9 @@ void ntp_Lambda_Histogram::Reset(){
 
 	h1D_TrkCalss ->Reset("ICES");
 	h1D_KaonTrkClass->Reset("ICES");
+	for(int i =0 ; i <3 ;i++){
+		h2D_PairMass_CosThetaStar[i]->Reset("ICES");
+	}
 }
 
 void ntp_Lambda_Histogram::WriteAll(){
@@ -493,6 +505,11 @@ void ntp_Lambda_Histogram::WriteAll(){
 	h1D_MB_HM_Trigger ->Write();
 	h1D_TrkCalss ->Write();
 	h1D_KaonTrkClass->Write();
+
+	for(int i =0 ; i <3 ;i++){
+		h2D_PairMass_CosThetaStar[i]->Reset("ICES");
+	}
+
 
 	fout->Close();
 	delete fout;

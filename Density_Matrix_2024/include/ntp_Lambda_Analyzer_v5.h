@@ -565,6 +565,10 @@ int ntp_Lambda_Analyzer::Analyze_SEPair(int i_lambda,int j_lambda){
 
 			}
 		}
+
+		TLorentzVector pair = Lambda1 + Lambda2;
+
+		Histogramer->h2D_PairMass_CosThetaStar[TMath::Abs(Pair_Type)-1]->Fill(pair.M(),Calculator->cos_theta_star_Lab);
 		
 		return 1;
 }
@@ -611,7 +615,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 			if( !EventSelecter->IsGoodEvent(TriggerIDList, SameEvent_Reader->Vz) ) continue;
 			int myNLambda =CountMyNLambda();
 			//if(myNLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
-			if(myNLambda !=3  ) continue; // current we only select on multi-Lambdas Events 
+			//if(myNLambda !=3  ) continue; // current we only select on multi-Lambdas Events 
 			//if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
 			//if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
 			//------------------------Make some selections on the events-----------------------------
@@ -636,11 +640,11 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 			}
 
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
-			if(NGoodLambda != 2) continue;
+			if(NGoodLambda < 2) continue;
 			//------------------------Identify Goood Lambda-----------------------------
 			
 
-
+			/*
 			//------------------------check the sharedPionAndProton-------------------
 			std::vector<int> Dau1Trk; 
 			std::vector<int> Dau2Trk; 
@@ -693,7 +697,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 			if(IsSharedProton&&IsSharedPion) continue;
 
 			//------------------------check the sharedPionAndProton-------------------
-
+			*/
 
 
 
@@ -934,7 +938,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 			if( !EventSelecter->IsGoodEvent(TriggerIDList,SameEvent_Reader->Vz ) ) continue;
 			int myNLambda =CountMyNLambda();
 			//if(myNLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
-			if(myNLambda !=3  ) continue; // current we only select on multi-Lambdas Events 
+			//if(myNLambda !=3  ) continue; // current we only select on multi-Lambdas Events 
 			//if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
 			//if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
 			//------------------------Make some selections on the events-----------------------------
@@ -959,10 +963,10 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 				GoodLambdaFlag.push_back(isGoodLambda);
 			}
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
-			if(NGoodLambda != 2) continue;
+			if(NGoodLambda < 2) continue;
 			//------------------------Identify Goood Lambda-----------------------------
 
-
+			/*
 			//------------------------check the sharedPionAndProton-------------------
 			std::vector<int> Dau1Trk; 
 			std::vector<int> Dau2Trk; 
@@ -1015,7 +1019,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 			if(IsSharedProton&&IsSharedPion) continue;
 
 			//------------------------check the sharedPionAndProton-------------------
-
+			*/
 
 
 			//Fill Histograms of QA plot;
