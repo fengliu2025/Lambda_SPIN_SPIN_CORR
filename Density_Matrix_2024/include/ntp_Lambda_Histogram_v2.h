@@ -199,7 +199,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_KaonTrkClass = new TH1D("h1D_KaonTrkClass","h1D_KaonTrkClass",100,-0.5,99.5);
 
 	for(int i =0 ; i <3 ;i++){
-		h2D_PairMass_CosThetaStar[i] = new TH2D(Form("h2D_PairMass_CosThetaStar_%d",i),Form("h2D_PairMass_CosThetaStar_%d",i),2,4,1000,-1,1,10);
+		h2D_PairMass_CosThetaStar[i] = new TH2D(Form("h2D_PairMass_CosThetaStar_%d",i),Form("h2D_PairMass_CosThetaStar_%d",i),1000,2,4,10,-1,1);
 	}
 
 }
