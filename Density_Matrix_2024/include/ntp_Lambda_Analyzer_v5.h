@@ -516,9 +516,9 @@ std::vector<bool> ntp_Lambda_Analyzer::IsXiTag(){
 		if(SameEvent_Reader->Xi_mass[iXi] < 1.315 || SameEvent_Reader->Xi_mass[iXi] > 1.33 ) continue;
 		if(SameEvent_Reader->DauLambda_mass[iXi] < 1.112) continue;
 		if(SameEvent_Reader->DauLambda_mass[iXi] > 1.119) continue;
-		if( SameEvent_Reader->pion3_InEventID[i_Xi] == SameEvent_Reader->DauLambda_Dau1_InEventID[i_Xi] ) continue;
-		if( SameEvent_Reader->pion3_InEventID[i_Xi] == SameEvent_Reader->DauLambda_Dau2_InEventID[i_Xi] ) continue;
-		Histogramer->h1D_Xi_Mass->Fill(Xi_mass[iXi]);
+		if( SameEvent_Reader->pion3_InEventID[iXi] == SameEvent_Reader->DauLambda_Dau1_InEventID[iXi] ) continue;
+		if( SameEvent_Reader->pion3_InEventID[iXi] == SameEvent_Reader->DauLambda_Dau2_InEventID[iXi] ) continue;
+		Histogramer->h1D_Xi_Mass->Fill(SameEvent_Reader->Xi_mass[iXi]);
 		for(int iLambda =0 ; iLambda< SameEvent_Reader->NLambda;iLambda++){
 			if(   SameEvent_Reader->DauLambda_Dau1_InEventID[iXi] == SameEvent_Reader->p1_InEventID[iLambda] 
 			   && SameEvent_Reader->DauLambda_Dau2_InEventID[iXi] == SameEvent_Reader->p2_InEventID[iLambda]  ){
