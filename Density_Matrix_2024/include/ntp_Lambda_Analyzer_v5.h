@@ -75,6 +75,11 @@ public:
 	std::vector<int> FindDauTrk(std::vector<int> GoodLambdaFlag );
 	bool IsCleanLambda(std::vector<int> DauTrkID,int i_lambda);
 
+
+
+	std::vector<bool> IsXiTag();
+
+
 	int Analyze_SEPair(int i_lambda,int j_lambda);
 	void Analysis_SameEvent();
 	void FindCounterparts(std::vector<TLorentzVector> *Lambda_counterpart,std::vector<TLorentzVector> *proton_counterpart,std::vector<TLorentzVector> *pion_counterpart,double rapidity,int I_LAMBDA,int I_EVENT,int I_FILE);
@@ -495,7 +500,46 @@ bool ntp_Lambda_Analyzer::IsCleanLambda(std::vector<int> DauTrkID,int i_lambda){
 
 
 
+std::vector<bool> ntp_Lambda_Analyzer::IsXiTag(){
+	std::vector<bool> XiTag;
+	for(int iLambda =0;iLambda < SameEvent_Reader->NLambda;iLambda++){
+		XiTag.push_back(false);
+	}
 
+	std::vector<int> XiTagLambdaIndex;
+
+	for(int iXi=0; iXi < SameEvent_Reader->NXi;iXi++){
+		if(SameEvent_Reader->Xi_Charge[iXi] ==0 ) continue;
+		if(SameEvent_Reader->Xi_DCAdaughters[iXi] >2 ) continue;
+		if(SameEvent_Reader->Xi_DecayL[iXi] <2 ) continue;
+		if(SameEvent_Reader->Xi_DCA[iXi] > 2 ) continue;
+		if(SameEvent_Reader->Xi_mass[iXi] < 1.315 || SameEvent_Reader->Xi_mass[iXi] > 1.33 ) continue;
+		if(SameEvent_Reader->DauLambda_mass[iXi] < 1.112) continue;
+		if(SameEvent_Reader->DauLambda_mass[iXi] > 1.119) continue;
+		if( SameEvent_Reader->pion3_InEventID[i_Xi] == SameEvent_Reader->DauLambda_Dau1_InEventID[i_Xi] ) continue;
+		if( SameEvent_Reader->pion3_InEventID[i_Xi] == SameEvent_Reader->DauLambda_Dau2_InEventID[i_Xi] ) continue;
+		Histogramer->h1D_Xi_Mass->Fill(Xi_mass[iXi]);
+		for(int iLambda =0 ; iLambda< SameEvent_Reader->NLambda;iLambda++){
+			if(   SameEvent_Reader->DauLambda_Dau1_InEventID[iXi] == SameEvent_Reader->p1_InEventID[iLambda] 
+			   && SameEvent_Reader->DauLambda_Dau2_InEventID[iXi] == SameEvent_Reader->p2_InEventID[iLambda]  ){
+				XiTagLambdaIndex.push_back(iLambda);
+			}
+		}
+		
+	}
+
+	for(int i =0;i<XiTagLambdaIndex.size();i++){
+		XiTag[XiTagLambdaIndex[i]] = true;
+	}
+
+	return XiTag;
+
+
+
+
+
+
+}
 
 
 
@@ -644,6 +688,9 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 			//------------------------Identify Goood Lambda-----------------------------
 			
 
+
+
+
 			/*
 			//------------------------check the sharedPionAndProton-------------------
 			std::vector<int> Dau1Trk; 
@@ -703,7 +750,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 
 			//Fill Histograms of QA plot;
 			Histogramer->Fill_QAplots(GoodLambdaFlag);//Notice that here, if two Lambda Candiates share some tracks, both Lambdas will be filled inthe QAplots.
-			
+			/*
 			//------------------------Identify Clean Lambda-----------------------------
 			std::vector<int> DauTrkID = FindDauTrk(GoodLambdaFlag );
 			std::vector<bool> CleanLambdaFlag;
@@ -715,7 +762,17 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 				CleanLambdaFlag.push_back ( IsCleanLambda(DauTrkID,i_lambda) );
 			}
 			//------------------------Identify Clean Lambda-----------------------------
-			
+			*/
+
+			//-------------------------XiTag Lambda--------------
+			std::vector<bool> mXiTag = IsXiTag();
+			//-------------------------XiTag Lambda--------------
+			for(int i_lambda=0;i_lambda<SameEvent_Reader->NLambda;i_lambda++){
+				if(GoodLambdaFlag[i_lambda]==0)continue;
+				if(mXiTag[i_lambda]==true) Histogramer->h2D_NLambda_XiTag->Fill(myNLambda,1);
+				if(mXiTag[i_lambda]==false) Histogramer->h2D_NLambda_XiTag->Fill(myNLambda,0);
+			}
+
 
 
 			//------------------------Analysis Pair-----------------------------
@@ -725,6 +782,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 				for(int j_lambda=i_lambda+1;j_lambda < SameEvent_Reader->NLambda;j_lambda++){
 					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
 					//if( CleanLambdaFlag[j_lambda] == false ) continue;
+					if(mXiTag[i_lambda] == true || mXiTag[j_lambda] == true ) continue;
 					Analyze_SEPair(i_lambda,j_lambda);
 				}
 			}
@@ -1025,7 +1083,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 			//Fill Histograms of QA plot;
 			Histogramer->Fill_QAplots(GoodLambdaFlag);
 
-
+			/*
 			//------------------------Identify Clean Lambda-----------------------------
 			std::vector<int> DauTrkID = FindDauTrk(GoodLambdaFlag );
 			std::vector<bool> CleanLambdaFlag;
@@ -1037,6 +1095,19 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 				CleanLambdaFlag.push_back ( IsCleanLambda(DauTrkID,i_lambda) );
 			}
 			//------------------------Identify Clean Lambda-----------------------------
+			*/
+
+
+			//-------------------------XiTag Lambda--------------
+			std::vector<bool> mXiTag = IsXiTag();
+			//-------------------------XiTag Lambda--------------
+
+
+			for(int i_lambda=0;i_lambda<SameEvent_Reader->NLambda;i_lambda++){
+				if(GoodLambdaFlag[i_lambda]==0)continue;
+				if(mXiTag[i_lambda]==true) Histogramer->h2D_NLambda_XiTag->Fill(myNLambda,1);
+				if(mXiTag[i_lambda]==false) Histogramer->h2D_NLambda_XiTag->Fill(myNLambda,0);
+			}
 
 
 			for(int i_lambda=0;i_lambda < SameEvent_Reader->NLambda;i_lambda++){
@@ -1045,6 +1116,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 				for(int j_lambda=i_lambda+1;j_lambda < SameEvent_Reader->NLambda;j_lambda++){
 					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
 					//if( CleanLambdaFlag[j_lambda] == false ) continue;
+					if(mXiTag[i_lambda] == true || mXiTag[j_lambda] == true ) continue;
 					Analyze_MEPair(i_lambda,j_lambda,i_event,i_file);
 				}
 			}

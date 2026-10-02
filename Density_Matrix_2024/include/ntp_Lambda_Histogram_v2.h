@@ -97,6 +97,12 @@ public :
 
 
 
+
+	TH1D *h1D_Xi_Mass;
+	TH2D *h2D_NLambda_XiTag;
+
+
+
 	ntp_Lambda_Histogram();
 	ntp_Lambda_Histogram(ntp_Lambda_Reader *reader,ntp_Lambda_Calculator *calculator,std::string outPutFile);
 	void InitHitogram();
@@ -201,6 +207,12 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	for(int i =0 ; i <3 ;i++){
 		h2D_PairMass_CosThetaStar[i] = new TH2D(Form("h2D_PairMass_CosThetaStar_%d",i),Form("h2D_PairMass_CosThetaStar_%d",i),1000,2,4,10,-1,1);
 	}
+
+
+
+	h1D_Xi_Mass   = new TH1D("h1D_Xi_Mass","h1D_Xi_Mass",200,1.28,1.36);
+	h2D_NLambda_XiTag = new TH2D("h2D_NLambda_XiTag","h2D_NLambda_XiTag",3,1.5,4.5,2,-0.5,1.5);
+
 
 }
 
@@ -429,6 +441,10 @@ void ntp_Lambda_Histogram::Reset(){
 	for(int i =0 ; i <3 ;i++){
 		h2D_PairMass_CosThetaStar[i]->Reset("ICES");
 	}
+
+
+	h1D_Xi_Mass  ->Reset("ICES");
+	h2D_NLambda_XiTag ->Reset("ICES");
 }
 
 void ntp_Lambda_Histogram::WriteAll(){
@@ -509,7 +525,8 @@ void ntp_Lambda_Histogram::WriteAll(){
 	for(int i =0 ; i <3 ;i++){
 		h2D_PairMass_CosThetaStar[i]->Write();
 	}
-
+	h1D_Xi_Mass  ->Write();
+	h2D_NLambda_XiTag ->Write();
 
 	fout->Close();
 	delete fout;

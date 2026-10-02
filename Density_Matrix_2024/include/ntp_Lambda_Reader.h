@@ -23,10 +23,6 @@ public :
    Float_t         Vz;
    Int_t           mNTrigs;
    Int_t           mTrigId[5];   //[mNTrigs]
-   Int_t           mNTrks;
-   Float_t         high_pt[50];   //[mNTrks]
-   Float_t         high_phi[50];   //[mNTrks]
-   Float_t         high_eta[50];   //[mNTrks]
    Int_t           NLambda;
    Int_t           p1_InEventID[50];   //[NLambda]
    Float_t         p1_pt[50];   //[NLambda]
@@ -44,7 +40,7 @@ public :
    Float_t         p2_phi[50];   //[NLambda]
    Float_t         p2_eta[50];   //[NLambda]
    Float_t         p2_dca[50];   //[NLambda]
-   Float_t         p2_ch[50];   //[NLambda]
+   Int_t           p2_ch[50];   //[NLambda]
    Int_t           p2_hasTOFinfo[50];   //[NLambda]
    Float_t         p2_dedx[50];   //[NLambda]
    Float_t         p2_beta[50];   //[NLambda]
@@ -59,6 +55,47 @@ public :
    Float_t         pair_pt[50];   //[NLambda]
    Float_t         pair_mass[50];   //[NLambda]
    Int_t           track_Number;
+
+
+
+   Int_t           NXi;
+   Int_t           DauLambda_charge[50];   //[NXi]
+   Float_t         DauLambda_DCAdaughters[50];   //[NXi]
+   Float_t         DauLambda_theta[50];   //[NXi]
+   Float_t         DauLambda_decayL[50];   //[NXi]
+   Float_t         DauLambda_pt[50];   //[NXi]
+   Float_t         DauLambda_eta[50];   //[NXi]
+   Float_t         DauLambda_phi[50];   //[NXi]
+   Float_t         DauLambda_mass[50];   //[NXi]
+   Int_t           DauLambda_Dau1_InEventID[50];   //[NXi]
+   Float_t         DauLambda_Dau1_pt[50];   //[NXi]
+   Float_t         DauLambda_Dau1_eta[50];   //[NXi]
+   Float_t         DauLambda_Dau1_phi[50];   //[NXi]
+   Int_t           DauLambda_Dau1_ch[50];   //[NXi]
+   Float_t         DauLambda_Dau1_dca[50];   //[NXi]
+   Int_t           DauLambda_Dau2_InEventID[50];   //[NXi]
+   Float_t         DauLambda_Dau2_pt[50];   //[NXi]
+   Float_t         DauLambda_Dau2_eta[50];   //[NXi]
+   Float_t         DauLambda_Dau2_phi[50];   //[NXi]
+   Int_t           DauLambda_Dau2_ch[50];   //[NXi]
+   Float_t         DauLambda_Dau2_dca[50];   //[NXi]
+   Int_t           pion3_InEventID[50];   //[NXi]
+   Float_t         pion3_pt[50];   //[NXi]
+   Float_t         pion3_eta[50];   //[NXi]
+   Float_t         pion3_phi[50];   //[NXi]
+   Int_t           pion3_ch[50];   //[NXi]
+   Float_t         pion3_dca[50];   //[NXi]
+   Int_t           Xi_Charge[50];   //[NXi]
+   Float_t         Xi_DCAdaughters[50];   //[NXi]
+   Float_t         Xi_theta[50];   //[NXi]
+   Float_t         Xi_DecayL[50];   //[NXi]
+   Float_t         Xi_pt[50];   //[NXi]
+   Float_t         Xi_eta[50];   //[NXi]
+   Float_t         Xi_phi[50];   //[NXi]
+   Float_t         Xi_mass[50];   //[NXi]
+   Float_t         Xi_DCA[50];   //[NXi]
+
+
    Float_t         track_pt[1000];   //[track_Number]
    Float_t         track_eta[1000];   //[track_Number]
    Float_t         track_phi[1000];   //[track_Number]
@@ -76,11 +113,7 @@ public :
    TBranch        *b_eventId;   //!
    TBranch        *b_Vz;   //!
    TBranch        *b_mNTrigs;   //!
-   TBranch        *b_mTrigId;   //!
-   TBranch        *b_mNTrks;   //!
-   TBranch        *b_high_pt;   //!
-   TBranch        *b_high_phi;   //!
-   TBranch        *b_high_eta;   //!
+   TBranch        *b_mTrigId;   //
    TBranch        *b_NLambda;   //!
    TBranch        *b_p1_InEventID;   //!
    TBranch        *b_p1_pt;   //!
@@ -112,6 +145,42 @@ public :
    TBranch        *b_pair_eta;   //!
    TBranch        *b_pair_pt;   //!
    TBranch        *b_pair_mass;   //!
+   TBranch        *b_NXi;   //!
+   TBranch        *b_DauLambda_charge;   //!
+   TBranch        *b_DauLambda_DCAdaughters;   //!
+   TBranch        *b_DauLambda_theta;   //!
+   TBranch        *b_DauLambda_decayL;   //!
+   TBranch        *b_DauLambda_pt;   //!
+   TBranch        *b_DauLambda_eta;   //!
+   TBranch        *b_DauLambda_phi;   //!
+   TBranch        *b_DauLambda_mass;   //!
+   TBranch        *b_DauLambda_Dau1_InEventID;   //!
+   TBranch        *b_DauLambda_Dau1_pt;   //!
+   TBranch        *b_DauLambda_Dau1_eta;   //!
+   TBranch        *b_DauLambda_Dau1_phi;   //!
+   TBranch        *b_DauLambda_Dau1_ch;   //!
+   TBranch        *b_DauLambda_Dau1_dca;   //!
+   TBranch        *b_DauLambda_Dau2_InEventID;   //!
+   TBranch        *b_DauLambda_Dau2_pt;   //!
+   TBranch        *b_DauLambda_Dau2_eta;   //!
+   TBranch        *b_DauLambda_Dau2_phi;   //!
+   TBranch        *b_DauLambda_Dau2_ch;   //!
+   TBranch        *b_DauLambda_Dau2_dca;   //!
+   TBranch        *b_pion3_InEventID;   //!
+   TBranch        *b_pion3_pt;   //!
+   TBranch        *b_pion3_eta;   //!
+   TBranch        *b_pion3_phi;   //!
+   TBranch        *b_pion3_ch;   //!
+   TBranch        *b_pion3_dca;   //!
+   TBranch        *b_Xi_Charge;   //!
+   TBranch        *b_Xi_DCAdaughters;   //!
+   TBranch        *b_Xi_theta;   //!
+   TBranch        *b_Xi_DecayL;   //!
+   TBranch        *b_Xi_pt;   //!
+   TBranch        *b_Xi_eta;   //!
+   TBranch        *b_Xi_phi;   //!
+   TBranch        *b_Xi_mass;   //!
+   TBranch        *b_Xi_DCA;   //!
    TBranch        *b_track_Number;   //!
    TBranch        *b_track_pt;   //!
    TBranch        *b_track_eta;   //!
@@ -165,10 +234,6 @@ void ntp_Lambda_Reader::Init(TTree *tree)
    fChain->SetBranchAddress("Vz", &Vz, &b_Vz);
    fChain->SetBranchAddress("mNTrigs", &mNTrigs, &b_mNTrigs);
    fChain->SetBranchAddress("mTrigId", mTrigId, &b_mTrigId);
-   fChain->SetBranchAddress("mNTrks", &mNTrks, &b_mNTrks);
-   fChain->SetBranchAddress("high_pt", high_pt, &b_high_pt);
-   fChain->SetBranchAddress("high_phi", high_phi, &b_high_phi);
-   fChain->SetBranchAddress("high_eta", high_eta, &b_high_eta);
    fChain->SetBranchAddress("NLambda", &NLambda, &b_NLambda);
    fChain->SetBranchAddress("p1_InEventID", p1_InEventID, &b_p1_InEventID);
    fChain->SetBranchAddress("p1_pt", p1_pt, &b_p1_pt);
@@ -212,7 +277,47 @@ void ntp_Lambda_Reader::Init(TTree *tree)
    fChain->SetBranchAddress("track_nSigmaProton", track_nSigmaProton, &b_track_nSigmaProton);
    fChain->SetBranchAddress("track_dedx", track_dedx, &b_track_dedx);
    fChain->SetBranchAddress("track_ch", track_ch, &b_track_ch);
-   /*
+   
+   fChain->SetBranchAddress("NXi", &NXi, &b_NXi);
+   fChain->SetBranchAddress("DauLambda_charge", &DauLambda_charge, &b_DauLambda_charge);
+   fChain->SetBranchAddress("DauLambda_DCAdaughters", &DauLambda_DCAdaughters, &b_DauLambda_DCAdaughters);
+   fChain->SetBranchAddress("DauLambda_theta", &DauLambda_theta, &b_DauLambda_theta);
+   fChain->SetBranchAddress("DauLambda_decayL", &DauLambda_decayL, &b_DauLambda_decayL);
+   fChain->SetBranchAddress("DauLambda_pt", &DauLambda_pt, &b_DauLambda_pt);
+   fChain->SetBranchAddress("DauLambda_eta", &DauLambda_eta, &b_DauLambda_eta);
+   fChain->SetBranchAddress("DauLambda_phi", &DauLambda_phi, &b_DauLambda_phi);
+   fChain->SetBranchAddress("DauLambda_mass", &DauLambda_mass, &b_DauLambda_mass);
+   fChain->SetBranchAddress("DauLambda_Dau1_InEventID", &DauLambda_Dau1_InEventID, &b_DauLambda_Dau1_InEventID);
+   fChain->SetBranchAddress("DauLambda_Dau1_pt", &DauLambda_Dau1_pt, &b_DauLambda_Dau1_pt);
+   fChain->SetBranchAddress("DauLambda_Dau1_eta", &DauLambda_Dau1_eta, &b_DauLambda_Dau1_eta);
+   fChain->SetBranchAddress("DauLambda_Dau1_phi", &DauLambda_Dau1_phi, &b_DauLambda_Dau1_phi);
+   fChain->SetBranchAddress("DauLambda_Dau1_ch", &DauLambda_Dau1_ch, &b_DauLambda_Dau1_ch);
+   fChain->SetBranchAddress("DauLambda_Dau1_dca", &DauLambda_Dau1_dca, &b_DauLambda_Dau1_dca);
+   fChain->SetBranchAddress("DauLambda_Dau2_InEventID", &DauLambda_Dau2_InEventID, &b_DauLambda_Dau2_InEventID);
+   fChain->SetBranchAddress("DauLambda_Dau2_pt", &DauLambda_Dau2_pt, &b_DauLambda_Dau2_pt);
+   fChain->SetBranchAddress("DauLambda_Dau2_eta", &DauLambda_Dau2_eta, &b_DauLambda_Dau2_eta);
+   fChain->SetBranchAddress("DauLambda_Dau2_phi", &DauLambda_Dau2_phi, &b_DauLambda_Dau2_phi);
+   fChain->SetBranchAddress("DauLambda_Dau2_ch", &DauLambda_Dau2_ch, &b_DauLambda_Dau2_ch);
+   fChain->SetBranchAddress("DauLambda_Dau2_dca", &DauLambda_Dau2_dca, &b_DauLambda_Dau2_dca);
+   fChain->SetBranchAddress("pion3_InEventID", &pion3_InEventID, &b_pion3_InEventID);
+   fChain->SetBranchAddress("pion3_pt", &pion3_pt, &b_pion3_pt);
+   fChain->SetBranchAddress("pion3_eta", &pion3_eta, &b_pion3_eta);
+   fChain->SetBranchAddress("pion3_phi", &pion3_phi, &b_pion3_phi);
+   fChain->SetBranchAddress("pion3_ch", &pion3_ch, &b_pion3_ch);
+   fChain->SetBranchAddress("pion3_dca", &pion3_dca, &b_pion3_dca);
+   fChain->SetBranchAddress("Xi_Charge", &Xi_Charge, &b_Xi_Charge);
+   fChain->SetBranchAddress("Xi_DCAdaughters", &Xi_DCAdaughters, &b_Xi_DCAdaughters);
+   fChain->SetBranchAddress("Xi_theta", &Xi_theta, &b_Xi_theta);
+   fChain->SetBranchAddress("Xi_DecayL", &Xi_DecayL, &b_Xi_DecayL);
+   fChain->SetBranchAddress("Xi_pt", &Xi_pt, &b_Xi_pt);
+   fChain->SetBranchAddress("Xi_eta", &Xi_eta, &b_Xi_eta);
+   fChain->SetBranchAddress("Xi_phi", &Xi_phi, &b_Xi_phi);
+   fChain->SetBranchAddress("Xi_mass", &Xi_mass, &b_Xi_mass);
+   fChain->SetBranchAddress("Xi_DCA", &Xi_DCA, &b_Xi_DCA);
+
+
+
+   
    fChain->SetBranchStatus("track_Number", 0);
    fChain->SetBranchStatus("track_pt", 0);
    fChain->SetBranchStatus("track_eta", 0);
@@ -225,7 +330,7 @@ void ntp_Lambda_Reader::Init(TTree *tree)
    fChain->SetBranchStatus("track_nSigmaProton", 0);
    fChain->SetBranchStatus("track_dedx", 0);
    fChain->SetBranchStatus("track_ch", 0);   
-   */
+   
 }
 
 #endif
