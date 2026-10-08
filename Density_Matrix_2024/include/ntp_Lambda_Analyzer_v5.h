@@ -783,7 +783,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
 					//if( CleanLambdaFlag[j_lambda] == false ) continue;
 					//if(mXiTag[i_lambda] == true || mXiTag[j_lambda] == true ) continue;
-					if(mXiTag[i_lambda] == false && mXiTag[j_lambda] == false ) continue;
+					//if(mXiTag[i_lambda] == false && mXiTag[j_lambda] == false ) continue;
 					Analyze_SEPair(i_lambda,j_lambda);
 				}
 			}
@@ -1137,7 +1137,7 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
 					//if( CleanLambdaFlag[j_lambda] == false ) continue;
 					//if(mXiTag[i_lambda] == true || mXiTag[j_lambda] == true ) continue;
-					if(mXiTag[i_lambda] == false && mXiTag[j_lambda] == false ) continue;
+					//if(mXiTag[i_lambda] == false && mXiTag[j_lambda] == false ) continue;
 					Analyze_MEPair(i_lambda,j_lambda,i_event,i_file);
 				}
 			}
