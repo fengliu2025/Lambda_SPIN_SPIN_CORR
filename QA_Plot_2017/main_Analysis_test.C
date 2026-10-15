@@ -14,7 +14,7 @@ int main(int argc, char*argv[]){
 	std::vector<std::string> FileList;
 	std::vector<std::string> FileName;
 
-	std::ifstream filelist("/gpfs01/star/pwg/fliu/production/pp2017/PicoDstLambda_P20ic/filelist.txt");
+	std::ifstream filelist("/gpfs01/star/pwg/fliu/production/pp2017/PicoDstLambda_P20ic/fileList.txt");
 	
 
 	if (!filelist.is_open()) {
