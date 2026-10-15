@@ -171,8 +171,8 @@ void ntp_Lambda_Analyzer::Fill_MixPool(int i_File){
 			for(int iTrig = 0; iTrig < MixEvent_Reader->mNTrigs;iTrig++){
 				TriggerIDList.push_back( MixEvent_Reader->mTrigId[iTrig]);
 			}
-			//if(MixEvent_Reader->NLambda!=1 || !EventSelecter->IsGoodEvent(TriggerIDList,MixEvent_Reader->Vz)  ){
-			if(MixEvent_Reader->NLambda!=1){
+			if(MixEvent_Reader->NLambda!=1 || !EventSelecter->IsGoodEvent(TriggerIDList,MixEvent_Reader->Vz)  ){
+			//if(MixEvent_Reader->NLambda!=1){
 				IsGoodLambda_tmp.push_back(0);
 				pair_pt_tmp.push_back(0);
 				pair_y_tmp.push_back(0);
@@ -927,6 +927,8 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda,int i_event,in
 		FindCounterparts(&Lambda2_counterpart,&proton2_counterpart,&pion2_counterpart,Lambda2.Rapidity(), id_Lambda2,i_event, i_file );
 		FindCounterparts(&Lambda1_counterpart,&proton1_counterpart,&pion1_counterpart,Lambda1.Rapidity(), id_Lambda1,i_event, i_file );
 		
+		/*
+		//-------------------------Default--------------------------------
 		for(int k_lambda = 0; k_lambda < Lambda2_counterpart.size();k_lambda++){
 			//Calculate the Density Matrix
 			Calculator->Reset(&Lambda1,&proton1,&pion1,&Lambda2_counterpart[k_lambda],&proton2_counterpart[k_lambda],&pion2_counterpart[k_lambda]);
@@ -955,8 +957,11 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda,int i_event,in
 
 
 		}
+		//-------------------------Default--------------------------------
+
+		*/
+
 		
-		/*
 		//-----------replacing both lambda at the same time-----------------------------
 		for(int k1_lambda = 0; k1_lambda < Lambda1_counterpart.size();k1_lambda++){
 			for(int k2_lambda = 0; k2_lambda < Lambda2_counterpart.size();k2_lambda++){
@@ -974,7 +979,7 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda,int i_event,in
 			}
 		}
 		//-----------replacing both lambda at the same time-----------------------------
-		*/
+		
 		return 1;
 
 }
