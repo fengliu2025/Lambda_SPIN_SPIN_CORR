@@ -32,9 +32,8 @@ public :
 
 	TH2D *h2D_NLambda_Ntrks;
 
-	TH1D *h1D_high_Pt;
-	TH1D *h1D_high_Phi;
-	TH1D *h1D_high_eta;
+	
+	
 
 
 
@@ -145,9 +144,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 
 
 
-	h1D_high_Pt    = new TH1D("h1D_high_Pt","h1D_high_Pt",100,-1,10);
-	h1D_high_Phi   = new TH1D("h1D_high_Phi","h1D_high_Phi",100,-2*TMath::Pi(), 2 * TMath::Pi() );
-	h1D_high_eta   = new TH1D("h1D_high_eta","h1D_high_eta",100,-4,4);
+
 
 	h1D_pair_Pt    = new TH1D("h1D_pair_Pt","h1D_pair_Pt",100,0,5);
 	h1D_pair_Eta   = new TH1D("h1D_pair_Eta","h1D_pair_Eta",100,-3,3);
@@ -266,11 +263,7 @@ void ntp_Lambda_Histogram::Fill_QAplots(){
 		
 		h2D_NLambda_Ntrks->Fill(Reader->NLambda,Reader->track_Number);
 
-		for(int i =0 ; i < Reader->mNTrks;i++){
-			h1D_high_Pt   ->Fill(Reader->high_pt[i]  );
-			h1D_high_Phi  ->Fill(Reader->high_phi[i] );
-			h1D_high_eta  ->Fill(Reader->high_eta[i] );
-		}
+		
 
 		for(int i =0 ; i < Reader->NLambda;i++){
 			h1D_pair_Pt     	->Fill(Reader->pair_pt[i]);
@@ -344,11 +337,7 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 		
 		h2D_NLambda_Ntrks->Fill(Reader->NLambda,Reader->mNTrks);
 
-		for(int i =0 ; i < Reader->mNTrks;i++){
-			h1D_high_Pt   ->Fill(Reader->high_pt[i]  );
-			h1D_high_Phi  ->Fill(Reader->high_phi[i] );
-			h1D_high_eta  ->Fill(Reader->high_eta[i] );
-		}
+		
 
 		for(int i =0 ; i < Reader->NLambda;i++){
 			if(GoodLambdaFlag[i]==0) continue;
@@ -522,9 +511,6 @@ void ntp_Lambda_Histogram::Reset(){
 
 	h2D_NLambda_Ntrks   ->Reset("ICES");
 
-	h1D_high_Pt   		->Reset("ICES");
-	h1D_high_Phi 		->Reset("ICES");
-	h1D_high_eta 		->Reset("ICES");
 
 	h1D_pair_Pt    		->Reset("ICES");
 	h1D_pair_Eta    	->Reset("ICES");
@@ -617,9 +603,8 @@ void ntp_Lambda_Histogram::WriteAll(){
 
 	h2D_NLambda_Ntrks   ->Write();
 
-	h1D_high_Pt   		->Write();
-	h1D_high_Phi 		->Write();
-	h1D_high_eta 		->Write();
+	
+
 
 
 	h1D_pair_Pt    		->Write();
