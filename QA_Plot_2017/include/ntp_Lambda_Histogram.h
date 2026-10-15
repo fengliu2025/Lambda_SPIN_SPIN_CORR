@@ -30,7 +30,7 @@ public :
 	TH1D *h1D_NLambda; 
 	TH1D *h1D_TrigID;
 
-	TH2D *h2D_NLambda_Ntrks;
+	
 
 	
 	
@@ -140,7 +140,7 @@ void ntp_Lambda_Histogram::InitHitogram(){
 	h1D_NLambda    = new TH1D("h1D_NLambda","h1D_NLambda",10,-1,9);
 	h1D_TrigID     = new TH1D("h1D_TrigID","h1D_TrigID",6,0.5,6.5);
 
-	h2D_NLambda_Ntrks = new TH2D("h2D_NLambda_Ntrks","h2D_NLambda_Ntrks",10,-1,9,100,-0.5,99.5);
+	
 
 
 
@@ -250,18 +250,15 @@ void ntp_Lambda_Histogram::Fill_QAplots(){
 		h1D_Vz     				->Fill(Reader->Vz);
 		h1D_NLambda     		->Fill(Reader->NLambda);
 		for(int i =0; i < Reader->mNTrigs;i++){
-			if(Reader->mTrigId[i] == 910001 )     {h1D_TrigID->Fill(1);}
-			else if(Reader->mTrigId[i] == 910003) {h1D_TrigID->Fill(2);}
-			else if(Reader->mTrigId[i] == 910013) {h1D_TrigID->Fill(3);}
-			else if(Reader->mTrigId[i] == 910802) {h1D_TrigID->Fill(4);}
-			else if(Reader->mTrigId[i] == 910804) {h1D_TrigID->Fill(5);}
-			else {h1D_TrigID->Fill(6);}
+			if(Reader->mTrigId[i] == 510001 )     {h1D_TrigID->Fill(1);}
+			else if(Reader->mTrigId[i] == 510004) {h1D_TrigID->Fill(2);}
+			else {h1D_TrigID->Fill(3);}
 		}
 
 		
 
 		
-		h2D_NLambda_Ntrks->Fill(Reader->NLambda,Reader->track_Number);
+		
 
 		
 
@@ -324,18 +321,15 @@ void ntp_Lambda_Histogram::Fill_QAplots(std::vector<int> GoodLambdaFlag){
 		h1D_Vz     				->Fill(Reader->Vz);
 		h1D_NLambda     		->Fill(Reader->NLambda);
 		for(int i =0; i < Reader->mNTrigs;i++){
-			if(Reader->mTrigId[i] == 910001 )     {h1D_TrigID->Fill(1);}
-			else if(Reader->mTrigId[i] == 910003) {h1D_TrigID->Fill(2);}
-			else if(Reader->mTrigId[i] == 910013) {h1D_TrigID->Fill(3);}
-			else if(Reader->mTrigId[i] == 910802) {h1D_TrigID->Fill(4);}
-			else if(Reader->mTrigId[i] == 910804) {h1D_TrigID->Fill(5);}
-			else {h1D_TrigID->Fill(6);}
+			if(Reader->mTrigId[i] == 570001 )     {h1D_TrigID->Fill(1);}
+			else if(Reader->mTrigId[i] == 570004) {h1D_TrigID->Fill(2);}
+			else {h1D_TrigID->Fill(3);}
 		}
 
 		
 
 		
-		h2D_NLambda_Ntrks->Fill(Reader->NLambda,Reader->mNTrks);
+		
 
 		
 
@@ -509,7 +503,7 @@ void ntp_Lambda_Histogram::Reset(){
 	h1D_NLambda    		->Reset("ICES");
 	h1D_TrigID     		->Reset("ICES");
 
-	h2D_NLambda_Ntrks   ->Reset("ICES");
+	 
 
 
 	h1D_pair_Pt    		->Reset("ICES");
@@ -601,7 +595,7 @@ void ntp_Lambda_Histogram::WriteAll(){
 	h1D_TrigID     		->Write();
 
 
-	h2D_NLambda_Ntrks   ->Write();
+	
 
 	
 
