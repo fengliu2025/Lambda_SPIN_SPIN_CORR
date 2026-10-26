@@ -155,8 +155,10 @@ bool ntp_Lambda_LambdaSelecter::IsGoodLambda(double pion_Pt,double proton_Pt, do
 
 bool ntp_Lambda_LambdaSelecter::IsGoodLambdaCharge(int Lambda_Charge){
 	//if(Lambda_Charge ==0 ) return true; // unlike-sign pair 
-	if(Lambda_Charge !=0 ) return true;   // like-sign pair 
-	else return false;
+	//if(Lambda_Charge !=0 ) return true;   // like-sign pair 
+	//else return false;
+
+	return true;
 }
 
 
