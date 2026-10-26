@@ -79,7 +79,7 @@ ntp_Lambda_LambdaSelecter::ntp_Lambda_LambdaSelecter()
 	LambdaDecayLMin = 2. ; //cm
 	LambdaDecayLMax = 25.; //cm
 	LambdaDauDCAMin = -1.; //cm
-	LambdaDauDCAMax = 0.9; //cm
+	LambdaDauDCAMax = 1.0; //cm
 	LambdaDCAMin = 0.0;  //cm
 	LambdaDCAMax = 1.0; //cm 
 
@@ -122,12 +122,16 @@ bool ntp_Lambda_LambdaSelecter::IsGoodLambdaMass(double Pt, double Mass){
 		mean = 1.11587;//1.115765;
 		sigma = 0.00148389;//0.001915; 
 	}
-
+	/*
 	if( Mass > (mean -2 *sigma )  && Mass < (mean + 2*sigma) ){
 		return true;
 	}
 
 	else return false;
+	*/
+	if( (Mass < 1.1129022 && Mass > 1.08 ) || (Mass < 1.16 && Mass > 1.1188378 )  ) return true;
+	else return false ;
+
 
 }
 
