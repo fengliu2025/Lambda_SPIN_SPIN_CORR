@@ -280,7 +280,7 @@ int ntp_Lambda_Analyzer::Pair_Type_Classifier(int idx1, int idx2){
 	//5: Lambda_bar LS 				 -5:LS Lambda_bar
 	//6: LS LS 
 
-
+	/*
 	//1: Lambda Lambda_bar 
 	if(SameEvent_Reader->pair_charge[idx1] == 0 && SameEvent_Reader->pair_charge[idx2] == 0 && SameEvent_Reader->p1_ch[idx1] == 1 && SameEvent_Reader->p1_ch[idx2] == -1 ) return  1 ;
 	//-1:Lambda_bar 
@@ -299,6 +299,18 @@ int ntp_Lambda_Analyzer::Pair_Type_Classifier(int idx1, int idx2){
 	if(SameEvent_Reader->pair_charge[idx1] == 1 && SameEvent_Reader->pair_charge[idx2] == 0 && SameEvent_Reader->p1_ch[idx2] == -1 ) return -5 ;
 	//6:LS Lambda_bar
 	if(SameEvent_Reader->pair_charge[idx1] == 1 && SameEvent_Reader->pair_charge[idx2] == 1) return 6 ;
+	*/
+
+
+	//1: Lambda Lambda_bar 
+	if(SameEvent_Reader->p1_ch[idx1] == 1 && SameEvent_Reader->p1_ch[idx2] == -1 ) return  1 ;
+	//-1:Lambda_bar 
+	if(SameEvent_Reader->p1_ch[idx1] ==-1 && SameEvent_Reader->p1_ch[idx2] ==  1 ) return -1 ;
+	//2: Lambda Lambda 	
+	if( SameEvent_Reader->p1_ch[idx1] == 1 && SameEvent_Reader->p1_ch[idx2] ==  1 ) return  2 ;
+	//3: Lambda_bar Lambda_bar 		
+	if( SameEvent_Reader->p1_ch[idx1] ==-1 && SameEvent_Reader->p1_ch[idx2] == -1 ) return  3 ;
+
 	return 0;
 	
 
