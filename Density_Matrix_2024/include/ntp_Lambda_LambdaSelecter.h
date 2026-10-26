@@ -129,7 +129,7 @@ bool ntp_Lambda_LambdaSelecter::IsGoodLambdaMass(double Pt, double Mass){
 
 	else return false;
 	*/
-	if( (Mass < 1.1129022 && Mass > 1.08 ) || (Mass < 1.16 && Mass > 1.1188378 )  ) return true;
+	if( (Mass < 1.1129022 && Mass > 1.10 ) || (Mass < 1.13 && Mass > 1.1188378 )  ) return true;
 	else return false ;
 
 
