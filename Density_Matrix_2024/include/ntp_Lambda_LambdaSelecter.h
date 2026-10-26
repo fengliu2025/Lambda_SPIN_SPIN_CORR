@@ -122,15 +122,15 @@ bool ntp_Lambda_LambdaSelecter::IsGoodLambdaMass(double Pt, double Mass){
 		mean = 1.11587;//1.115765;
 		sigma = 0.00148389;//0.001915; 
 	}
-	/*
+	
 	if( Mass > (mean -2 *sigma )  && Mass < (mean + 2*sigma) ){
 		return true;
 	}
 
 	else return false;
-	*/
-	if( (Mass < 1.1129022 && Mass > 1.10 ) || (Mass < 1.13 && Mass > 1.1188378 )  ) return true;
-	else return false ;
+	//check the side-band 
+	//if( (Mass < 1.1129022 && Mass > 1.10 ) || (Mass < 1.13 && Mass > 1.1188378 )  ) return true;
+	//else return false ;
 
 
 }
@@ -154,7 +154,8 @@ bool ntp_Lambda_LambdaSelecter::IsGoodLambda(double pion_Pt,double proton_Pt, do
 }
 
 bool ntp_Lambda_LambdaSelecter::IsGoodLambdaCharge(int Lambda_Charge){
-	if(Lambda_Charge ==0 ) return true;
+	//if(Lambda_Charge ==0 ) return true; // unlike-sign pair 
+	if(Lambda_Charge !=0 ) return true;   // like-sign pair 
 	else return false;
 }
 
