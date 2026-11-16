@@ -16,7 +16,7 @@
 
 #include "constants.h"
 #include "ntp_Lambda_Calculator.h"
-#include "ntp_Lambda_Histogram.h"
+#include "ntp_Lambda_Histogram_v2.h"
 #include "ntp_Lambda_Reader.h"
 #include "ntp_Lambda_MixTreeReader.h"
 #include "ntp_Lambda_EventSelecter.h"
@@ -37,47 +37,24 @@ public:
 	ntp_Lambda_Histogram  *Histogramer; 
 
 
-	//std::vector<bool> IsGoodLambda;
-	std::vector<float> L_pair_pt;
-	std::vector<float> L_pair_y;
-	std::vector<float> L_pair_eta;
-	std::vector<float> L_pair_phi;
-	std::vector<float> L_pair_mass;
-	std::vector<int>   L_pair_charge;
+	std::vector<std::vector<bool>> IsGoodLambda;
+	std::vector<std::vector<float>> pair_pt;
+	std::vector<std::vector<float>> pair_y;
+	std::vector<std::vector<float>> pair_eta;
+	std::vector<std::vector<float>> pair_phi;
+	std::vector<std::vector<float>> pair_mass;
+	std::vector<std::vector<int>>   pair_charge;
 	
 	
 
-	std::vector<float> L_p1_pt;
-	std::vector<float> L_p1_eta;
-	std::vector<float> L_p1_phi;
-	std::vector<float> L_p1_ch;
+	std::vector<std::vector<float>> p1_pt;
+	std::vector<std::vector<float>> p1_eta;
+	std::vector<std::vector<float>> p1_phi;
+	std::vector<std::vector<float>> p1_ch;
 
-	std::vector<float> L_p2_pt;
-	std::vector<float> L_p2_eta;
-	std::vector<float> L_p2_phi;
-
-	std::vector<float> Lbar_pair_pt;
-	std::vector<float> Lbar_pair_y;
-	std::vector<float> Lbar_pair_eta;
-	std::vector<float> Lbar_pair_phi;
-	std::vector<float> Lbar_pair_mass;
-	std::vector<int>   Lbar_pair_charge;
-	
-	
-
-	std::vector<float> Lbar_p1_pt;
-	std::vector<float> Lbar_p1_eta;
-	std::vector<float> Lbar_p1_phi;
-	std::vector<float> Lbar_p1_ch;
-
-	std::vector<float> Lbar_p2_pt;
-	std::vector<float> Lbar_p2_eta;
-	std::vector<float> Lbar_p2_phi;
-
-
-	int MixEventPoolSize = 10000;
-	int LLbar_USED= 0;
-
+	std::vector<std::vector<float>> p2_pt;
+	std::vector<std::vector<float>> p2_eta;
+	std::vector<std::vector<float>> p2_phi;
 
 
 	ntp_Lambda_Analyzer();
@@ -86,14 +63,18 @@ public:
 
 	~ntp_Lambda_Analyzer();
 	
-	void Fill_MixPool();
+	void Fill_MixPool(int i_File);
 	int Pair_Type_Classifier(int idx1, int idx2);
-	int Range_Type_Classifier(TLorentzVector *v1, TLorentzVector *v2);
+	std::vector<int> Range_Type_Classifier(TLorentzVector *v1, TLorentzVector *v2);
+
+	int CountMyNLambda();
+
 	int Analyze_SEPair(int i_lambda,int j_lambda);
 	void Analysis_SameEvent();
-	void FindCounterparts(std::vector<TLorentzVector> *Lambda_counterpart,std::vector<TLorentzVector> *proton_counterpart,std::vector<TLorentzVector> *pion_counterpart,double rapidity,int I_LAMBDA);
-	int Analyze_MEPair(int i_lambda,int j_lambda);
+	void FindCounterparts(std::vector<TLorentzVector> *Lambda_counterpart,std::vector<TLorentzVector> *proton_counterpart,std::vector<TLorentzVector> *pion_counterpart,double rapidity,int I_LAMBDA,int I_EVENT,int I_FILE);
+	int Analyze_MEPair(int i_lambda,int j_lambda,int i_event,int i_file);
 	void Analysis_MixEvent();
+
 
 
 };
@@ -115,128 +96,160 @@ ntp_Lambda_Analyzer::ntp_Lambda_Analyzer(ntp_Lambda_Reader *reader1, ntp_Lambda_
 
 }
 
-void ntp_Lambda_Analyzer::Fill_MixPool(){
-	//IsGoodLambda.clear();
-	L_pair_pt.clear();		Lbar_pair_pt.clear();
-	L_pair_y.clear();   	Lbar_pair_y.clear();
-	L_pair_eta.clear(); 	Lbar_pair_eta.clear();
-	L_pair_phi.clear(); 	Lbar_pair_phi.clear();
-	L_pair_mass.clear();	Lbar_pair_mass.clear();
-	L_pair_charge.clear();	Lbar_pair_charge.clear();
+void ntp_Lambda_Analyzer::Fill_MixPool(int i_File){
+	IsGoodLambda.clear();
+	pair_pt.clear();
+	pair_y.clear();
+	pair_eta.clear();
+	pair_phi.clear();
+	pair_mass.clear();
+	pair_charge.clear();
 	
 	
 
-	L_p1_pt.clear(); 		Lbar_p1_pt.clear();
-	L_p1_eta.clear();		Lbar_p1_eta.clear();
-	L_p1_phi.clear();		Lbar_p1_phi.clear();
-	L_p1_ch.clear();		Lbar_p1_ch.clear();
+	p1_pt.clear();
+	p1_eta.clear();
+	p1_phi.clear();
+	p1_ch.clear();
 
-	L_p2_pt.clear();		Lbar_p2_pt.clear();
-	L_p2_eta.clear();		Lbar_p2_eta.clear();
-	L_p2_phi.clear();		Lbar_p2_phi.clear();
-	//-------------------------------ENTER iFile LOOP----------------------------------------------
-	for(int iFile =0 ; iFile < MixEvent_Reader->InputFiles.size();iFile++){
-		TFile *fin=TFile::Open(MixEvent_Reader->InputFiles[iFile].c_str(),"READ");
-		if(!fin){
-			std::cout<<"Can not open MixEvent_Reader file, skip."<<std::endl;
+	p2_pt.clear();
+	p2_eta.clear();
+	p2_phi.clear();
+	//--------------------------------------------ENTER i_mixfile LOOP-----------------------------------------------
+	for(int i_mixfile=0;i_mixfile<MixEvent_Reader->InputFiles_MixEvent[i_File].size();i_mixfile++){
+		std::cout<<"MixEvent_Reader->InputFiles_MixEvent[i_File].size():"<<MixEvent_Reader->InputFiles_MixEvent[i_File].size()<<std::endl;
+		TFile *f_mixevent = TFile::Open(MixEvent_Reader->InputFiles_MixEvent[i_File][i_mixfile].c_str(),"READ");
+		if(!f_mixevent){
+			std::cout<<"Can not open the mixevent file:"<<MixEvent_Reader->InputFiles[i_mixfile] <<", Skip this." <<std::endl;
+			continue;
+
+		}
+		TTree *tmp_MixEvent = (TTree *)f_mixevent->Get("ntp_Lambda");
+		if(!tmp_MixEvent){
+			std::cout<<"Can not get the MixEvent, skip this file."<<std::endl;
 			continue;
 		}
-		TTree *tree = (TTree *)fin->Get("ntp_Lambda");
-		if(!tree){
-			std::cout<<"Can not obtain MixEvent_Reader tree,skip." <<std::endl;
-			continue;
-		}
 
-		MixEvent_Reader->Init(tree);
 
+		MixEvent_Reader->Init(tmp_MixEvent);
 		Long64_t N_Events=MixEvent_Reader->fChain->GetEntries();
-		//------------------------------ENTER iEvent LOOP-------------------------------------
-		for(int iEvent=0;iEvent<N_Events;iEvent++){
-			MixEvent_Reader->fChain->GetEntry(iEvent);
-			std::vector<int> GoodLambdaFlag;
-			for(int i_lambda = 0; i_lambda<MixEvent_Reader->NLambda;i_lambda++){				
-				TLorentzVector v;
-				v.SetPtEtaPhiM(MixEvent_Reader->pair_pt[i_lambda],MixEvent_Reader->pair_eta[i_lambda],MixEvent_Reader->pair_phi[i_lambda],MixEvent_Reader->pair_mass[i_lambda]);
-				int isGoodLambda = ( 
-									LambdaSelecter->IsGoodLambda(MixEvent_Reader->p2_pt[i_lambda], MixEvent_Reader->p1_pt[i_lambda],
-																MixEvent_Reader->p2_eta[i_lambda], MixEvent_Reader->p1_eta[i_lambda],
-																MixEvent_Reader->pair_pt[i_lambda], v.Rapidity(),
-																MixEvent_Reader->pair_mass[i_lambda], MixEvent_Reader->pair_decayL[i_lambda],
-																MixEvent_Reader->pair_theta[i_lambda],MixEvent_Reader->pair_DCAdaughters[i_lambda])
-				 				&& LambdaSelecter->IsGoodLambdaCharge(MixEvent_Reader->pair_charge[i_lambda]) 
-				 				&& LambdaSelecter->IsGoodLambdaDCA(MixEvent_Reader->pair_decayL[i_lambda], MixEvent_Reader->pair_theta[i_lambda] )
-				 				&& LambdaSelecter->IsGoodDauDCA(MixEvent_Reader->p1_dca[i_lambda], MixEvent_Reader->p2_dca[i_lambda] )
-				 				   );
-				GoodLambdaFlag.push_back(isGoodLambda);
+		std::cout<<"MixEvent_Reader->fChain->GetEntries():"<<N_Events<<std::endl;
+		std::vector<bool> IsGoodLambda_tmp;
+		std::vector<float> pair_pt_tmp;
+		std::vector<float> pair_y_tmp;
+		std::vector<float> pair_eta_tmp;
+		std::vector<float> pair_phi_tmp;
+		std::vector<float> pair_mass_tmp;
+		std::vector<int>  pair_charge_tmp;
+	
+	
+
+		std::vector<float> p1_pt_tmp;
+		std::vector<float> p1_eta_tmp;
+		std::vector<float> p1_phi_tmp;
+		std::vector<float> p1_ch_tmp;
+
+		std::vector<float> p2_pt_tmp;
+		std::vector<float> p2_eta_tmp;
+		std::vector<float> p2_phi_tmp;
+		//--------------------------------------------ENTER i_mixevent Loop-----------------------------------------------
+		for(int i_mixevent=0; i_mixevent<N_Events;i_mixevent++){
+			MixEvent_Reader->fChain->GetEntry(i_mixevent);
+			//LEAVE TEST FOR FUTURE
+			if(MixEvent_Reader->NLambda!=1 || !EventSelecter->IsGoodEvent(MixEvent_Reader->Vz)  ){
+			//if(MixEvent_Reader->NLambda!=1){
+				IsGoodLambda_tmp.push_back(0);
+				pair_pt_tmp.push_back(0);
+				pair_y_tmp.push_back(0);
+				pair_eta_tmp.push_back(0);
+				pair_phi_tmp.push_back(0);
+				pair_mass_tmp.push_back(0);
+				pair_charge_tmp.push_back(0);
+				p1_pt_tmp.push_back(0);
+				p1_eta_tmp.push_back(0);
+				p1_phi_tmp.push_back(0);
+				p1_ch_tmp.push_back(0);
+				p2_pt_tmp.push_back(0);
+				p2_eta_tmp.push_back(0);
+				p2_phi_tmp.push_back(0);
+				continue;
 			}
 
-			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
-			if(NGoodLambda !=1) continue;
+			
+			TLorentzVector v;
+			v.SetPtEtaPhiM(MixEvent_Reader->pair_pt[0],MixEvent_Reader->pair_eta[0],MixEvent_Reader->pair_phi[0],MixEvent_Reader->pair_mass[0]);
 
-			for(int i_lambda=0;i_lambda<MixEvent_Reader->NLambda;i_lambda++){
-				if(!GoodLambdaFlag[i_lambda]) continue;
-				if(MixEvent_Reader->p1_ch[i_lambda] == +1 ) {
-					if(L_pair_pt.size() >= MixEventPoolSize ) break;
-					TLorentzVector v;
-					v.SetPtEtaPhiM(MixEvent_Reader->pair_pt[i_lambda],MixEvent_Reader->pair_eta[i_lambda],MixEvent_Reader->pair_phi[i_lambda],MixEvent_Reader->pair_mass[i_lambda]);
-					L_pair_pt.push_back( MixEvent_Reader->pair_pt[i_lambda]  );
-					L_pair_y.push_back(  v.Rapidity()  );	
-					L_pair_eta.push_back( MixEvent_Reader->pair_eta[i_lambda]  );
-					L_pair_phi.push_back( MixEvent_Reader->pair_phi[i_lambda]  ) ;
-					L_pair_mass.push_back( MixEvent_Reader->pair_mass[i_lambda]  );
-					L_pair_charge.push_back( MixEvent_Reader->pair_charge[i_lambda]  );
-	
-	
 
-					L_p1_pt.push_back( MixEvent_Reader->p1_pt[i_lambda] );
-					L_p1_eta.push_back(MixEvent_Reader->p1_eta[i_lambda]);
-					L_p1_phi.push_back(MixEvent_Reader->p1_phi[i_lambda]);
-					L_p1_ch.push_back(MixEvent_Reader->p1_ch[i_lambda]);
-
-					L_p2_pt.push_back(MixEvent_Reader->p1_pt[i_lambda]);
-					L_p2_eta.push_back(MixEvent_Reader->p1_eta[i_lambda]);
-					L_p2_phi.push_back(MixEvent_Reader->p1_phi[i_lambda]);
-				}
-				else{
-					if(Lbar_pair_pt.size() >= MixEventPoolSize ) break;
-					TLorentzVector v;
-					v.SetPtEtaPhiM(MixEvent_Reader->pair_pt[i_lambda],MixEvent_Reader->pair_eta[i_lambda],MixEvent_Reader->pair_phi[i_lambda],MixEvent_Reader->pair_mass[i_lambda]);
-					Lbar_pair_pt.push_back( MixEvent_Reader->pair_pt[i_lambda]  );
-					Lbar_pair_y.push_back(  v.Rapidity()  );	
-					Lbar_pair_eta.push_back( MixEvent_Reader->pair_eta[i_lambda]  );
-					Lbar_pair_phi.push_back( MixEvent_Reader->pair_phi[i_lambda]  ) ;
-					Lbar_pair_mass.push_back( MixEvent_Reader->pair_mass[i_lambda]  );
-					Lbar_pair_charge.push_back( MixEvent_Reader->pair_charge[i_lambda]  );
-	
-	
-
-					Lbar_p1_pt.push_back( MixEvent_Reader->p1_pt[i_lambda] );
-					Lbar_p1_eta.push_back(MixEvent_Reader->p1_eta[i_lambda]);
-					Lbar_p1_phi.push_back(MixEvent_Reader->p1_phi[i_lambda]);
-					Lbar_p1_ch.push_back(MixEvent_Reader->p1_ch[i_lambda]);
-
-					Lbar_p2_pt.push_back(MixEvent_Reader->p1_pt[i_lambda]);
-					Lbar_p2_eta.push_back(MixEvent_Reader->p1_eta[i_lambda]);
-					Lbar_p2_phi.push_back(MixEvent_Reader->p1_phi[i_lambda]);
-
-				}
+			bool isGoodLambda = ( 
+								   LambdaSelecter->IsGoodLambda(MixEvent_Reader->p2_pt[0], MixEvent_Reader->p1_pt[0],
+																MixEvent_Reader->p2_eta[0], MixEvent_Reader->p1_eta[0],
+																MixEvent_Reader->pair_pt[0], v.Rapidity(),
+																MixEvent_Reader->pair_mass[0], MixEvent_Reader->pair_decayL[0],
+																MixEvent_Reader->pair_theta[0],MixEvent_Reader->pair_DCAdaughters[0])
+				 				&& LambdaSelecter->IsGoodLambdaCharge(MixEvent_Reader->pair_charge[0]) 
+				 				&& LambdaSelecter->IsGoodLambdaDCA(MixEvent_Reader->pair_decayL[0], MixEvent_Reader->pair_theta[0])
+				 				&& LambdaSelecter->IsGoodDauDCA(MixEvent_Reader->p1_dca[0],MixEvent_Reader->p2_dca[0])
+				 			   );
+			if(!isGoodLambda){
+				IsGoodLambda_tmp.push_back(0);
+				pair_pt_tmp.push_back(0);
+				pair_y_tmp.push_back(0);
+				pair_eta_tmp.push_back(0);
+				pair_phi_tmp.push_back(0);
+				pair_mass_tmp.push_back(0);
+				pair_charge_tmp.push_back(0);
+				p1_pt_tmp.push_back(0);
+				p1_eta_tmp.push_back(0);
+				p1_phi_tmp.push_back(0);
+				p1_ch_tmp.push_back(0);
+				p2_pt_tmp.push_back(0);
+				p2_eta_tmp.push_back(0);
+				p2_phi_tmp.push_back(0);
+				continue;
 			}
 
-			if(L_pair_pt.size() >= MixEventPoolSize && Lbar_pair_pt.size() >= MixEventPoolSize ) return;
+			IsGoodLambda_tmp.push_back(true);
+			pair_pt_tmp.push_back(MixEvent_Reader->pair_pt[0]);
+			pair_y_tmp.push_back(v.Rapidity());
+			pair_eta_tmp.push_back(MixEvent_Reader->pair_eta[0]);
+			pair_phi_tmp.push_back(MixEvent_Reader->pair_phi[0]);
+			pair_mass_tmp.push_back(MixEvent_Reader->pair_mass[0]);
+			pair_charge_tmp.push_back(MixEvent_Reader->pair_charge[0]);
+			p1_pt_tmp.push_back(MixEvent_Reader->p1_pt[0]);
+			p1_eta_tmp.push_back(MixEvent_Reader->p1_eta[0]);
+			p1_phi_tmp.push_back(MixEvent_Reader->p1_phi[0]);
+			p1_ch_tmp.push_back(MixEvent_Reader->p1_ch[0]);
+			p2_pt_tmp.push_back(MixEvent_Reader->p2_pt[0]);
+			p2_eta_tmp.push_back(MixEvent_Reader->p2_eta[0]);
+			p2_phi_tmp.push_back(MixEvent_Reader->p2_phi[0]);
 
 
-
-
+			
 		}
-		//------------------------------END iEvent LOOP---------------------------------------
+		//--------------------------------------------END i_mixevent Loop-----------------------------------------------
+		IsGoodLambda.push_back(IsGoodLambda_tmp);
+		pair_pt.push_back(pair_pt_tmp);
+		pair_y.push_back(pair_y_tmp);
+		pair_eta.push_back(pair_eta_tmp);
+		pair_phi.push_back(pair_phi_tmp);
+		pair_mass.push_back(pair_mass_tmp);
+		pair_charge.push_back(pair_charge_tmp);
+	
+	
 
+		p1_pt.push_back(p1_pt_tmp);
+		p1_eta.push_back(p1_eta_tmp);
+		p1_phi.push_back(p1_phi_tmp);
+		p1_ch.push_back(p1_ch_tmp);
 
-		delete fin;
+		p2_pt.push_back(p2_pt_tmp);
+		p2_eta.push_back(p2_eta_tmp);
+		p2_phi.push_back(p2_phi_tmp);
 
+		f_mixevent->Close();
+		delete f_mixevent;
 	}
-	//-------------------------------END iFile LOOP----------------------------------------------
-
-
+	//--------------------------------------------END i_mixfile LOOP-----------------------------------------------
 
 
 }
@@ -252,7 +265,7 @@ int ntp_Lambda_Analyzer::Pair_Type_Classifier(int idx1, int idx2){
 	//5: Lambda_bar LS 				 -5:LS Lambda_bar
 	//6: LS LS 
 
-
+	/*
 	//1: Lambda Lambda_bar 
 	if(SameEvent_Reader->pair_charge[idx1] == 0 && SameEvent_Reader->pair_charge[idx2] == 0 && SameEvent_Reader->p1_ch[idx1] == 1 && SameEvent_Reader->p1_ch[idx2] == -1 ) return  1 ;
 	//-1:Lambda_bar 
@@ -271,21 +284,78 @@ int ntp_Lambda_Analyzer::Pair_Type_Classifier(int idx1, int idx2){
 	if(SameEvent_Reader->pair_charge[idx1] == 1 && SameEvent_Reader->pair_charge[idx2] == 0 && SameEvent_Reader->p1_ch[idx2] == -1 ) return -5 ;
 	//6:LS Lambda_bar
 	if(SameEvent_Reader->pair_charge[idx1] == 1 && SameEvent_Reader->pair_charge[idx2] == 1) return 6 ;
+	*/
+
+
+	//1: Lambda Lambda_bar 
+	if(SameEvent_Reader->p1_ch[idx1] == 1 && SameEvent_Reader->p1_ch[idx2] == -1 ) return  1 ;
+	//-1:Lambda_bar 
+	if(SameEvent_Reader->p1_ch[idx1] ==-1 && SameEvent_Reader->p1_ch[idx2] ==  1 ) return -1 ;
+	//2: Lambda Lambda 	
+	if( SameEvent_Reader->p1_ch[idx1] == 1 && SameEvent_Reader->p1_ch[idx2] ==  1 ) return  2 ;
+	//3: Lambda_bar Lambda_bar 		
+	if( SameEvent_Reader->p1_ch[idx1] ==-1 && SameEvent_Reader->p1_ch[idx2] == -1 ) return  3 ;
+
 	return 0;
 	
 
 }
 
-int ntp_Lambda_Analyzer::Range_Type_Classifier(TLorentzVector *v1, TLorentzVector *v2){
-	double delta_phi 		= TMath::ACos(TMath::Cos( v1->Phi()-v2->Phi() ) );
-	double delta_rapidity 	= TMath::Abs( v1->Rapidity() - v2->Rapidity()   );
+std::vector <int> ntp_Lambda_Analyzer::Range_Type_Classifier(TLorentzVector *v1, TLorentzVector *v2){
+	//double delta_phi 		= TMath::ACos(TMath::Cos( v1->Phi()-v2->Phi() ) );
+	
 
 	//range_Type 
 	//0 : short range 
 	//1 : long  range 
-	if(delta_phi < TMath::Pi()/3. && delta_rapidity < 0.5 ) return 0;
-	if(delta_phi > TMath::Pi()/3. || delta_rapidity > 0.5 ) return 1; 
-	return -1;  
+	//if(delta_phi < TMath::Pi()/3. && delta_rapidity < 0.5 ) return 0;
+	//if(delta_phi > TMath::Pi()/3. || delta_rapidity > 0.5 ) return 1; 
+		
+
+	double delta_phi 		= TMath::ACos(TMath::Cos( v1->Phi()-v2->Phi() ) );
+	double delta_eta 	= TMath::Abs( v1->Eta() - v2->Eta()   );
+	double delta_rapidity 	= TMath::Abs( v1->Rapidity() - v2->Rapidity()   );
+	double delta_R  = TMath::Sqrt( delta_phi * delta_phi + delta_rapidity * delta_rapidity  );
+
+
+	std::vector<int> RangeBinFlag;
+	RangeBinFlag.clear();
+
+	for(int i = 0 ; i < Range_Bin ;i ++ ){
+		if(delta_R > Range_Low[i] && delta_R < Range_High[i] ){
+			RangeBinFlag.push_back(i);
+		}
+	}
+	return RangeBinFlag;
+
+}
+
+
+
+
+
+
+int ntp_Lambda_Analyzer::CountMyNLambda(){
+	int myNLambda = 0 ; 
+	for(int i =0 ;i < SameEvent_Reader->NLambda;i++){
+		if(SameEvent_Reader->p1_pt[i] < 0.15 ) continue;
+		if(SameEvent_Reader->p2_pt[i] < 0.15 ) continue;
+		if(TMath::Abs(SameEvent_Reader->p1_eta[i])> 1.5  ) continue;
+		if(TMath::Abs(SameEvent_Reader->p2_eta[i])> 1.5  ) continue;
+		if(SameEvent_Reader->p1_dca[i] < 0.1 ) continue;
+		if(SameEvent_Reader->p2_dca[i] < 0.3 ) continue;
+		if(SameEvent_Reader->pair_DCAdaughters[i] > 1.0 ) continue;
+		if(SameEvent_Reader->pair_decayL[i] < 2 || SameEvent_Reader->pair_decayL[i] > 25 ) continue;
+		if(TMath::Cos(SameEvent_Reader->pair_theta[i]) < 0.996 ) continue;
+
+		myNLambda++;
+
+	}
+
+	return myNLambda;
+
+
+
 
 }
 
@@ -323,8 +393,9 @@ int ntp_Lambda_Analyzer::Analyze_SEPair(int i_lambda,int j_lambda){
 			id_Lambda1 = i_lambda;id_Lambda2 = j_lambda;
 		}
 		else{
-			return 0;
+			
 			std::cout<<"Something went wrong with the pair type classifier"<<std::endl;
+			return 0;
 		}
 			
 		//---------------------------Create Same-Event Pairs-------------------------------
@@ -336,19 +407,22 @@ int ntp_Lambda_Analyzer::Analyze_SEPair(int i_lambda,int j_lambda){
 		TLorentzVector proton2; proton2.SetPtEtaPhiM( SameEvent_Reader->p1_pt[id_Lambda2]  , SameEvent_Reader->p1_eta[id_Lambda2]  , SameEvent_Reader->p1_phi[id_Lambda2]  , MASS_PROTON                              );
 		TLorentzVector pion2;     pion2.SetPtEtaPhiM( SameEvent_Reader->p2_pt[id_Lambda2]  , SameEvent_Reader->p2_eta[id_Lambda2]  , SameEvent_Reader->p2_phi[id_Lambda2]  , MASS_PION                                );
 
-
+		
 		//---------------------------Range Type Classification-------------------------------
-		int Range_Type  = Range_Type_Classifier(&Lambda1,&Lambda2);
-			
-		//Fill the pair plots 
-		Histogramer->Fill_PairPlots(&Lambda1,&Lambda2,TMath::Abs(Pair_Type)-1,Range_Type);
-
-		//Calculate the Density Matrix
+		std::vector<int> Range_Type  = Range_Type_Classifier(&Lambda1,&Lambda2);
+		
 		Calculator->Reset(&Lambda1,&proton1,&pion1,&Lambda2,&proton2,&pion2);
 		Calculator->Calculation();
 
-		//Fill Density Matrix Histgrams 
-		Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,Range_Type);
+		for(int ir =0 ; ir < Range_Type.size(); ir++ ){
+			//Fill the pair plots 
+			//Fill Density Matrix Histgrams
+			Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,Range_Type[ir]);
+			Histogramer->Fill_PairPlots(&Lambda1,&Lambda2,TMath::Abs(Pair_Type)-1,Range_Type[ir]); 
+		}
+
+	
+		
 		return 1;
 }
 
@@ -384,16 +458,23 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 		for(Long64_t i_event=0; i_event < N_Events ; i_event++ ){
 			SameEvent_Reader->fChain->GetEntry(i_event);
 
+
 			//------------------------Make some selections on the events-----------------------------
-			if( !EventSelecter->IsGoodEvent() ) continue;
-			//if(SameEvent_Reader->NLambda<3) continue; // current we only select on multi-Lambdas Events 
+			if( !EventSelecter->IsGoodEvent( SameEvent_Reader->Vz) ) continue;
+			int myNLambda =CountMyNLambda();
+			//if(myNLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
+			//if(myNLambda !=3  ) continue; // current we only select on multi-Lambdas Events 
+			//if(SameEvent_Reader->NLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
+			//if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
+			//------------------------Make some selections on the events-----------------------------
+
+			//------------------------Identify Goood Lambda-----------------------------
 			std::vector<int> GoodLambdaFlag;
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
-				
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
 
-				int isGoodLambda = ( 
+				int isGoodLambda = ( //(!CheckSharedTrack(i_lambda)) &&
 									LambdaSelecter->IsGoodLambda(SameEvent_Reader->p2_pt[i_lambda], SameEvent_Reader->p1_pt[i_lambda],
 																SameEvent_Reader->p2_eta[i_lambda], SameEvent_Reader->p1_eta[i_lambda],
 																SameEvent_Reader->pair_pt[i_lambda], v.Rapidity(),
@@ -408,11 +489,13 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
 			if(NGoodLambda < 2) continue;
+			//------------------------Identify Goood Lambda-----------------------------
 
 
 			//Fill Histograms of QA plot;
 			Histogramer->Fill_QAplots(GoodLambdaFlag);//Notice that here, if two Lambda Candiates share some tracks, both Lambdas will be filled inthe QAplots.
-
+			
+			//------------------------Analysis Pair-----------------------------
 			for(int i_lambda=0;i_lambda < SameEvent_Reader->NLambda;i_lambda++){
 				if( GoodLambdaFlag[i_lambda] == 0 ) continue;
 				for(int j_lambda=i_lambda+1;j_lambda < SameEvent_Reader->NLambda;j_lambda++){
@@ -420,7 +503,7 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 					Analyze_SEPair(i_lambda,j_lambda);
 				}
 			}
-
+			//------------------------Analysis Pair-----------------------------
 
 
 		}
@@ -436,48 +519,59 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 
 
 
-void ntp_Lambda_Analyzer::FindCounterparts(std::vector<TLorentzVector> *Lambda_counterpart,std::vector<TLorentzVector> *proton_counterpart,std::vector<TLorentzVector> *pion_counterpart,double rapidity,int I_LAMBDA){
-	if(SameEvent_Reader->p1_ch[I_LAMBDA] == +1){
-			for(int i_lambda =0 ; i_lambda < L_pair_pt.size();i_lambda++){
-				if(!LambdaSelecter->IsGoodLambdaMass(L_pair_pt[i_lambda],L_pair_mass[i_lambda] )) continue;
-				int isGoodCounterPart = LambdaSelecter->IsGoodLambdaCounterpart(L_pair_pt[i_lambda], SameEvent_Reader->pair_pt[I_LAMBDA],
-																	  L_pair_y[i_lambda],rapidity,
-																	  L_pair_phi[i_lambda], SameEvent_Reader->pair_phi[I_LAMBDA],
-																	  L_pair_charge[i_lambda], SameEvent_Reader->pair_charge[I_LAMBDA],
-																	  L_p1_ch[i_lambda], SameEvent_Reader->p1_ch[I_LAMBDA] );
-				if(!isGoodCounterPart) continue;
+void ntp_Lambda_Analyzer::FindCounterparts(std::vector<TLorentzVector> *Lambda_counterpart,std::vector<TLorentzVector> *proton_counterpart,std::vector<TLorentzVector> *pion_counterpart,double rapidity,int I_LAMBDA,int I_EVENT,int I_FILE){
+	
+	//------------------------------------------ENTER i_mixfile LOOP-----------------------------------------------
+	for(int i_mixfile=0; i_mixfile < MixTreeReader->InputFiles[I_FILE].size() ; i_mixfile ++){
+		TFile *f_mixtree = TFile::Open(MixTreeReader->InputFiles[I_FILE][i_mixfile].c_str(),"READ");
+		if(!f_mixtree){
+			std::cout<<"Can not open the mixtree file:"<<MixEvent_Reader->InputFiles[I_FILE][i_mixfile] <<", Skip this. "<<std::endl;
+			continue;
+		}
 
-				TLorentzVector lambda; lambda.SetPtEtaPhiM( L_pair_pt[i_lambda] , L_pair_eta[i_lambda] , L_pair_phi[i_lambda] , L_pair_mass[i_lambda] );
-				TLorentzVector proton; proton.SetPtEtaPhiM( L_p1_pt[i_lambda]   , L_p1_eta[i_lambda]   , L_p1_phi[i_lambda]   , MASS_PROTON                   );
-				TLorentzVector pion;   pion.SetPtEtaPhiM(   L_p2_pt[i_lambda]   , L_p2_eta[i_lambda]   , L_p2_phi[i_lambda]   , MASS_PION                     );
+		TTree *tmp_MixTree = (TTree *)f_mixtree->Get("ntp_Lambda_MixTree");
+		if(!tmp_MixTree){
+			std::cout<<"Can not get the MixTree, skip this file."<<std::endl;
+			continue;
+		}
+		MixTreeReader->Init(tmp_MixTree);
+		MixTreeReader->fChain->GetEntry(I_EVENT);
 
-				Lambda_counterpart->push_back(lambda);
-				proton_counterpart->push_back(proton);
-				pion_counterpart->push_back(pion);
-			}
+		
 
+
+		
+		//---------------------------------------ENTER iLamCon Loop----------------------------------------------------------
+		for(int iLamCon = MixTreeReader->Start_Index[I_LAMBDA]; iLamCon < MixTreeReader->End_Index[I_LAMBDA]; iLamCon ++){
+
+			int tmp_EventIndex = MixTreeReader->CounterPart_EventIndex[iLamCon];
+
+			
+			if(!IsGoodLambda[i_mixfile][tmp_EventIndex]) continue;
+
+			int isGoodCounterPart = LambdaSelecter->IsGoodLambdaCounterpart(pair_pt[i_mixfile][tmp_EventIndex], SameEvent_Reader->pair_pt[I_LAMBDA],
+																	  pair_y[i_mixfile][tmp_EventIndex],rapidity,
+																	  pair_phi[i_mixfile][tmp_EventIndex], SameEvent_Reader->pair_phi[I_LAMBDA],
+																	  pair_charge[i_mixfile][tmp_EventIndex], SameEvent_Reader->pair_charge[I_LAMBDA],
+																	  p1_ch[i_mixfile][tmp_EventIndex], SameEvent_Reader->p1_ch[I_LAMBDA] );
+			if(!isGoodCounterPart) continue;
+
+			TLorentzVector lambda; lambda.SetPtEtaPhiM( pair_pt[i_mixfile][tmp_EventIndex] , pair_eta[i_mixfile][tmp_EventIndex] , pair_phi[i_mixfile][tmp_EventIndex] , pair_mass[i_mixfile][tmp_EventIndex] );
+			TLorentzVector proton; proton.SetPtEtaPhiM( p1_pt[i_mixfile][tmp_EventIndex]   , p1_eta[i_mixfile][tmp_EventIndex]   , p1_phi[i_mixfile][tmp_EventIndex]   , MASS_PROTON                   );
+			TLorentzVector pion;   pion.SetPtEtaPhiM(   p2_pt[i_mixfile][tmp_EventIndex]   , p2_eta[i_mixfile][tmp_EventIndex]   , p2_phi[i_mixfile][tmp_EventIndex]   , MASS_PION                     );
+
+			Lambda_counterpart->push_back(lambda);
+			proton_counterpart->push_back(proton);
+			pion_counterpart->push_back(pion);
+
+		}
+		//---------------------------------------END iLamCon Loop----------------------------------------------------------
+
+		f_mixtree->Close();
+		
+		delete f_mixtree;
 	}
-	else{
-		for(int i_lambda =0 ; i_lambda < Lbar_pair_pt.size();i_lambda++){
-				if(!LambdaSelecter->IsGoodLambdaMass(Lbar_pair_pt[i_lambda],Lbar_pair_mass[i_lambda] )) continue;
-				int isGoodCounterPart = LambdaSelecter->IsGoodLambdaCounterpart(Lbar_pair_pt[i_lambda], SameEvent_Reader->pair_pt[I_LAMBDA],
-																	  Lbar_pair_y[i_lambda],rapidity,
-																	  Lbar_pair_phi[i_lambda], SameEvent_Reader->pair_phi[I_LAMBDA],
-																	  Lbar_pair_charge[i_lambda], SameEvent_Reader->pair_charge[I_LAMBDA],
-																	  Lbar_p1_ch[i_lambda], SameEvent_Reader->p1_ch[I_LAMBDA] );
-				if(!isGoodCounterPart) continue;
-
-				TLorentzVector lambda; lambda.SetPtEtaPhiM( Lbar_pair_pt[i_lambda] , Lbar_pair_eta[i_lambda] , Lbar_pair_phi[i_lambda] , Lbar_pair_mass[i_lambda] );
-				TLorentzVector proton; proton.SetPtEtaPhiM( Lbar_p1_pt[i_lambda]   , Lbar_p1_eta[i_lambda]   , Lbar_p1_phi[i_lambda]   , MASS_PROTON                   );
-				TLorentzVector pion;   pion.SetPtEtaPhiM(   Lbar_p2_pt[i_lambda]   , Lbar_p2_eta[i_lambda]   , Lbar_p2_phi[i_lambda]   , MASS_PION                     );
-
-				Lambda_counterpart->push_back(lambda);
-				proton_counterpart->push_back(proton);
-				pion_counterpart->push_back(pion);
-			}
-
-	}
-
+	//------------------------------------------END i_mixfile LOOP-----------------------------------------------
 
 
 
@@ -485,7 +579,7 @@ void ntp_Lambda_Analyzer::FindCounterparts(std::vector<TLorentzVector> *Lambda_c
 
 }
 
-int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda){
+int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda,int i_event,int i_file){
 		if(SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p1_InEventID[j_lambda] || 
 		   SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[i_lambda] || 
 		   SameEvent_Reader->p1_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] || 
@@ -494,8 +588,8 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda){
 		   SameEvent_Reader->p2_InEventID[i_lambda] == SameEvent_Reader->p2_InEventID[j_lambda] ) return 0;
 
 			
-		if(!LambdaSelecter->IsGoodLambdaMass(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_mass[i_lambda] ) ) return 0;
-		if(!LambdaSelecter->IsGoodLambdaMass(SameEvent_Reader->pair_pt[j_lambda],SameEvent_Reader->pair_mass[j_lambda] ) ) return 0;
+
+
 
 		//---------------------------Event Type Classification-------------------------------
 		int Pair_Type = 0 ; 
@@ -505,6 +599,7 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda){
 		
 
 		Pair_Type = Pair_Type_Classifier(i_lambda,j_lambda);
+
 
 		if(Pair_Type == 1){
 			id_Lambda1 = i_lambda;id_Lambda2 = j_lambda;
@@ -534,8 +629,7 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda){
 		TLorentzVector proton2; proton2.SetPtEtaPhiM( SameEvent_Reader->p1_pt[id_Lambda2]  , SameEvent_Reader->p1_eta[id_Lambda2]  , SameEvent_Reader->p1_phi[id_Lambda2]  , MASS_PROTON                              );
 		TLorentzVector pion2;     pion2.SetPtEtaPhiM( SameEvent_Reader->p2_pt[id_Lambda2]  , SameEvent_Reader->p2_eta[id_Lambda2]  , SameEvent_Reader->p2_phi[id_Lambda2]  , MASS_PION                                );
 		//---------------------------Range Type Classification-------------------------------
-		int Range_Type  = Range_Type_Classifier(&Lambda1,&Lambda2);
-
+		std::vector<int> Range_Type  = Range_Type_Classifier(&Lambda1,&Lambda2);
 		//----------------------------Create Mixed-Event Pairs-------------------------------
 		std::vector<TLorentzVector> Lambda1_counterpart;
 		std::vector<TLorentzVector> proton1_counterpart;
@@ -545,26 +639,60 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda){
 		std::vector<TLorentzVector> pion2_counterpart;
 		
 
-		FindCounterparts(&Lambda2_counterpart,&proton2_counterpart,&pion2_counterpart,Lambda2.Rapidity(), id_Lambda2 );
-		FindCounterparts(&Lambda1_counterpart,&proton1_counterpart,&pion1_counterpart,Lambda1.Rapidity(), id_Lambda1 );
-
+		FindCounterparts(&Lambda2_counterpart,&proton2_counterpart,&pion2_counterpart,Lambda2.Rapidity(), id_Lambda2,i_event, i_file );
+		FindCounterparts(&Lambda1_counterpart,&proton1_counterpart,&pion1_counterpart,Lambda1.Rapidity(), id_Lambda1,i_event, i_file );
+		
+		/*
+		//-------------------------Default--------------------------------
 		for(int k_lambda = 0; k_lambda < Lambda2_counterpart.size();k_lambda++){
-			//Fill the pair plots 
-			Histogramer->Fill_PairPlots(&Lambda1,&Lambda2_counterpart[k_lambda],TMath::Abs(Pair_Type)-1,Range_Type, 0.5/Lambda2_counterpart.size() );
 			//Calculate the Density Matrix
 			Calculator->Reset(&Lambda1,&proton1,&pion1,&Lambda2_counterpart[k_lambda],&proton2_counterpart[k_lambda],&pion2_counterpart[k_lambda]);
 			Calculator->Calculation();
-			Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,Range_Type,0.5/Lambda2_counterpart.size() );
+			for(int ir = 0; ir <Range_Type.size();ir++){
+				//Fill the pair plots 
+				for(int it =0;it<NTrks_Type.size();it++){
+					Histogramer->Fill_PairPlots(&Lambda1,&Lambda2_counterpart[k_lambda],TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir], 0.5/Lambda2_counterpart.size() );
+					Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir],0.5/Lambda2_counterpart.size() );
+				}
+			}
+			
 		}
 
 		for(int k_lambda = 0; k_lambda < Lambda1_counterpart.size();k_lambda++){
-			//Fill the pair plots 
-			Histogramer->Fill_PairPlots(&Lambda1_counterpart[k_lambda],&Lambda2,TMath::Abs(Pair_Type)-1,Range_Type, 0.5/Lambda1_counterpart.size() );
+			
 			//Calculate the Density Matrix
 			Calculator->Reset(&Lambda1_counterpart[k_lambda],&proton1_counterpart[k_lambda],&pion1_counterpart[k_lambda],&Lambda2,&proton2,&pion2);
 			Calculator->Calculation();
-			Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,Range_Type,0.5/Lambda1_counterpart.size() );
+			for(int ir = 0; ir <Range_Type.size();ir++){
+				for(int it=0;it<NTrks_Type.size();it++){
+						Histogramer->Fill_PairPlots(&Lambda1_counterpart[k_lambda],&Lambda2,TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir], 0.5/Lambda1_counterpart.size() );
+						Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir],0.5/Lambda1_counterpart.size() );
+				}
+			}
+
+
 		}
+		//-------------------------Default--------------------------------
+
+		*/
+
+		
+		//-----------replacing both lambda at the same time-----------------------------
+		for(int k1_lambda = 0; k1_lambda < Lambda1_counterpart.size();k1_lambda++){
+			for(int k2_lambda = 0; k2_lambda < Lambda2_counterpart.size();k2_lambda++){
+				//Calculate the Density Matrix
+				Calculator->Reset(&Lambda1_counterpart[k1_lambda],&proton1_counterpart[k1_lambda],&pion1_counterpart[k1_lambda],&Lambda2_counterpart[k2_lambda],&proton2_counterpart[k2_lambda],&pion2_counterpart[k2_lambda]);
+				Calculator->Calculation();
+				for(int ir = 0; ir <Range_Type.size();ir++){
+					//Fill the pair plots 
+					Histogramer->Fill_PairPlots(&Lambda1_counterpart[k1_lambda],&Lambda2_counterpart[k2_lambda],TMath::Abs(Pair_Type)-1,Range_Type[ir], 1.0/(Lambda2_counterpart.size()*Lambda1_counterpart.size() ) );
+					Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,Range_Type[ir],1.0/(Lambda2_counterpart.size()*Lambda1_counterpart.size() ) );
+				}
+				
+			}
+		}
+		//-----------replacing both lambda at the same time-----------------------------
+		
 		return 1;
 
 }
@@ -574,8 +702,6 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda){
 void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 	//Start looping over all inputfiles of Same_Event_Reader 
 	unsigned long N_Inputfiles_SE = SameEvent_Reader->InputFiles.size();
-	LLbar_USED = 0;
-	Fill_MixPool();
 	//-------------------------------Enter i_file loop---------------------------------
 	for(unsigned i_file = 0 ;i_file < N_Inputfiles_SE ;i_file++){
 		//if(i_file%1==0) std::cout<<"i_file="<<i_file<<std::endl;
@@ -593,23 +719,31 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 		SameEvent_Reader->Init(tmp_tree);
 		//Get the number of entries in current tree
 		Long64_t N_Events=SameEvent_Reader->fChain->GetEntries();
+		Fill_MixPool(i_file);
 		//---------------------------Ener i_event loop----------------------------
 		for(Long64_t i_event=0;i_event< N_Events;i_event++){
 			if(i_event%1000==0)std::cout<<"i_event"<<i_event<<std::endl;
 			SameEvent_Reader->fChain->GetEntry(i_event);
 
-			//------------------------Make some selections on the events-----------------------------
-			if( !EventSelecter->IsGoodEvent() ) continue;
-			//if(SameEvent_Reader->NLambda < 3) continue;// current we only select on multi-Lambdas Events
-			
 
+
+			//------------------------Make some selections on the events-----------------------------
+			if( !EventSelecter->IsGoodEvent(SameEvent_Reader->Vz ) ) continue;
+			int myNLambda =CountMyNLambda();
+			//if(myNLambda !=2  ) continue; // current we only select on multi-Lambdas Events 
+			//if(myNLambda !=3  ) continue; // current we only select on multi-Lambdas Events 
+			//if(SameEvent_Reader->NLambda != 2) continue;// current we only select on multi-Lambdas Events
+			//if(SameEvent_Reader->NLambda <3  ) continue; // current we only select on multi-Lambdas Events 
+			//------------------------Make some selections on the events-----------------------------
+
+
+			//------------------------Identify Goood Lambda-----------------------------
 			std::vector<int> GoodLambdaFlag;
 			for(int i_lambda = 0; i_lambda<SameEvent_Reader->NLambda;i_lambda++){
-				
 				TLorentzVector v;
 				v.SetPtEtaPhiM(SameEvent_Reader->pair_pt[i_lambda],SameEvent_Reader->pair_eta[i_lambda],SameEvent_Reader->pair_phi[i_lambda],SameEvent_Reader->pair_mass[i_lambda]);
 
-				int isGoodLambda = ( 
+				int isGoodLambda = ( //(!CheckSharedTrack(i_lambda)) &&
 									LambdaSelecter->IsGoodLambda(SameEvent_Reader->p2_pt[i_lambda], SameEvent_Reader->p1_pt[i_lambda],
 																SameEvent_Reader->p2_eta[i_lambda], SameEvent_Reader->p1_eta[i_lambda],
 																SameEvent_Reader->pair_pt[i_lambda], v.Rapidity(),
@@ -621,25 +755,26 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 				 				   );
 				GoodLambdaFlag.push_back(isGoodLambda);
 			}
-
-
-			
 			int NGoodLambda = std::accumulate(GoodLambdaFlag.begin(), GoodLambdaFlag.end(), 0);
 			if(NGoodLambda < 2) continue;
+			//------------------------Identify Goood Lambda-----------------------------
+
+		
+
 
 			//Fill Histograms of QA plot;
 			Histogramer->Fill_QAplots(GoodLambdaFlag);
 
+		
+
+		
+		
 
 			for(int i_lambda=0;i_lambda < SameEvent_Reader->NLambda;i_lambda++){
 				if( GoodLambdaFlag[i_lambda] == 0) continue;
 				for(int j_lambda=i_lambda+1;j_lambda < SameEvent_Reader->NLambda;j_lambda++){
 					if( GoodLambdaFlag[j_lambda] == 0 ) continue;
-					if( TMath::Abs( Pair_Type_Classifier(i_lambda, j_lambda) )==1 && LLbar_USED< 30000  ){
-						Analyze_MEPair(i_lambda,j_lambda);
-						LLbar_USED++;
-					}
-
+					Analyze_MEPair(i_lambda,j_lambda,i_event,i_file);
 				}
 			}
 

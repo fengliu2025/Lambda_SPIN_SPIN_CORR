@@ -1,4 +1,4 @@
-#include "include/ntp_Lambda_Analyzer_v3.h"
+#include "include/ntp_Lambda_Analyzer_v5.h"
 #include "include/ntp_Lambda_Calculator.h"
 #include "include/ntp_Lambda_Histogram.h"
 #include "include/ntp_Lambda_Reader.h"
@@ -34,41 +34,28 @@ int main(int argc, char*argv[]){
 		FileName.push_back(line);
 	}
 
+	bool isMixEvent = true;
 	
+
+	if(file_Index >= FileList.size() ) {
+		file_Index = file_Index - FileList.size();
+		isMixEvent =false;
+	}
 
 	std::vector<std::string> s1_tmp; 
 	std::vector<std::string> s2_tmp; 
 
-	//*****
-	//s1_tmp.push_back(FileList[file_Index]);
-	s1_tmp.push_back(FileList[24]);
-	//*****
+	
+	s1_tmp.push_back(FileList[file_Index]);
+	
 
 	std::string MixTreeDir = "/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012data/MiddleTree_MixTree/";
 	std::string s1 = FileName[file_Index];
 
-	/*for(int i=0;i<FileList.size();i++){
-		s1_tmp.push_back(FileList[i]);
-
-
-		std::string s2 = FileName[i];
-
-		std::size_t pos = s1.rfind(".root");
-
-		if (pos != std::string::npos) {
-    		s1.erase(pos);
-		}
+	
 
 	
-		s2_tmp.push_back(MixTreeDir+s1+"/"+s2);
-
-	}
-	*/
-
-	
-	//*****
-	//std::string s2 = FileName[file_Index];
-	std::string s2 = FileName[24];
+	std::string s2 = FileName[file_Index];
 	std::size_t pos = s1.rfind(".root");
 	//*****
 
@@ -96,8 +83,15 @@ int main(int argc, char*argv[]){
 	InputFile_MixTree.push_back(s2_tmp);
 
 
-	std::string OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012Result/MixEvent/") + Form("MixEvent_%d.root",file_Index) ;
+	//std::string OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012Result/MixEvent/") + Form("MixEvent_%d.root",file_Index) ;
 	//std::string OutPutFile = "SameEvent.root";
+
+	std::string OutPutFile;
+	if(isMixEvent) OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012Result/MixEvent/") + Form("MixEvent_%d.root",file_Index) ; //Mix Event 
+	else OutPutFile = std::string("/gpfs01/star/pwg/fliu/LL_Spin_Correlation/2012Result/SameEvent/") + Form("SameEvent_%d.root",file_Index) ; //Same Event 
+	
+
+
 
 	ntp_Lambda_Reader *mySameEventReader = new ntp_Lambda_Reader(InputFile_SameEvent);
 	ntp_Lambda_Reader *myMixEventReader  = new ntp_Lambda_Reader(InputFile_MixEvent);
@@ -115,8 +109,9 @@ int main(int argc, char*argv[]){
 
 
 	ntp_Lambda_Analyzer *myAnalyzer = new ntp_Lambda_Analyzer(mySameEventReader,myMixEventReader,myCalculator,myHistogram,myMixTreeReader,mEventSelecter,myLambdaSelecter);
-	//myAnalyzer->Analysis_SameEvent();
-	myAnalyzer->Analysis_MixEvent();
+	if(isMixEvent) myAnalyzer->Analysis_MixEvent();
+	else myAnalyzer->Analysis_SameEvent();
+	
 	myHistogram->WriteAll();
 	return 0;
 }
