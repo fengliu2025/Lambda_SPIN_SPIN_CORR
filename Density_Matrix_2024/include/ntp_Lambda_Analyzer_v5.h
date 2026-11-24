@@ -796,7 +796,8 @@ void ntp_Lambda_Analyzer::Analysis_SameEvent(){
 					//if( CleanLambdaFlag[j_lambda] == false ) continue;
 					//if(mXiTag[i_lambda] == true || mXiTag[j_lambda] == true ) continue;
 					//if(mXiTag[i_lambda] == false && mXiTag[j_lambda] == false ) continue;
-					if(SameEvent_Reader->pair_charge[i_lambda] ==0 && SameEvent_Reader->pair_charge[j_lambda] ==0 ) continue; // LS + LS, LS + US 
+					if(SameEvent_Reader->pair_charge[i_lambda] ==0 && SameEvent_Reader->pair_charge[j_lambda] ==0 ) continue; // US-US is skipped 
+					if(SameEvent_Reader->pair_charge[i_lambda] !=0 && SameEvent_Reader->pair_charge[j_lambda] !=0 ) continue; // LS-LS is skipped
 					Analyze_SEPair(i_lambda,j_lambda);
 				}
 			}
@@ -1157,7 +1158,8 @@ void ntp_Lambda_Analyzer::Analysis_MixEvent(){
 					//if( CleanLambdaFlag[j_lambda] == false ) continue;
 					//if(mXiTag[i_lambda] == true || mXiTag[j_lambda] == true ) continue;
 					//if(mXiTag[i_lambda] == false && mXiTag[j_lambda] == false ) continue;
-					if(SameEvent_Reader->pair_charge[i_lambda] ==0 && SameEvent_Reader->pair_charge[j_lambda] ==0 ) continue; // LS + LS, LS + US 
+					if(SameEvent_Reader->pair_charge[i_lambda] ==0 && SameEvent_Reader->pair_charge[j_lambda] ==0 ) continue; // US-US is skipped 
+					if(SameEvent_Reader->pair_charge[i_lambda] !=0 && SameEvent_Reader->pair_charge[j_lambda] !=0 ) continue; // LS-LS is skipped
 					Analyze_MEPair(i_lambda,j_lambda,i_event,i_file);
 				}
 			}
