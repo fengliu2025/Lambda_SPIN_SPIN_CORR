@@ -42,7 +42,7 @@ int main(){
                         std::cout << "Can not obtain the tree,skip." << std::endl;
                 }
 
-                ntp_Lambda_Reader Reader();
+                ntp_Lambda_Reader Reader;
                 Reader.Init(InTree);
 
                 int NEvents = InTree->GetEntries();
