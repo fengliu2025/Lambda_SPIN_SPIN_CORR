@@ -277,7 +277,7 @@ void ntp_Lambda_Reader::Init(TTree *tree)
    fChain->SetBranchAddress("track_nSigmaProton", track_nSigmaProton, &b_track_nSigmaProton);
    fChain->SetBranchAddress("track_dedx", track_dedx, &b_track_dedx);
    fChain->SetBranchAddress("track_ch", track_ch, &b_track_ch);
-   
+   /*
    fChain->SetBranchAddress("NXi", &NXi, &b_NXi);
    fChain->SetBranchAddress("DauLambda_charge", &DauLambda_charge, &b_DauLambda_charge);
    fChain->SetBranchAddress("DauLambda_DCAdaughters", &DauLambda_DCAdaughters, &b_DauLambda_DCAdaughters);
@@ -314,7 +314,7 @@ void ntp_Lambda_Reader::Init(TTree *tree)
    fChain->SetBranchAddress("Xi_phi", &Xi_phi, &b_Xi_phi);
    fChain->SetBranchAddress("Xi_mass", &Xi_mass, &b_Xi_mass);
    fChain->SetBranchAddress("Xi_DCA", &Xi_DCA, &b_Xi_DCA);
-
+   */
 
 
    /*  
