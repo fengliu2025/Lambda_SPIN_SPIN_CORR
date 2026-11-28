@@ -942,8 +942,8 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda,int i_event,in
 		FindCounterparts(&Lambda1_counterpart,&proton1_counterpart,&pion1_counterpart,Lambda1.Rapidity(), id_Lambda1,i_event, i_file );
 		
 		
-		bool IfReplaceBoth=true;
-		if(Lambda2_counterpart.size()==0 ||  Lambda1_counterpart.size()==0) IfReplaceBoth = false;
+		bool IfReplaceBoth=false;
+		//if(Lambda2_counterpart.size()==0 ||  Lambda1_counterpart.size()==0) IfReplaceBoth = false;
 
 		if(IfReplaceBoth){
 			//-----------replacing both lambda at the same time-----------------------------
