@@ -942,58 +942,64 @@ int ntp_Lambda_Analyzer::Analyze_MEPair(int i_lambda,int j_lambda,int i_event,in
 		FindCounterparts(&Lambda1_counterpart,&proton1_counterpart,&pion1_counterpart,Lambda1.Rapidity(), id_Lambda1,i_event, i_file );
 		
 		
-		//-------------------------Default--------------------------------
-		for(int k_lambda = 0; k_lambda < Lambda2_counterpart.size();k_lambda++){
-			//Calculate the Density Matrix
-			Calculator->Reset(&Lambda1,&proton1,&pion1,&Lambda2_counterpart[k_lambda],&proton2_counterpart[k_lambda],&pion2_counterpart[k_lambda]);
-			Calculator->Calculation();
-			for(int ir = 0; ir <Range_Type.size();ir++){
-				//Fill the pair plots 
-				for(int it =0;it<NTrks_Type.size();it++){
-					Histogramer->Fill_PairPlots(&Lambda1,&Lambda2_counterpart[k_lambda],TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir], 0.5/Lambda2_counterpart.size() );
-					Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir],0.5/Lambda2_counterpart.size() );
+		bool IfReplaceBoth=true;
+		if(Lambda2_counterpart.size()==0 ||  Lambda1_counterpart.size()==0) IfReplaceBoth = false;
+
+		if(IfReplaceBoth){
+			//-----------replacing both lambda at the same time-----------------------------
+			for(int k1_lambda = 0; k1_lambda < Lambda1_counterpart.size();k1_lambda++){
+				for(int k2_lambda = 0; k2_lambda < Lambda2_counterpart.size();k2_lambda++){
+					//Calculate the Density Matrix
+					Calculator->Reset(&Lambda1_counterpart[k1_lambda],&proton1_counterpart[k1_lambda],&pion1_counterpart[k1_lambda],&Lambda2_counterpart[k2_lambda],&proton2_counterpart[k2_lambda],&pion2_counterpart[k2_lambda]);
+					Calculator->Calculation();
+					for(int ir = 0; ir <Range_Type.size();ir++){
+						//Fill the pair plots 
+						for(int it =0;it<NTrks_Type.size();it++){
+							Histogramer->Fill_PairPlots(&Lambda1_counterpart[k1_lambda],&Lambda2_counterpart[k2_lambda],TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir], 1.0/(Lambda2_counterpart.size()*Lambda1_counterpart.size() ) );
+							Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir],1.0/(Lambda2_counterpart.size()*Lambda1_counterpart.size() ) );
+						}
+					}
+					
 				}
 			}
-			
+			//-----------replacing both lambda at the same time-----------------------------
 		}
 
-		for(int k_lambda = 0; k_lambda < Lambda1_counterpart.size();k_lambda++){
-			
-			//Calculate the Density Matrix
-			Calculator->Reset(&Lambda1_counterpart[k_lambda],&proton1_counterpart[k_lambda],&pion1_counterpart[k_lambda],&Lambda2,&proton2,&pion2);
-			Calculator->Calculation();
-			for(int ir = 0; ir <Range_Type.size();ir++){
-				for(int it=0;it<NTrks_Type.size();it++){
-						Histogramer->Fill_PairPlots(&Lambda1_counterpart[k_lambda],&Lambda2,TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir], 0.5/Lambda1_counterpart.size() );
-						Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir],0.5/Lambda1_counterpart.size() );
-				}
-			}
-
-
-		}
-		//-------------------------Default--------------------------------
-
-		
-
-		/*
-		//-----------replacing both lambda at the same time-----------------------------
-		for(int k1_lambda = 0; k1_lambda < Lambda1_counterpart.size();k1_lambda++){
-			for(int k2_lambda = 0; k2_lambda < Lambda2_counterpart.size();k2_lambda++){
+		else{
+			//-------------------------Default--------------------------------
+			for(int k_lambda = 0; k_lambda < Lambda2_counterpart.size();k_lambda++){
 				//Calculate the Density Matrix
-				Calculator->Reset(&Lambda1_counterpart[k1_lambda],&proton1_counterpart[k1_lambda],&pion1_counterpart[k1_lambda],&Lambda2_counterpart[k2_lambda],&proton2_counterpart[k2_lambda],&pion2_counterpart[k2_lambda]);
+				Calculator->Reset(&Lambda1,&proton1,&pion1,&Lambda2_counterpart[k_lambda],&proton2_counterpart[k_lambda],&pion2_counterpart[k_lambda]);
 				Calculator->Calculation();
 				for(int ir = 0; ir <Range_Type.size();ir++){
 					//Fill the pair plots 
 					for(int it =0;it<NTrks_Type.size();it++){
-						Histogramer->Fill_PairPlots(&Lambda1_counterpart[k1_lambda],&Lambda2_counterpart[k2_lambda],TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir], 1.0/(Lambda2_counterpart.size()*Lambda1_counterpart.size() ) );
-						Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir],1.0/(Lambda2_counterpart.size()*Lambda1_counterpart.size() ) );
+						Histogramer->Fill_PairPlots(&Lambda1,&Lambda2_counterpart[k_lambda],TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir], 0.5/Lambda2_counterpart.size() );
+						Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir],0.5/Lambda2_counterpart.size() );
 					}
 				}
 				
 			}
+
+			for(int k_lambda = 0; k_lambda < Lambda1_counterpart.size();k_lambda++){
+				
+				//Calculate the Density Matrix
+				Calculator->Reset(&Lambda1_counterpart[k_lambda],&proton1_counterpart[k_lambda],&pion1_counterpart[k_lambda],&Lambda2,&proton2,&pion2);
+				Calculator->Calculation();
+				for(int ir = 0; ir <Range_Type.size();ir++){
+					for(int it=0;it<NTrks_Type.size();it++){
+							Histogramer->Fill_PairPlots(&Lambda1_counterpart[k_lambda],&Lambda2,TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir], 0.5/Lambda1_counterpart.size() );
+							Histogramer->Fill_DensityMatrix(TMath::Abs(Pair_Type)-1,NTrks_Type[it],Range_Type[ir],0.5/Lambda1_counterpart.size() );
+					}
+				}
+			}
+			//-------------------------Default--------------------------------
 		}
-		//-----------replacing both lambda at the same time-----------------------------
-		*/
+		
+
+		
+		
+		
 		return 1;
 
 }
